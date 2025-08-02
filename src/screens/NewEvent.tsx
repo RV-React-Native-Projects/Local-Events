@@ -1,9 +1,9 @@
+import { View, Text } from 'react-native';
 import {
   NewEventNavigationProps,
   NewEventRouteProp,
   ScreenPropsType,
 } from '@navigation/types';
-import { View, Text } from 'react-native';
 
 export default function NewEvent({}: ScreenPropsType<
   NewEventNavigationProps,

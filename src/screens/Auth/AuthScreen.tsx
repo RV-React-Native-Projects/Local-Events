@@ -1,9 +1,9 @@
+import { View, Text } from 'react-native';
 import {
   AuthNavigationProps,
   AuthRouteProp,
   ScreenPropsType,
 } from '@navigation/types';
-import { View, Text } from 'react-native';
 
 export default function AuthScreen({}: ScreenPropsType<
   AuthNavigationProps,

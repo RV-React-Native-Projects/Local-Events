@@ -1,9 +1,9 @@
+import { View, Text } from 'react-native';
 import {
   InterestNavigationProps,
   InterestRouteProp,
   ScreenPropsType,
 } from '@navigation/types';
-import { View, Text } from 'react-native';
 
 export default function Interests({}: ScreenPropsType<
   InterestNavigationProps,

@@ -1,10 +1,10 @@
 import { Pressable } from 'react-native';
 import Animated, { Easing, FadeInLeft } from 'react-native-reanimated';
+import BackArrow from '@assets/svgs/BackArrow';
 import { useAppNavigation } from '@navigation/AppNavigation';
 import { useAppTheme } from '@redux/hooks';
 import { HeaderBackIconProps } from './HeaderTypes';
 import { useHeaderStyle } from './style';
-import BackArrow from '@assets/svgs/BackArrow';
 
 export default function HeaderBackIcon(props: HeaderBackIconProps) {
   const { colors } = useAppTheme();

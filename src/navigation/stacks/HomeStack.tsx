@@ -3,9 +3,9 @@ import {
   createStackNavigator,
   StackNavigationOptions,
 } from '@react-navigation/stack';
+import { HeaderBackIcon } from '@components/Header';
 import { fontFamily, fontSize } from '@themes/fontSize';
 import { HomeStackParamList } from '../types';
-import { HeaderBackIcon } from '@components/Header';
 
 const Home = lazy(() => import('@screens/Home'));
 const EventDetails = lazy(() => import('@screens/EventDetails'));

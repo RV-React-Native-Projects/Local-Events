@@ -1,9 +1,9 @@
+import { View, Text } from 'react-native';
 import {
   ProfileNavigationProps,
   ProfileRouteProp,
   ScreenPropsType,
 } from '@navigation/types';
-import { View, Text } from 'react-native';
 
 export default function Profile({}: ScreenPropsType<
   ProfileNavigationProps,

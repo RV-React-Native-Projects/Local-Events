@@ -16,6 +16,7 @@ import {
   TabNavigationState,
   useNavigationState,
 } from '@react-navigation/native';
+import { AppText } from '@components/AppText';
 import { translate } from '@context/I18n';
 import { useAppDispatch, useAppTheme } from '@redux/hooks';
 import { radius } from '@themes/border';
@@ -24,7 +25,6 @@ import { moderateScale } from '@themes/responsive';
 import { spacing } from '@themes/spacing';
 import { TAB_HEIGHT, TAB_WIDTH } from '@utils/constants';
 import { TabParamsList } from './types';
-import { AppText } from '@components/AppText';
 
 const HomeStack = lazy(() => import('./stacks/HomeStack'));
 const SearchStack = lazy(() => import('./stacks/SearchStack'));

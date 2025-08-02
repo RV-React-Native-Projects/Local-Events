@@ -4,8 +4,8 @@ import {
   useNavigation,
 } from '@react-navigation/native';
 import { useAppSelector } from '@redux/hooks';
-import TabNavigation from './TabNavigation';
 import AuthStack from './stacks/AuthStack';
+import TabNavigation from './TabNavigation';
 
 export default function AppNavigation() {
   const { isAuth } = useAppSelector(state => state.user);

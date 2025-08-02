@@ -1,9 +1,9 @@
+import { View, Text } from 'react-native';
 import {
   EventDetailsNavigationProps,
   EventDetailsRouteProp,
   ScreenPropsType,
 } from '@navigation/types';
-import { View, Text } from 'react-native';
 
 export default function EventDetails({}: ScreenPropsType<
   EventDetailsNavigationProps,

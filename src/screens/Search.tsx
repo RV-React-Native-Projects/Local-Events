@@ -1,9 +1,9 @@
+import { View, Text } from 'react-native';
 import {
   ScreenPropsType,
   SearchNavigationProps,
   SearchRouteProp,
 } from '@navigation/types';
-import { View, Text } from 'react-native';
 
 export default function Search({}: ScreenPropsType<
   SearchNavigationProps,
