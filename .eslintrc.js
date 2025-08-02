@@ -3,6 +3,8 @@ module.exports = {
   extends: '@react-native',
   plugins: ['import'],
   rules: {
+    '@typescript-eslint/no-unused-vars': 'off',
+    'react/react-in-jsx-scope': 'off',
     'import/order': [
       'warn',
       {
@@ -22,6 +24,5 @@ module.exports = {
         alphabetize: { order: 'asc', caseInsensitive: true },
       },
     ],
-    'import/first': 'warn',
   },
 };

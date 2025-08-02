@@ -1,7 +1,3 @@
-export type UnitStackParamList = {
-  Units: undefined;
-};
-
 export type HomeStackParamList = {
   Home: undefined;
   EventDetails: { eventID: string };

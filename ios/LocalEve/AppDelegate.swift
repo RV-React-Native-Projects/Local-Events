@@ -2,20 +2,24 @@ import UIKit
 import React
 import React_RCTAppDelegate
 import ReactAppDependencyProvider
+import Foundation
+import Security
 
-static void ClearKeychainIfNecessary() {
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HAS_RUN_BEFORE"] == NO) {
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"HAS_RUN_BEFORE"];
-        NSArray *secItemClasses = @[
-            (__bridge id)kSecClassGenericPassword,
-            (__bridge id)kSecClassInternetPassword,
-            (__bridge id)kSecClassCertificate,
-            (__bridge id)kSecClassKey,
-            (__bridge id)kSecClassIdentity
-        ];
-        for (id secItemClass in secItemClasses) {
-            NSDictionary *spec = @{(__bridge id)kSecClass: secItemClass};
-            SecItemDelete((__bridge CFDictionaryRef)spec);
+func clearKeychainIfNecessary() {
+    let hasRunBeforeKey = "HAS_RUN_BEFORE"
+    let defaults = UserDefaults.standard
+    if defaults.bool(forKey: hasRunBeforeKey) == false {
+        defaults.set(true, forKey: hasRunBeforeKey)
+        let secItemClasses: [CFString] = [
+            kSecClassGenericPassword,
+            kSecClassInternetPassword,
+            kSecClassCertificate,
+            kSecClassKey,
+            kSecClassIdentity
+        ]
+        for secItemClass in secItemClasses {
+            let query: [CFString: Any] = [kSecClass: secItemClass]
+            SecItemDelete(query as CFDictionary)
         }
     }
 }
@@ -31,7 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
   ) -> Bool {
-    ClearKeychainIfNecessary();
+    clearKeychainIfNecessary();
     let delegate = ReactNativeDelegate()
     let factory = RCTReactNativeFactory(delegate: delegate)
     delegate.dependencyProvider = RCTAppDependencyProvider()

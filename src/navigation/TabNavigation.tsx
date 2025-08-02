@@ -39,7 +39,7 @@ const isTabVisible = (key: string) => {
   return key && TAB_VISIBLE_AT.includes(key);
 };
 
-export function TabNavigation() {
+export default function TabNavigation() {
   const { isDark, colors } = useAppTheme();
 
   return (

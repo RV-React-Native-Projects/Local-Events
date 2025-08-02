@@ -7,7 +7,7 @@ import {
 import { useAppDispatch, useAppTheme } from '@redux/hooks';
 import AppNavigation from './AppNavigation';
 
-export const MainNavigation = () => {
+export default function MainNavigation() {
   const { isDark } = useAppTheme();
   const storeDispatch = useAppDispatch();
 
@@ -16,7 +16,7 @@ export const MainNavigation = () => {
       <AppNavigation />
     </NavigationContainer>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
