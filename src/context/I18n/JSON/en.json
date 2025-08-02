@@ -1,0 +1,69 @@
+{
+  "common": {
+    "ok": "OK!",
+    "or": "or",
+    "cancel": "Cancel",
+    "back": "Back",
+    "retry": "Retry",
+    "continue": "Continue",
+    "share": "Share",
+    "loading": "Loading",
+    "delete": "Delete",
+    "loadMore": "Load More",
+    "view": "View",
+    "select": "Select",
+    "edit": "Edit",
+    "years": "Years",
+    "months": "Months"
+  },
+  "tab": {
+    "home": "Home",
+    "search": "Search",
+    "create": "Create",
+    "chat": "Chat",
+    "profile": "Profile"
+  },
+  "errors": {
+    "oops": "Oops!",
+    "sessionExpired": "Your session has expired. Please sign in again to continue",
+    "somethingWentWrong": "Something went wrong. Please try again.",
+    "noNtwTitle": "No internet!",
+    "noNtwDescription": "Please check your network connection and try again",
+    "invalidUrl": "Unable to open url",
+    "unsupportedUrl": "No app found to open {{appType}}",
+    "emailAlreadyExist": "Email Already Exists"
+  },
+  "success": {
+    "accountVerified": "Account Verified Successfully!",
+    "accountVerifiedDesc": "logging you in!",
+    "autofillCompleted": "Autofill Completed!"
+  },
+  "placeholders": {
+    "search": "Search"
+  },
+  "header": {
+    "signIn": "Sign In"
+  },
+  "button": {
+    "close": "Close",
+    "cancel": "Cancel",
+    "saveChanges": "Save Changes",
+    "next": "Next",
+    "back": "Back",
+    "submit": "Submit",
+    "login": "Login",
+    "continue": "Continue",
+    "createNewAccount": "Create New Account"
+  },
+  "messages": {},
+  "inputFields": {
+    "error": {},
+    "label": {
+      "email": "Email",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "designation": "Designation",
+      "password": "Password"
+    }
+  }
+}

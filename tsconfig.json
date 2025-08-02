@@ -1,3 +1,65 @@
 {
-  "extends": "@react-native/typescript-config"
+  "noImplicitAny": true,
+  "extends": "@react-native/typescript-config",
+  "moduleResolution": "bundler",
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "types": ["jest"],
+    "noFallthroughCasesInSwitch": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
+    "paths": {
+      "@assets/*": ["./src/assets/*"],
+      "@components/*": ["./src/components/*"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@navigation/*": ["./src/navigation/*"],
+      "@storage/*": ["./src/storage/*"],
+      "@thunk/*": ["./src/redux/thunk/*"],
+      "@slice/*": ["./src/redux/slice/*"],
+      "@redux/*": ["./src/redux/*"],
+      "@screens/*": ["./src/screens/*"],
+      "@themes/*": ["./src/themes/*"],
+      "@colors": ["./src/themes/colors"],
+      "@utils/*": ["./src/utils/*"],
+      "@network": ["./src/network"],
+      "@common/*": ["./src/common/*"],
+      "@services/*": ["./src/services/*"],
+      "@context/*": ["./src/context/*"],
+      "@constants/*": ["./src/constants/*"],
+      "@screenComponents/*": ["./src/screenComponents/*"],
+      "@yup/*": ["./src/yup/*"],
+      "@toast/*": ["./src/toast/*"],
+      "@interfaces/*": ["./src/interfaces/*"],
+      "@skeletonLoader/*": ["./src/skeletonLoader/*"]
+    },
+    "typeRoots": [
+      "node_modules/@types",
+      "src/types",
+      "src",
+      "declaration.d.ts",
+      "src/*.ts",
+      "src/*.tsx",
+      "types/*"
+    ]
+  },
+  "include": ["**/*", "src", ".", "declaration.d.ts", "src/*.ts", "src/*.tsx"],
+  "exclude": [
+    "node_modules",
+    ".bundle",
+    "build",
+    "android",
+    "ios",
+    "vendor",
+    "babel.config.js",
+    "metro.config.js",
+    "jest.config.js"
+  ]
 }

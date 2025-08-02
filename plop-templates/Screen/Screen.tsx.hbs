@@ -1,0 +1,41 @@
+import { StyleSheet } from 'react-native';
+import AppText from '@components/AppText/AppText';
+import ScreenWrapper from '@components/Wrapper/ScreenWrapper';
+import {
+  {{pascalCase name}}NavigationProps,
+  {{pascalCase name}}RouteProp,
+  ScreenPropsType,
+} from '@navigation/types';
+{{#if useRedux}}
+import { useAppDispatch, useAppSelector } from '@redux/hooks';
+{{/if}}
+import { useAppTheme } from '@redux/hooks';
+
+
+export default function {{pascalCase name}}({}: ScreenPropsType<
+  {{pascalCase name}}NavigationProps,
+  {{pascalCase name}}RouteProp
+>) {
+  {{#if useRedux}}
+  const storeDispatch = useAppDispatch();
+  const {} = useAppSelector(store => store);
+  {{/if}}
+  const styles = useStyles();
+
+  return (
+    <ScreenWrapper
+    {{#if scrollEnable}}scrollEnabled{{/if}}
+    {{#if hideStatusbar}}hideStatusbar{{/if}}
+    >
+      <AppText>{{pascalCase name}}</AppText>
+    </ScreenWrapper>
+  );
+}
+
+const useStyles = () => {
+  const { colors } = useAppTheme();
+
+  return StyleSheet.create({
+    container: {},
+  });
+};

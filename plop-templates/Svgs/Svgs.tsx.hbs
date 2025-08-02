@@ -1,0 +1,22 @@
+import Svg, { Path } from 'react-native-svg';
+import { SVGProps } from '@models/SVGProps';
+import { useAppTheme } from '@redux/hooks';
+import { moderateScale } from '@themes/responsive';
+
+export default function {{pascalCase name }}Svg(props: SVGProps) {
+  const { colors } = useAppTheme();
+  const {
+    width = 35,
+    height = 35,
+    color = colors.iconColor,
+    fill = 'none',
+    strokeWidth = 1.5,
+    ...rest
+  } = props;
+
+  return (
+    <Svg>
+      
+    </Svg>
+  );
+}

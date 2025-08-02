@@ -1,0 +1,71 @@
+{
+  "common": {
+    "ok": "OK!🇯🇵",
+    "cancel": "Cancel🇯🇵",
+    "back": "Back🇯🇵",
+    "retry": "Retry🇯🇵"
+  },
+  "errors": {
+    "oops": "Oops🇯🇵",
+    "sessionExpired": "Your session has expired. Please sign in again to continue🇯🇵",
+    "somethingWentWrong": "Something went wrong. Please try again.🇯🇵",
+    "noNtwTitle": "No internet!🇯🇵",
+    "noNtwDescription": "Please check your network connection and try again🇯🇵",
+    "invalidUrl": "Unable to open url🇯🇵",
+    "unsupportedUrl": "No app found to open {{appType}}🇯🇵"
+  },
+  "inputFields": {
+    "error": {
+      "required": "{{fieldName}} is required🇯🇵",
+      "invalid": "Invalid {{fieldName}}🇯🇵",
+      "invalidPassword": "Password must contain minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character🇯🇵"
+    },
+    "label": {
+      "email": "Email Address🇯🇵",
+      "firstName": "First Name🇯🇵",
+      "lastName": "Last Name🇯🇵",
+      "password": "Password🇯🇵"
+    },
+    "placeholder": {
+      "email": "Enter your email address🇯🇵",
+      "firstName": "Enter your first name🇯🇵",
+      "lastName": "Enter your last name🇯🇵",
+      "password": "Enter a password🇯🇵"
+    },
+    "hint": {
+      "password": "Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character🇯🇵."
+    }
+  },
+  "welcomeScreen": {
+    "login": "Login🇯🇵",
+    "register": "Register🇯🇵",
+    "welcomeText": "Welcome to Mutual Mobile!🇯🇵"
+  },
+  "loginScreen": {
+    "headerTitle": "Login🇯🇵",
+    "email": "Email🇯🇵",
+    "emailPlaceholder": "Enter Email Address🇯🇵",
+    "emailError": "Please enter valid email🇯🇵",
+    "password": "Password🇯🇵",
+    "passwordPlaceholder": "Enter your password🇯🇵",
+    "passwordError": "Please enter strong password🇯🇵",
+    "continue": "Continue🇯🇵",
+    "changeTextJA":"Change Text Language JA🇯🇵",
+    "changeTextEN":"Change Text Language EN🇯🇵",
+    "iWillChange":"I Will Change🇯🇵"
+  },
+  "registerScreen": {
+    "headerTitle": "Register🇯🇵"
+  },
+  "homeScreen": {
+    "welcomeText": "Welcome to React Native Template🇯🇵",
+    "introductionText": " Start your react native journey here!🇯🇵",
+    "darkMode": "Dark Mode🇯🇵",
+    "logout": "Logout🇯🇵"
+  },
+  "contactUsScreen": {
+    "headerTitle": "Contact Us🇯🇵",
+    "phone": "Phone Number🇯🇵",
+    "email": "Email Address🇯🇵"
+  }
+}

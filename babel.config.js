@@ -1,3 +1,36 @@
 module.exports = {
   presets: ['module:@react-native/babel-preset'],
+  plugins: [
+    [
+      'module-resolver',
+      {
+        alias: {
+          '@assets': './src/assets',
+          '@components': './src/components',
+          '@hooks': './src/hooks',
+          '@navigation': './src/navigation',
+          '@storage': './src/storage',
+          '@thunk': './src/redux/thunk',
+          '@slice': './src/redux/slice',
+          '@redux': './src/redux',
+          '@screens': './src/screens',
+          '@themes': './src/themes',
+          '@colors': './src/themes/colors',
+          '@utils': './src/utils',
+          '@network': './src/network',
+          '@common': './src/common',
+          '@services': './src/services',
+          '@context': './src/context',
+          '@constants': './src/constants',
+          '@screenComponents': './src/screenComponents',
+          '@yup': './src/yup',
+          '@toast': './src/toast',
+          '@interfaces': './src/interfaces',
+          '@skeletonLoader': './src/skeletonLoader',
+        },
+      },
+    ],
+    ['@babel/plugin-proposal-decorators', { legacy: true }],
+    'react-native-reanimated/plugin',
+  ],
 };
