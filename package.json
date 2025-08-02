@@ -24,6 +24,8 @@
   },
   "dependencies": {
     "@react-native-community/netinfo": "^11.4.1",
+    "@react-native-documents/picker": "^10.1.5",
+    "@react-native-documents/viewer": "^1.0.1",
     "@react-native-masked-view/masked-view": "^0.3.2",
     "@react-navigation/bottom-tabs": "^7.4.4",
     "@react-navigation/elements": "^2.6.1",
@@ -42,7 +44,6 @@
     "react": "19.1.0",
     "react-native": "0.80.2",
     "react-native-device-info": "^14.0.4",
-    "react-native-document-picker": "^9.3.1",
     "react-native-element-dropdown": "^2.12.4",
     "react-native-encrypted-storage": "^4.0.3",
     "react-native-fast-image": "^8.6.3",
@@ -68,6 +69,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
+    "@babel/plugin-proposal-decorators": "^7.28.0",
     "@babel/preset-env": "^7.25.3",
     "@babel/runtime": "^7.25.0",
     "@react-native-community/cli": "19.1.1",
