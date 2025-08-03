@@ -1,7 +1,7 @@
 import { StyleSheet, TextStyle } from 'react-native';
-import { ColorThemeTypes } from '@colors';
 import { useAppTheme } from '@redux/hooks';
 import { fontSize, fontFamily } from '@themes/fontSize';
+import { ColorThemeTypes } from '@colors';
 import { AppTextVariants } from './AppTextTypes';
 
 export const useAppTextStyle = (uppercase: boolean) => {

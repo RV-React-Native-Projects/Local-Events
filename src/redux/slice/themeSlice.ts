@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ColorTheme, darkTheme, lightTheme } from '@colors';
 import { shadow, Shadows } from '@themes/shadow';
+import { ColorTheme, darkTheme, lightTheme } from '@colors';
 
 type Theme = 'light' | 'dark';
 

@@ -6,12 +6,12 @@
 #   )', __dir__]).strip
 
 def node_require(script)
-  # Resolve script with node to allow for hoisting
-  require Pod::Executable.execute_command('node', ['-p',
-    "require.resolve(
-      '#{script}',
-      {paths: [process.argv[1]]},
-    )", __dir__]).strip
+  node_path = Pod::Executable.execute_command('node', [
+    '-p',
+    "require.resolve('#{script}', {paths: ['#{__dir__}']})"
+  ]).strip
+
+  require node_path
 end
 
 node_require('react-native/scripts/react_native_pods.rb')
@@ -52,6 +52,7 @@ end
 
 target 'LocalEve' do
   config = use_native_modules!
+  pod 'react-native-config/Extension', :path => '../node_modules/react-native-config'
 
   use_react_native!(
     :path => config[:reactNativePath],
@@ -59,7 +60,19 @@ target 'LocalEve' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
+  ENVFILE = {
+    'dev' => '$(PODS_ROOT)/../../.env',
+    'prod' => '$(PODS_ROOT)/../../.env.prod',
+  }
+
   post_install do |installer|
+    installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      if target.name == 'react-native-config'
+        config.build_settings['ENVFILE'] = ENVFILE[config.name]
+      end
+    end
+  end
     # https://github.com/facebook/react-native/blob/main/packages/react-native/scripts/react_native_pods.rb#L197-L202
     react_native_post_install(
       installer,
@@ -69,3 +82,5 @@ target 'LocalEve' do
     )
   end
 end
+
+

@@ -2,6 +2,7 @@
   "name": "LocalEve",
   "version": "0.0.1",
   "private": true,
+  "type": "commonjs",
   "scripts": {
     "start": "react-native start",
     "test": "jest",
@@ -13,16 +14,19 @@
     "clear": "cd android && ./gradlew --stop && ./gradlew clean",
     "clean": "npx react-native clean",
     "watchman_clean": "watchman watch-del-all && watchman shutdown-server",
-    "start_build": "pnpm link_asset && cd android && ./gradlew --stop",
-    "build_apk": "ENVFILE=.env && pnpm start_build && cd android && ./gradlew assembleRelease && pnpm stop",
-    "build_aab": "ENVFILE=.env && pnpm start_build && cd android && ./gradlew bundleRelease && pnpm stop",
-    "android": "ENVFILE=.env && pnpm react-native run-android",
-    "ios": "ENVFILE=.env RCT_NEW_ARCH_ENABLED=1 react-native run-ios --mode=Debug",
+    "start_build": "yarn link_asset && cd android && ./gradlew --stop",
+    "build_apk": "ENVFILE=.env && yarn start_build && cd android && ./gradlew assembleRelease && yarn stop",
+    "build_aab": "ENVFILE=.env && yarn start_build && cd android && ./gradlew bundleRelease && yarn stop",
+    "android": "ENVFILE=.env react-native run-android",
+    "ios": "ENVFILE=.env RCT_NEW_ARCH_ENABLED=1 react-native run-ios --mode=Debug --scheme \"LocalEve-Dev\"",
+    "ios_prod": "ENVFILE=.env RCT_NEW_ARCH_ENABLED=1 react-native run-ios --mode=Debug --scheme \"LocalEve\"",
     "prepare": "husky",
     "spell-check": "cspell 'src/**/*.{js,ts,md}' --exclude 'src/constants/CountryData.ts' --config '.vscode/settings.json'",
+    "generate:index": "node --import ./scripts/register-ts-node.mjs ./scripts/generate-index.ts",
     "plop": "plop"
   },
   "dependencies": {
+    "@react-native-community/datetimepicker": "^8.4.3",
     "@react-native-community/netinfo": "^11.4.1",
     "@react-native-documents/picker": "^10.1.5",
     "@react-native-documents/viewer": "^1.0.1",
@@ -107,13 +111,13 @@
     "plop": "^4.0.1",
     "prettier": "2.8.8",
     "react-test-renderer": "19.1.0",
+    "ts-node": "^10.9.2",
     "typescript": "5.0.4"
   },
   "engines": {
     "node": ">=18",
-    "yarn": "please-use-pnpm",
-    "npm": "please-use-pnpm",
-    "pnpm": ">=10.14.0"
+    "npm": "please-use-yarn",
+    "yarn": ">=1.22.22"
   },
-  "packageManager": "pnpm@10.14.0"
+  "packageManager": "yarn@1.22.22"
 }

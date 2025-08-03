@@ -1,6 +1,7 @@
 {
   "noImplicitAny": true,
   "extends": "@react-native/typescript-config",
+  "moduleResolution": "node",
   "compilerOptions": {
     "moduleResolution": "bundler",
     "noFallthroughCasesInSwitch": true,
@@ -15,8 +16,10 @@
     "baseUrl": ".",
     "skipLibCheck": true,
     "esModuleInterop": true,
-    "types": ["jest"],
+    "types": ["jest", "node"],
     "paths": {
+      "@svgs": ["./src/assets/svgs/index.ts"],
+      "@svgs/*": ["./src/assets/svgs/*"],
       "@assets/*": ["./src/assets/*"],
       "@components/*": ["./src/components/*"],
       "@hooks/*": ["./src/hooks/*"],

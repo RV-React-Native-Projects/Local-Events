@@ -21,6 +21,7 @@ module.exports = {
   settings: {
     'import/resolver': {
       typescript: {
+        alwaysTryTypes: true,
         project: './tsconfig.json',
       },
       node: {
@@ -48,7 +49,13 @@ module.exports = {
     'import/order': [
       'warn',
       {
-        groups: [['builtin'], 'external', 'internal', ['parent', 'sibling']],
+        groups: [
+          'builtin',
+          'external',
+          'internal',
+          ['parent', 'sibling'],
+          'index',
+        ],
         pathGroups: [
           {
             pattern:
@@ -57,13 +64,18 @@ module.exports = {
             position: 'before',
           },
           {
-            pattern: '@**',
-            group: 'external',
+            pattern: 'react**',
+            group: 'builtin',
             position: 'after',
           },
           {
-            pattern: 'react**',
-            group: 'builtin',
+            pattern: '@components/**',
+            group: 'internal',
+            position: 'before',
+          },
+          {
+            pattern: '@svgs/**',
+            group: 'internal',
             position: 'after',
           },
         ],

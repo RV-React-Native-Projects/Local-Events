@@ -1,4 +1,4 @@
-package com.localeve
+package com.localeve.android
 import android.os.Bundle;
 
 import com.facebook.react.ReactActivity

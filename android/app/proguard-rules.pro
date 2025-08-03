@@ -21,3 +21,6 @@
   **[] $VALUES;
   public *;
 }
+
+-keep class com.localeve.android.BuildConfig { *; }
+-keepresources string/com.localeve.android

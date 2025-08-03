@@ -1,6 +1,6 @@
 import { TextProps } from 'react-native';
-import { ColorThemeTypes } from '@colors';
 import { FontFamily } from '@themes/fontSize';
+import { ColorThemeTypes } from '@colors';
 
 export type AppTextVariants =
   | 'largeTitle'
