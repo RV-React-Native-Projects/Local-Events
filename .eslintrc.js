@@ -23,6 +23,9 @@ module.exports = {
       typescript: {
         project: './tsconfig.json',
       },
+      node: {
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      },
     },
   },
   rules: {
@@ -41,6 +44,7 @@ module.exports = {
     '@typescript-eslint/no-unused-expressions': 'off',
     'react/display-name': 'off',
     '@typescript-eslint/no-require-imports': 'off',
+    'import/no-named-as-default': 'off',
     'import/order': [
       'warn',
       {

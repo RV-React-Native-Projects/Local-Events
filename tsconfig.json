@@ -1,7 +1,6 @@
 {
   "noImplicitAny": true,
   "extends": "@react-native/typescript-config",
-  "moduleResolution": "node",
   "compilerOptions": {
     "moduleResolution": "bundler",
     "noFallthroughCasesInSwitch": true,
