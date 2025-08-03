@@ -1,4 +1,5 @@
 import { Text } from 'react-native';
+import VibeSyncLogo from '@components/AppLogo/VibeSyncLogo';
 import { ScreenWrapper } from '@components/Wrapper';
 import {
   OnBoardingNavigationProps,
@@ -11,7 +12,8 @@ export default function OnBoarding({}: ScreenPropsType<
   OnBoardingRouteProp
 >) {
   return (
-    <ScreenWrapper hideStatusbar>
+    <ScreenWrapper>
+      <VibeSyncLogo />
       <Text>OnBoarding</Text>
     </ScreenWrapper>
   );

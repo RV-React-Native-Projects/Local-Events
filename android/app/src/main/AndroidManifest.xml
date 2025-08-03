@@ -1,8 +1,8 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+  xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:tools="http://schemas.android.com/tools"
   package="com.localeve.android"
   tools:node="replace">
-
   <uses-permission android:name="android.permission.INTERNET" />
   <uses-permission android:name="android.permission.WAKE_LOCK" />
   <uses-permission android:name="android.permission.ACCEPT_HANDOVER" />
@@ -21,11 +21,19 @@
   <uses-permission android:name="android.permission.WRITE_CALL_LOG" />
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-  <uses-feature android:name="android.hardware.camera" android:required="false" />
-  <uses-feature android:name="android.hardware.camera.front" android:required="false" />
-  <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
-  <uses-feature android:name="android.hardware.telephony" android:required="false" />
-  <!-- Xiaomi and similar devices overlay configs -->
+  <uses-feature
+    android:name="android.hardware.camera"
+    android:required="false" />
+  <uses-feature
+    android:name="android.hardware.camera.front"
+    android:required="false" />
+  <uses-feature
+    android:name="android.hardware.camera.autofocus"
+    android:required="false" />
+  <uses-feature
+    android:name="android.hardware.telephony"
+    android:required="false" />
+
   <uses-permission android:name="android.permission.ACTION_MANAGE_OVERLAY_PERMISSION" />
   <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
   <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
@@ -55,7 +63,8 @@
       android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|screenSize|smallestScreenSize|uiMode"
       android:launchMode="singleTask"
       android:windowSoftInputMode="adjustResize"
-      android:exported="true">
+      android:exported="true"
+      android:theme="@style/BootTheme">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
         <category android:name="android.intent.category.LAUNCHER" />

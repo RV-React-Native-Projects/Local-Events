@@ -1,3 +1,4 @@
+import BootSplash from 'react-native-bootsplash';
 import {
   DarkTheme,
   DefaultTheme,
@@ -10,7 +11,9 @@ export default function MainNavigation() {
   const { isDark } = useAppTheme();
 
   return (
-    <NavigationContainer theme={isDark ? DarkTheme : DefaultTheme}>
+    <NavigationContainer
+      onReady={() => BootSplash.hide()}
+      theme={isDark ? DarkTheme : DefaultTheme}>
       <AppNavigation />
     </NavigationContainer>
   );

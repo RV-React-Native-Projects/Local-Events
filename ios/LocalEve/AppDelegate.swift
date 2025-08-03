@@ -4,6 +4,7 @@ import React_RCTAppDelegate
 import ReactAppDependencyProvider
 import Foundation
 import Security
+import RNBootSplash
 
 func clearKeychainIfNecessary() {
     let hasRunBeforeKey = "HAS_RUN_BEFORE"
@@ -58,6 +59,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 class ReactNativeDelegate: RCTDefaultReactNativeFactoryDelegate {
   override func sourceURL(for bridge: RCTBridge) -> URL? {
     self.bundleURL()
+  }
+
+  override func customize(_ rootView: RCTRootView) {
+    super.customize(rootView)
+    RNBootSplash.initWithStoryboard("BootSplash", rootView: rootView) 
   }
 
   override func bundleURL() -> URL? {
