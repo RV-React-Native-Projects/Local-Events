@@ -1,0 +1,15 @@
+{
+  "cSpell.words": [],
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "prettier.requireConfig": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "always",
+    "source.removeUnusedImports": "always"
+  },
+  "eslint.workingDirectories": ["./"],
+  "postman.settings.dotenv-detection-notification-visibility": false,
+  "[xml]": {
+    "editor.defaultFormatter": "redhat.vscode-xml"
+  }
+}

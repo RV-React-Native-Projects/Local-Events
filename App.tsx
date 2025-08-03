@@ -9,13 +9,6 @@ import MainNavigation from '@navigation/MainNavigation';
 import { useSystemTheme } from '@redux/hooks';
 import { store } from '@redux/store';
 
-const SystemThemeWrapper: React.FC<{ children: ReactNode }> = ({
-  children,
-}) => {
-  useSystemTheme();
-  return <>{children}</>;
-};
-
 export default function App() {
   return (
     <SafeAreaProvider>
@@ -35,3 +28,10 @@ export default function App() {
     </SafeAreaProvider>
   );
 }
+
+const SystemThemeWrapper: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
+  useSystemTheme();
+  return <>{children}</>;
+};

@@ -50,8 +50,7 @@ export function isInteger(num: any) {
   let isInt = false;
 
   if (!containsAlphabetsAndSpecialCharacters(num)) {
-    // eslint-disable-next-line radix
-    let toInt = parseInt(num);
+    let toInt = parseInt(num, 10);
     isInt = Number.isInteger(toInt);
   }
 

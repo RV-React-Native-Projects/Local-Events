@@ -18,7 +18,7 @@ import {
 } from '@react-navigation/native';
 import { AppText } from '@components/AppText';
 import { translate } from '@context/I18n';
-import { useAppDispatch, useAppTheme } from '@redux/hooks';
+import { useAppTheme } from '@redux/hooks';
 import { radius } from '@themes/border';
 import { fontSize } from '@themes/fontSize';
 import { moderateScale } from '@themes/responsive';
@@ -51,14 +51,13 @@ export default function TabNavigation() {
         headerShown: false,
         tabBarActiveTintColor: isDark ? colors.white : colors.primary,
         tabBarHideOnKeyboard: true,
-      }}
-    >
+      }}>
       <Tab.Screen
         name="HomeTab"
         component={HomeStack}
         options={{
           title: 'EOI',
-          tabBarIcon: ({ focused, color, size }) => <></>,
+          // tabBarIcon: ({ focused, color, size }) => <></>,
         }}
       />
       <Tab.Screen
@@ -66,7 +65,7 @@ export default function TabNavigation() {
         component={SearchStack}
         options={{
           title: 'Leads',
-          tabBarIcon: ({ focused, color, size }) => <></>,
+          // tabBarIcon: ({ focused, color, size }) => <></>,
         }}
       />
       <Tab.Screen
@@ -74,7 +73,7 @@ export default function TabNavigation() {
         component={EventStack}
         options={{
           title: 'Home',
-          tabBarIcon: ({ focused, color, size }) => <></>,
+          // tabBarIcon: ({ focused, color, size }) => <></>,
         }}
       />
       <Tab.Screen
@@ -82,7 +81,7 @@ export default function TabNavigation() {
         component={ChatStack}
         options={{
           title: 'Bookings',
-          tabBarIcon: ({ focused, color, size }) => <></>,
+          // tabBarIcon: ({ focused, color, size }) => <></>,
         }}
       />
       <Tab.Screen
@@ -90,7 +89,7 @@ export default function TabNavigation() {
         component={ProfileStack}
         options={{
           title: 'Menu',
-          tabBarIcon: ({ focused, color, size }) => <></>,
+          // tabBarIcon: ({ focused, color, size }) => <></>,
         }}
       />
     </Tab.Navigator>
@@ -107,7 +106,6 @@ const tabToLabel: Record<string, string> = {
 
 function MyTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
   const styles = useStyles();
-  const storeDispatch = useAppDispatch();
   const { width: windowWidth } = useWindowDimensions();
   const isTablet: boolean = windowWidth > 500;
   const REDUCE_BOX_WIDTH_BY: number = moderateScale(isTablet ? 30 : 20);
@@ -241,8 +239,7 @@ function TabButton(props: TabBarButtonProps) {
       accessibilityState={isFocused ? { selected: true } : {}}
       accessibilityLabel={options.tabBarAccessibilityLabel}
       onPress={onPress}
-      onLongPress={onLongPress}
-    >
+      onLongPress={onLongPress}>
       <Animated.View style={[animatedStyle, styles.iconContainer]}>
         {options.tabBarIcon &&
           options.tabBarIcon({
@@ -257,8 +254,7 @@ function TabButton(props: TabBarButtonProps) {
         fontFamily="Medium"
         size={fontSize[12]}
         color={isFocused ? 'primary' : 'iconColor'}
-        style={styles.tabTitle}
-      >
+        style={styles.tabTitle}>
         {label}
       </AppText>
     </Pressable>

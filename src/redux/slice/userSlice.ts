@@ -25,14 +25,16 @@ const userSlice = createAppSlice({
     resetAuth: state => {
       state.isAuth = initialState.isAuth;
     },
-    logout: state => {
-      state = initialState;
+    resetSlice: () => initialState,
+    logout: () => {
       SecureStorage.clear();
+      resetSlice();
     },
     resetUser: () => initialState,
   }),
-  extraReducers: builder => {},
+  extraReducers: () => {},
 });
 
-export const { toggleAuth, resetAuth, logout, resetUser } = userSlice.actions;
+export const { toggleAuth, resetAuth, resetSlice, logout, resetUser } =
+  userSlice.actions;
 export default userSlice.reducer;

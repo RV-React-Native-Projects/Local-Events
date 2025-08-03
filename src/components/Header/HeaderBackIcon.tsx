@@ -33,8 +33,7 @@ export default function HeaderBackIcon(props: HeaderBackIconProps) {
           .damping(30)
           .mass(5)
           .stiffness(10)
-          .easing(Easing.ease)}
-      >
+          .easing(Easing.ease)}>
         <BackArrow color={iconColor} height={iconHeight} width={iconWidth} />
       </Animated.View>
     </Pressable>

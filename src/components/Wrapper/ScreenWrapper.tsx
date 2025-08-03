@@ -70,8 +70,7 @@ const ScreenWrapper: React.FC<ScreenWrapperProps> = memo(
       <KeyboardAvoidingView
         style={[styles(colors).flex, style]}
         behavior={keyboardBehavior}
-        keyboardVerticalOffset={keyboardOffset}
-      >
+        keyboardVerticalOffset={keyboardOffset}>
         {!hideStatusbar && (
           <AppStatusBar statusBarColor={statusBarColor} {...statusBarProps} />
         )}
@@ -83,8 +82,7 @@ const ScreenWrapper: React.FC<ScreenWrapperProps> = memo(
                 contentContainerStyle={scrollViewContainerStyle}
                 keyboardShouldPersistTaps="handled"
                 refreshControl={refreshControl}
-                showsVerticalScrollIndicator={false}
-              >
+                showsVerticalScrollIndicator={false}>
                 {children}
               </ScrollView>
             ) : !notForm ? (
@@ -106,8 +104,7 @@ const ScreenWrapper: React.FC<ScreenWrapperProps> = memo(
               style={[styles(colors).flex, scrollViewStyle]}
               contentContainerStyle={scrollViewContainerStyle}
               keyboardShouldPersistTaps="handled"
-              showsVerticalScrollIndicator={false}
-            >
+              showsVerticalScrollIndicator={false}>
               {children}
             </ScrollView>
           ) : !notForm ? (
