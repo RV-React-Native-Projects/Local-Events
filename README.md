@@ -1,97 +1,356 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# VibeSync 🎉
 
-# Getting Started
+A modern React Native mobile application for discovering and connecting with local events, communities, and people in your area.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+## 📱 About VibeSync
 
-## Step 1: Start Metro
+VibeSync is a comprehensive event discovery and community building platform that helps users find local events, connect with hosts, and build meaningful relationships in their community. The app features a beautiful, intuitive interface with modern design patterns and robust functionality.
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+### ✨ Key Features
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+- **Event Discovery**: Browse and search for local events by category, location, and interests
+- **Interest Matching**: Personalized event recommendations based on user preferences
+- **Community Building**: Connect with event hosts and other community members
+- **Real-time Updates**: Stay informed about trending events and new activities
+- **Multi-language Support**: Internationalization support for global communities
+- **Offline Capability**: Core functionality works without internet connection
+- **Modern UI/UX**: Beautiful, responsive design with smooth animations
 
-```sh
-# Using npm
-npm start
+## 🚀 Getting Started
 
-# OR using Yarn
+### Prerequisites
+
+Before you begin, ensure you have the following installed:
+
+- **Node.js** (>= 18.0.0)
+- **Yarn** (>= 1.22.22) - _Required package manager_
+- **React Native CLI** (latest)
+- **Android Studio** (for Android development)
+- **Xcode** (for iOS development, macOS only)
+- **Watchman** (recommended for file watching)
+
+### Installation
+
+1. **Clone the repository**
+
+   ```bash
+   git clone <repository-url>
+   cd VibeSync
+   ```
+
+2. **Install dependencies**
+
+   ```bash
+   yarn install
+   ```
+
+3. **Install iOS dependencies** (macOS only)
+
+   ```bash
+   cd ios
+   bundle install
+   bundle exec pod install
+   cd ..
+   ```
+
+4. **Link assets** (fonts, images, etc.)
+   ```bash
+   yarn link_asset
+   ```
+
+## 🛠️ Development
+
+### Starting the Development Server
+
+```bash
+# Start Metro bundler
 yarn start
 ```
 
-## Step 2: Build and run your app
+### Running the App
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+#### Android
 
-### Android
-
-```sh
-# Using npm
-npm run android
-
-# OR using Yarn
+```bash
+# Run on Android device/emulator
 yarn android
 ```
 
-### iOS
+#### iOS
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
-```
-
-Then, and every time you update your native dependencies, run:
-
-```sh
-bundle exec pod install
-```
-
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
-
-```sh
-# Using npm
-npm run ios
-
-# OR using Yarn
+```bash
+# Run on iOS simulator/device
 yarn ios
+
+# Run production build
+yarn ios_prod
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+### Building for Production
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+#### Android
 
-## Step 3: Modify your app
+```bash
+# Build APK
+yarn build_apk
 
-Now that you have successfully run the app, let's make changes!
+# Build AAB (App Bundle)
+yarn build_aab
+```
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+#### iOS
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+```bash
+# Build for iOS (requires Xcode)
+# Open ios/VibeSync.xcworkspace in Xcode
+# Select target device and build
+```
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+## 📁 Project Structure
 
-## Congratulations! :tada:
+```
+VibeSync/
+├── src/
+│   ├── assets/           # Images, fonts, SVGs
+│   ├── components/       # Reusable UI components
+│   ├── constants/        # App constants and data
+│   ├── context/          # React Context providers
+│   ├── hooks/            # Custom React hooks
+│   ├── interfaces/       # TypeScript interfaces
+│   ├── navigation/       # Navigation configuration
+│   ├── network/          # API and network utilities
+│   ├── redux/            # Redux store and slices
+│   ├── screens/          # App screens
+│   ├── services/         # Business logic services
+│   ├── storage/          # Local storage utilities
+│   ├── themes/           # Design system and styling
+│   └── utils/            # Utility functions
+├── android/              # Android native code
+├── ios/                  # iOS native code
+├── __tests__/            # Test files
+└── plop-templates/       # Code generation templates
+```
 
-You've successfully run and modified your React Native App. :partying_face:
+## 🎨 Design System
 
-### Now what?
+VibeSync uses a comprehensive design system with:
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
+- **Color Themes**: Light and dark theme support
+- **Typography**: Consistent font sizes and weights
+- **Spacing**: Standardized spacing system
+- **Components**: Reusable UI components
+- **Icons**: Material Design and custom icons
 
-# Troubleshooting
+### Key Components
 
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+- `AppButton`: Customizable buttons with multiple variants
+- `AppInput`: Form inputs with validation
+- `AppText`: Typography component with theme support
+- `AppIcon`: Icon component with multiple icon sets
+- `AppModal`: Modal and dialog components
+- `AppToast`: Toast notification system
 
-# Learn More
+## 🔧 Configuration
 
-To learn more about React Native, take a look at the following resources:
+### Environment Variables
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+Create environment files in the root directory:
+
+```bash
+# .env (development)
+API_BASE_URL=https://api-dev.VibeSync.com
+ENVIRONMENT=development
+
+# .env.prod (production)
+API_BASE_URL=https://api.VibeSync.com
+ENVIRONMENT=production
+```
+
+### Metro Configuration
+
+The project uses a custom Metro configuration for better performance and asset handling.
+
+## 📱 Features
+
+### Screens
+
+1. **Home**: Event feed with trending events and filters
+2. **Search**: Discover events, categories, and featured hosts
+3. **Interests**: User interest selection and preferences
+4. **Event Details**: Comprehensive event information
+5. **Profile**: User profile and settings
+6. **Chat**: Community messaging and connections
+
+### Navigation
+
+- **Bottom Tabs**: Main navigation between Home, Search, and Profile
+- **Stack Navigation**: Screen navigation within each tab
+- **Modal Navigation**: Overlay screens for actions
+
+## 🧪 Testing
+
+```bash
+# Run tests
+yarn test
+
+# Run tests with coverage
+yarn test --coverage
+
+# Run specific test file
+yarn test --testNamePattern="ComponentName"
+```
+
+## 📦 Available Scripts
+
+```bash
+# Development
+yarn start              # Start Metro bundler
+yarn android            # Run on Android
+yarn ios                # Run on iOS
+yarn ios_prod           # Run iOS production build
+
+# Building
+yarn build_apk          # Build Android APK
+yarn build_aab          # Build Android App Bundle
+
+# Utilities
+yarn clean              # Clean build artifacts
+yarn lint               # Run ESLint
+yarn spell-check        # Run spell checker
+yarn generate:index     # Generate component index files
+yarn plop               # Generate new components/screens
+
+# Maintenance
+yarn pod                 # Install iOS pods
+yarn link_asset         # Link assets
+yarn stop               # Stop Android build
+yarn clear              # Clear Android build
+yarn watchman_clean     # Clean Watchman cache
+```
+
+## 🔍 Code Quality
+
+### Linting and Formatting
+
+The project uses ESLint and Prettier for code quality:
+
+```bash
+# Run linter
+yarn lint
+
+# Fix linting issues
+yarn lint --fix
+```
+
+### TypeScript
+
+Full TypeScript support with strict type checking and comprehensive type definitions.
+
+### Code Generation
+
+Use Plop.js for generating new components and screens:
+
+```bash
+# Generate a new component
+yarn plop Component
+
+# Generate a new screen
+yarn plop Screen
+```
+
+## 🌐 Internationalization
+
+VibeSync supports multiple languages using `i18n-js`:
+
+- English (en)
+- Japanese (ja)
+- Extensible for more languages
+
+## 🔐 Security
+
+- **Encrypted Storage**: Sensitive data stored securely
+- **Network Security**: HTTPS-only API communication
+- **Input Validation**: Comprehensive form validation
+- **Permission Handling**: Proper device permission management
+
+## 📊 Performance
+
+- **Fast Refresh**: Hot reloading for development
+- **Image Optimization**: Fast image loading with caching
+- **Bundle Optimization**: Efficient code splitting
+- **Memory Management**: Proper cleanup and optimization
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+### Development Guidelines
+
+- Follow the existing code style and patterns
+- Write tests for new features
+- Update documentation as needed
+- Use TypeScript for all new code
+- Follow the component structure in `plop-templates/`
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+1. **Metro bundler issues**
+
+   ```bash
+   yarn start --reset-cache
+   ```
+
+2. **iOS build issues**
+
+   ```bash
+   cd ios
+   bundle exec pod install
+   cd ..
+   yarn ios
+   ```
+
+3. **Android build issues**
+
+   ```bash
+   yarn clear
+   yarn android
+   ```
+
+4. **Watchman issues**
+   ```bash
+   yarn watchman_clean
+   ```
+
+### Debugging
+
+- Use React Native Debugger for advanced debugging
+- Enable Chrome DevTools for web debugging
+- Use Flipper for native debugging
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- React Native community
+- Contributors and maintainers
+- Design system inspiration from modern mobile apps
+
+## 📞 Support
+
+For support and questions:
+
+- Create an issue in the repository
+- Check the troubleshooting section
+- Review the documentation
+
+---
+
+**Made with ❤️ by the VibeSync team**
