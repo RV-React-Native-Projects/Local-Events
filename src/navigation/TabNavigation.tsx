@@ -6,6 +6,8 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
+import MaterialDesignIcons from '@react-native-vector-icons/material-design-icons';
+import MaterialIcons from '@react-native-vector-icons/material-icons';
 import {
   BottomTabNavigationOptions,
   createBottomTabNavigator,
@@ -35,7 +37,13 @@ const ProfileStack = lazy(() => import('./stacks/ProfileStack'));
 const Tab = createBottomTabNavigator<TabParamsList>();
 
 const isTabVisible = (key: string) => {
-  const TAB_VISIBLE_AT = ['HomeTab', 'SearchTab', 'ChatTab', 'ProfileTab'];
+  const TAB_VISIBLE_AT = [
+    'HomeTab',
+    'SearchTab',
+    'EventTab',
+    'ChatsTab',
+    'ProfileTab',
+  ];
   return key && TAB_VISIBLE_AT.includes(key);
 };
 
@@ -56,40 +64,54 @@ export default function TabNavigation() {
         name="HomeTab"
         component={HomeStack}
         options={{
-          title: 'EOI',
-          // tabBarIcon: ({ focused, color, size }) => <></>,
+          title: 'Home',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialDesignIcons name="home" color={color} size={size} />
+          ),
         }}
       />
       <Tab.Screen
         name="SearchTab"
         component={SearchStack}
         options={{
-          title: 'Leads',
-          // tabBarIcon: ({ focused, color, size }) => <></>,
+          title: 'Search',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialIcons name="search" color={color} size={size} />
+          ),
         }}
       />
       <Tab.Screen
         name="EventTab"
         component={EventStack}
         options={{
-          title: 'Home',
-          // tabBarIcon: ({ focused, color, size }) => <></>,
+          title: 'Event',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialIcons name="add" color={color} size={size} />
+          ),
         }}
       />
       <Tab.Screen
         name="ChatsTab"
         component={ChatStack}
         options={{
-          title: 'Bookings',
-          // tabBarIcon: ({ focused, color, size }) => <></>,
+          title: 'Chats',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialIcons name="chat" color={color} size={size} />
+          ),
         }}
       />
       <Tab.Screen
         name="ProfileTab"
         component={ProfileStack}
         options={{
-          title: 'Menu',
-          // tabBarIcon: ({ focused, color, size }) => <></>,
+          title: 'Profile',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialDesignIcons
+              name="face-man-profile"
+              color={color}
+              size={size}
+            />
+          ),
         }}
       />
     </Tab.Navigator>
@@ -98,8 +120,8 @@ export default function TabNavigation() {
 
 const tabToLabel: Record<string, string> = {
   HomeTab: translate('tab.home'),
-  ChatTab: translate('tab.chat'),
-  CreateTab: translate('tab.create'),
+  ChatsTab: translate('tab.chat'),
+  EventTab: translate('tab.create'),
   SearchTab: translate('tab.search'),
   ProfileTab: translate('tab.profile'),
 };

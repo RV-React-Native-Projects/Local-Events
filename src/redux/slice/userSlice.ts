@@ -8,7 +8,7 @@ export interface UserState {
 
 const initialState: UserState = {
   loading: false,
-  isAuth: false,
+  isAuth: true,
 };
 
 const createAppSlice = buildCreateSlice({

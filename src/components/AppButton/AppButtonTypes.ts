@@ -28,11 +28,7 @@ export type ButtonSize =
 /**
  * Positions of an icon within a button.
  */
-export type IconPosition =
-  | 'leading'
-  | 'trailing'
-  | 'leading-no-divider'
-  | 'trailing-no-divider';
+export type IconPosition = 'leading' | 'trailing';
 // | 'center-left' | 'center-right';
 
 export type AppButtonProps = TouchableOpacityProps & {

@@ -34,10 +34,8 @@ export const useButtonStyle = (config: ButtonStyleConfig) => {
     customFontSize,
   } = config;
   const { colors, isDark } = useAppTheme();
-  const isLeading =
-    iconPosition === 'leading-no-divider' || iconPosition === 'leading';
-  const isTrailing =
-    iconPosition === 'trailing-no-divider' || iconPosition === 'trailing';
+  const isLeading = iconPosition === 'leading';
+  const isTrailing = iconPosition === 'trailing';
   const isGhost = variant === 'ghost';
   //FIXME: isIconButton is used for making border and background transparent for icon button in disable mode , we can revert this if there is a good color scheme for icon button disable mode
   const isIconButton = buttonSize === 'icon-button';
@@ -324,9 +322,6 @@ export const useButtonStyle = (config: ButtonStyleConfig) => {
     if (buttonSize === 'mini-button') {
       return buttonStyle.leadingAreaMini;
     } else {
-      if (iconPosition === 'leading-no-divider') {
-        return buttonStyle.leadingAreaLargeNoDivider;
-      }
       return buttonStyle.leadingAreaLarge;
     }
   };
@@ -334,9 +329,6 @@ export const useButtonStyle = (config: ButtonStyleConfig) => {
     if (buttonSize === 'mini-button') {
       return buttonStyle.trailingAreaMini;
     } else {
-      if (iconPosition === 'trailing-no-divider') {
-        return buttonStyle.trailingAreaLargeNoDivider;
-      }
       return buttonStyle.trailingAreaLarge;
     }
   };

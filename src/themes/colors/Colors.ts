@@ -70,6 +70,9 @@ const colorPalette = {
   royalBlue: '#2745F2',
   // Miscellaneous
   darkPurple: '#303AB6',
+  primaryGradient: ['#3B82F6', '#8B5CF6'],
+  secondaryGradient: ['#F97316', '#DB2777'],
+  territoryGradient: ['#A855F7', '#4F46E5'],
 };
 
 export const lightTheme: ColorTheme = {

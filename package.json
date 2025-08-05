@@ -2,7 +2,6 @@
   "name": "LocalEve",
   "version": "0.0.1",
   "private": true,
-  "type": "commonjs",
   "scripts": {
     "start": "react-native start",
     "test": "jest",

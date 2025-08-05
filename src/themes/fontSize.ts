@@ -31,21 +31,29 @@ export const fontSize = {
 
 export const fontFamily = {
   /** @value Light 300 */
-  Light: 'HelveticaNeueRoman',
+  Light: 'Rubik-Light',
   /** @value Light Italic 300 */
-  LightItalic: 'HelveticaNeueItalic',
+  LightItalic: 'Rubik-LightItalic',
   /** @value Regular 400 */
-  Regular: 'HelveticaNeueRoman',
+  Regular: 'Rubik-Regular',
   /** @value Regular Italic 400 */
-  RegularItalic: 'HelveticaNeueItalic',
+  RegularItalic: 'Rubik-Italic',
   /** @value Medium 500 */
-  Medium: 'HelveticaNeueMedium',
+  Medium: 'Rubik-Medium',
   /** @value Medium Italic 500 */
-  MediumItalic: 'HelveticaNeueMediumItalic',
+  MediumItalic: 'Rubik-MediumItalic',
+  /** @value Bold 600 */
+  SemiBold: 'Rubik-SemiBold',
+  /** @value Bold Italic 600 */
+  SemiBoldItalic: 'Rubik-SemiBoldItalic',
   /** @value Bold 700 */
-  Bold: 'HelveticaNeueBold',
+  Bold: 'Rubik-Bold',
   /** @value Bold Italic 700 */
-  BoldItalic: 'HelveticaNeueBoldItalic',
+  BoldItalic: 'Rubik-BoldItalic',
+  /** @value Bold 900 */
+  ExtraBold: 'Rubik-ExtraBold',
+  /** @value Bold Italic 900 */
+  ExtraBoldItalic: 'Rubik-ExtraBoldItalic',
 };
 
 export type FontFamily = keyof typeof fontFamily;

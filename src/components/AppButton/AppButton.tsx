@@ -6,7 +6,7 @@ import { AppButtonProps } from './AppButtonTypes';
 import { getDefaultIcon } from './getDefaultIcon';
 import { useButtonStyle } from './style';
 
-const AppButton = (props: AppButtonProps) => {
+export default function AppButton(props: AppButtonProps) {
   const {
     variant = 'filled',
     disabled,
@@ -62,17 +62,15 @@ const AppButton = (props: AppButtonProps) => {
         <>
           {!!title && (
             <>
-              {!!renderIcon &&
-                (iconPosition === 'leading' ||
-                  iconPosition === 'leading-no-divider') && (
-                  <View style={leadingArea}>
-                    {getDefaultIcon(
-                      renderIcon,
-                      variantStyles.text.color,
-                      defaultIconSize,
-                    )}
-                  </View>
-                )}
+              {!!renderIcon && iconPosition === 'leading' && (
+                <View style={leadingArea}>
+                  {getDefaultIcon(
+                    renderIcon,
+                    variantStyles.text.color,
+                    defaultIconSize,
+                  )}
+                </View>
+              )}
               <View style={loaderStyling.textLoaderContainer}>
                 {isLoading && (
                   <View style={loaderStyling.loaderContainer}>
@@ -89,18 +87,15 @@ const AppButton = (props: AppButtonProps) => {
                   {title}
                 </AppText>
               </View>
-              {!!renderIcon &&
-                !isLoading &&
-                (iconPosition === 'trailing' ||
-                  iconPosition === 'trailing-no-divider') && (
-                  <View style={trailingArea}>
-                    {getDefaultIcon(
-                      renderIcon,
-                      variantStyles.text.color,
-                      defaultIconSize,
-                    )}
-                  </View>
-                )}
+              {!!renderIcon && !isLoading && iconPosition === 'trailing' && (
+                <View style={trailingArea}>
+                  {getDefaultIcon(
+                    renderIcon,
+                    variantStyles.text.color,
+                    defaultIconSize,
+                  )}
+                </View>
+              )}
             </>
           )}
         </>
@@ -123,6 +118,4 @@ const AppButton = (props: AppButtonProps) => {
       )}
     </TouchableOpacity>
   );
-};
-
-export default AppButton;
+}

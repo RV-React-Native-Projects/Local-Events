@@ -12,6 +12,15 @@ export enum Icons {
   down = 'keyboard-arrow-down',
   camera = 'camera-alt',
   folder = 'folder',
+  edit = 'edit',
+  star = 'star',
+  location = 'location-on',
+  event = 'event',
+  notifications = 'notifications',
+  settings = 'settings',
+  security = 'security',
+  help = 'help',
+  logout = 'logout',
 }
 
 export enum ImagePath {
