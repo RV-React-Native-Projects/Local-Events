@@ -14,7 +14,11 @@ import {
   SearchNavigationProps,
   SearchRouteProp,
 } from '@navigation/types';
-import { lightTheme } from '@themes/colors';
+import { useAppTheme } from '@redux/hooks';
+import { radius, border } from '@themes/border';
+import { fontSize } from '@themes/fontSize';
+import { moderateScale } from '@themes/responsive';
+import { spacing } from '@themes/spacing';
 
 const trendingEvents = [
   {
@@ -72,6 +76,7 @@ export default function Search({}: ScreenPropsType<
   SearchRouteProp
 >) {
   const [searchQuery, setSearchQuery] = useState('');
+  const styles = useStyles();
 
   const handleEventClick = (eventId: number) => {
     console.log('Event clicked:', eventId);
@@ -242,285 +247,290 @@ export default function Search({}: ScreenPropsType<
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f9fafb',
-  },
-  header: {
-    backgroundColor: '#3b82f6',
-    paddingHorizontal: 16,
-    paddingVertical: 24,
-  },
-  headerContent: {
-    marginBottom: 24,
-  },
-  headerTitle: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: 'white',
-    marginBottom: 8,
-  },
-  headerSubtitle: {
-    fontSize: 16,
-    color: 'rgba(255, 255, 255, 0.9)',
-  },
-  searchContainer: {
-    position: 'relative',
-  },
-  searchIcon: {
-    position: 'absolute',
-    left: 12,
-    top: '50%',
-    transform: [{ translateY: -8 }],
-    fontSize: 16,
-    color: '#6b7280',
-    zIndex: 1,
-  },
-  searchInput: {
-    paddingLeft: 44,
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
-    borderWidth: 0,
-    height: 48,
-    borderRadius: 8,
-  },
-  scrollView: {
-    flex: 1,
-    paddingHorizontal: 16,
-    paddingVertical: 16,
-  },
-  section: {
-    marginBottom: 32,
-  },
-  sectionHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  sectionIcon: {
-    fontSize: 20,
-    marginRight: 8,
-  },
-  sectionTitle: {
-    fontSize: 20,
-    fontWeight: '600',
-    color: lightTheme.text,
-    marginBottom: 16,
-  },
-  trendingGrid: {
-    gap: 16,
-  },
-  trendingCard: {
-    backgroundColor: 'white',
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#e5e7eb',
-    overflow: 'hidden',
-    marginBottom: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  trendingImageContainer: {
-    position: 'relative',
-  },
-  trendingImage: {
-    width: '100%',
-    height: 128,
-    resizeMode: 'cover',
-  },
-  trendingBadge: {
-    position: 'absolute',
-    top: 8,
-    right: 8,
-    backgroundColor: '#f97316',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 12,
-  },
-  trendingBadgeText: {
-    fontSize: 12,
-    color: 'white',
-    fontWeight: '600',
-  },
-  trendingContent: {
-    padding: 16,
-  },
-  trendingTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: lightTheme.text,
-    marginBottom: 8,
-  },
-  trendingDetails: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  trendingCategory: {
-    fontSize: 14,
-    color: lightTheme.secondaryText,
-  },
-  trendingStats: {
-    flexDirection: 'row',
-    gap: 12,
-  },
-  statItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-  },
-  statIcon: {
-    fontSize: 14,
-  },
-  statText: {
-    fontSize: 14,
-    color: lightTheme.secondaryText,
-  },
-  categoriesGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-  },
-  categoryCard: {
-    width: '48%',
-    backgroundColor: 'white',
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#e5e7eb',
-    marginBottom: 12,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 1,
-  },
-  categoryContent: {
-    padding: 16,
-    alignItems: 'center',
-  },
-  categoryIcon: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 12,
-  },
-  categoryIconText: {
-    fontSize: 24,
-  },
-  categoryName: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: lightTheme.text,
-    marginBottom: 4,
-  },
-  categoryCount: {
-    fontSize: 12,
-    color: lightTheme.secondaryText,
-  },
-  hostsGrid: {
-    gap: 16,
-  },
-  hostCard: {
-    backgroundColor: 'white',
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#e5e7eb',
-    marginBottom: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  hostContent: {
-    padding: 16,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  hostAvatar: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    marginRight: 16,
-  },
-  hostInfo: {
-    flex: 1,
-  },
-  hostName: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: lightTheme.text,
-    marginBottom: 4,
-  },
-  hostBio: {
-    fontSize: 14,
-    color: lightTheme.secondaryText,
-    marginBottom: 8,
-  },
-  hostStats: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 16,
-  },
-  hostEventCount: {
-    fontSize: 14,
-    color: lightTheme.secondaryText,
-  },
-  hostRating: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-  },
-  ratingIcon: {
-    fontSize: 14,
-  },
-  ratingText: {
-    fontSize: 14,
-    color: lightTheme.secondaryText,
-  },
-  followButton: {
-    borderWidth: 1,
-    borderColor: '#e5e7eb',
-    backgroundColor: 'white',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 8,
-  },
-  statsCard: {
-    backgroundColor: '#eff6ff',
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#e5e7eb',
-    padding: 16,
-  },
-  statsTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: lightTheme.text,
-    marginBottom: 16,
-  },
-  statsGrid: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  statCard: {
-    alignItems: 'center',
-    flex: 1,
-  },
-  statNumber: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#3b82f6',
-    marginBottom: 4,
-  },
-  statLabel: {
-    fontSize: 12,
-    color: lightTheme.secondaryText,
-    textAlign: 'center',
-  },
-});
+const useStyles = () => {
+  const { colors } = useAppTheme();
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.appBackgroundColor,
+    },
+    header: {
+      backgroundColor: colors.primary,
+      paddingHorizontal: spacing.medium,
+      paddingVertical: spacing.large,
+    },
+    headerContent: {
+      marginBottom: spacing.large,
+    },
+    headerTitle: {
+      fontSize: fontSize[28],
+      fontWeight: 'bold',
+      color: colors.onPrimary,
+      marginBottom: spacing.base,
+    },
+    headerSubtitle: {
+      fontSize: fontSize[16],
+      color: colors.onPrimary,
+      opacity: 0.9,
+    },
+    searchContainer: {
+      position: 'relative',
+    },
+    searchIcon: {
+      position: 'absolute',
+      left: spacing.smallMedium,
+      top: '50%',
+      transform: [{ translateY: -spacing.base }],
+      fontSize: fontSize[16],
+      color: colors.secondaryText,
+      zIndex: 1,
+    },
+    searchInput: {
+      paddingLeft: moderateScale(44),
+      backgroundColor: colors.onPrimary,
+      opacity: 0.9,
+      borderWidth: 0,
+      height: moderateScale(48),
+      borderRadius: radius.lg,
+    },
+    scrollView: {
+      flex: 1,
+      paddingHorizontal: spacing.mediumLarge,
+      paddingVertical: spacing.mediumLarge,
+    },
+    section: {
+      marginBottom: spacing.extraLargePlus,
+    },
+    sectionHeader: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginBottom: spacing.mediumLarge,
+    },
+    sectionIcon: {
+      fontSize: fontSize[20],
+      marginRight: spacing.base,
+    },
+    sectionTitle: {
+      fontSize: fontSize[20],
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: spacing.medium,
+    },
+    trendingGrid: {
+      gap: spacing.mediumLarge,
+    },
+    trendingCard: {
+      backgroundColor: colors.backgroundColor,
+      borderRadius: radius.xl,
+      borderWidth: border.normal,
+      borderColor: colors.inputBorder,
+      overflow: 'hidden',
+      marginBottom: spacing.mediumLarge,
+      shadowColor: colors.shadow,
+      shadowOffset: { width: 0, height: moderateScale(2) },
+      shadowOpacity: 0.1,
+      shadowRadius: moderateScale(4),
+      elevation: 2,
+    },
+    trendingImageContainer: {
+      position: 'relative',
+    },
+    trendingImage: {
+      width: '100%',
+      height: moderateScale(128),
+      resizeMode: 'cover',
+    },
+    trendingBadge: {
+      position: 'absolute',
+      top: spacing.base,
+      right: spacing.base,
+      backgroundColor: colors.warning,
+      paddingHorizontal: spacing.base,
+      paddingVertical: spacing.xs,
+      borderRadius: radius.xl,
+    },
+    trendingBadgeText: {
+      fontSize: fontSize[12],
+      color: colors.onPrimary,
+      fontWeight: '600',
+    },
+    trendingContent: {
+      padding: spacing.mediumLarge,
+    },
+    trendingTitle: {
+      fontSize: fontSize[16],
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: spacing.base,
+    },
+    trendingDetails: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+    trendingCategory: {
+      fontSize: fontSize[14],
+      color: colors.secondaryText,
+    },
+    trendingStats: {
+      flexDirection: 'row',
+      gap: spacing.smallMedium,
+    },
+    statItem: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: spacing.xs,
+    },
+    statIcon: {
+      fontSize: fontSize[14],
+    },
+    statText: {
+      fontSize: fontSize[14],
+      color: colors.secondaryText,
+    },
+    categoriesGrid: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      justifyContent: 'space-between',
+    },
+    categoryCard: {
+      width: '48%',
+      backgroundColor: colors.backgroundColor,
+      borderRadius: radius.xl,
+      borderWidth: border.normal,
+      borderColor: colors.inputBorder,
+      marginBottom: spacing.smallMedium,
+      shadowColor: colors.shadow,
+      shadowOffset: { width: 0, height: moderateScale(1) },
+      shadowOpacity: 0.1,
+      shadowRadius: moderateScale(2),
+      elevation: 1,
+    },
+    categoryContent: {
+      padding: spacing.mediumLarge,
+      alignItems: 'center',
+    },
+    categoryIcon: {
+      width: moderateScale(48),
+      height: moderateScale(48),
+      borderRadius: moderateScale(24),
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginBottom: spacing.smallMedium,
+    },
+    categoryIconText: {
+      fontSize: fontSize[24],
+    },
+    categoryName: {
+      fontSize: fontSize[14],
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: spacing.xs,
+    },
+    categoryCount: {
+      fontSize: fontSize[12],
+      color: colors.secondaryText,
+    },
+    hostsGrid: {
+      gap: spacing.mediumLarge,
+    },
+    hostCard: {
+      backgroundColor: colors.backgroundColor,
+      borderRadius: radius.xl,
+      borderWidth: border.normal,
+      borderColor: colors.inputBorder,
+      marginBottom: spacing.mediumLarge,
+      shadowColor: colors.shadow,
+      shadowOffset: { width: 0, height: moderateScale(2) },
+      shadowOpacity: 0.1,
+      shadowRadius: moderateScale(4),
+      elevation: 2,
+    },
+    hostContent: {
+      padding: spacing.mediumLarge,
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    hostAvatar: {
+      width: moderateScale(48),
+      height: moderateScale(48),
+      borderRadius: moderateScale(24),
+      marginRight: spacing.mediumLarge,
+    },
+    hostInfo: {
+      flex: 1,
+    },
+    hostName: {
+      fontSize: fontSize[16],
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: spacing.xs,
+    },
+    hostBio: {
+      fontSize: fontSize[14],
+      color: colors.secondaryText,
+      marginBottom: spacing.base,
+    },
+    hostStats: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: spacing.mediumLarge,
+    },
+    hostEventCount: {
+      fontSize: fontSize[14],
+      color: colors.secondaryText,
+    },
+    hostRating: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: spacing.xs,
+    },
+    ratingIcon: {
+      fontSize: fontSize[14],
+    },
+    ratingText: {
+      fontSize: fontSize[14],
+      color: colors.secondaryText,
+    },
+    followButton: {
+      borderWidth: border.normal,
+      borderColor: colors.inputBorder,
+      backgroundColor: colors.backgroundColor,
+      paddingHorizontal: spacing.mediumLarge,
+      paddingVertical: spacing.base,
+      borderRadius: radius.lg,
+    },
+    statsCard: {
+      backgroundColor: colors.info,
+      borderRadius: radius.xl,
+      borderWidth: border.normal,
+      borderColor: colors.inputBorder,
+      padding: spacing.mediumLarge,
+    },
+    statsTitle: {
+      fontSize: fontSize[18],
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: spacing.medium,
+    },
+    statsGrid: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    },
+    statCard: {
+      alignItems: 'center',
+      flex: 1,
+    },
+    statNumber: {
+      fontSize: fontSize[20],
+      fontWeight: 'bold',
+      color: colors.primary,
+      marginBottom: spacing.xs,
+    },
+    statLabel: {
+      fontSize: fontSize[12],
+      color: colors.secondaryText,
+      textAlign: 'center',
+    },
+  });
+};

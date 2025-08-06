@@ -9,6 +9,8 @@ import {
   ScreenPropsType,
 } from '@navigation/types';
 import { useAppTheme } from '@redux/hooks';
+import { radius, border } from '@themes/border';
+import { fontSize } from '@themes/fontSize';
 import { moderateScale } from '@themes/responsive';
 import { spacing } from '@themes/spacing';
 
@@ -157,7 +159,7 @@ export default function ChatPage({}: ScreenPropsType<
   ChatPageNavigationProps,
   ChatPageRouteProp
 >) {
-  const { colors } = useAppTheme();
+  const styles = useStyles();
   const [messages, setMessages] = useState<Message[]>(mockMessages);
   const [newMessage, setNewMessage] = useState('');
   const [replyTo, setReplyTo] = useState<Message | null>(null);
@@ -511,8 +513,6 @@ export default function ChatPage({}: ScreenPropsType<
     </View>
   );
 
-  const styles = createStyles(colors);
-
   return (
     <ScreenWrapper style={styles.container}>
       {renderHeader()}
@@ -535,8 +535,9 @@ export default function ChatPage({}: ScreenPropsType<
   );
 }
 
-const createStyles = (colors: any) =>
-  StyleSheet.create({
+const useStyles = () => {
+  const { colors } = useAppTheme();
+  return StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: colors.backgroundColor,
@@ -545,9 +546,9 @@ const createStyles = (colors: any) =>
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
-      paddingHorizontal: moderateScale(spacing.md),
-      paddingVertical: moderateScale(spacing.sm),
-      borderBottomWidth: 1,
+      paddingHorizontal: spacing.medium,
+      paddingVertical: spacing.small,
+      borderBottomWidth: border.normal,
       borderBottomColor: colors.inputBorder,
       backgroundColor: colors.backgroundColor,
     },
@@ -557,8 +558,8 @@ const createStyles = (colors: any) =>
       flex: 1,
     },
     backButton: {
-      padding: moderateScale(spacing.xs),
-      marginRight: moderateScale(spacing.sm),
+      padding: spacing.xs,
+      marginRight: spacing.small,
     },
     chatInfo: {
       flexDirection: 'row',
@@ -572,7 +573,7 @@ const createStyles = (colors: any) =>
       backgroundColor: colors.primary,
       justifyContent: 'center',
       alignItems: 'center',
-      marginRight: moderateScale(spacing.sm),
+      marginRight: spacing.small,
     },
     chatAvatarText: {
       fontWeight: 'bold',
@@ -584,26 +585,26 @@ const createStyles = (colors: any) =>
       fontWeight: 'bold',
     },
     chatStatus: {
-      marginTop: moderateScale(spacing.xs / 2),
+      marginTop: spacing.xs,
     },
     headerRight: {
       flexDirection: 'row',
       alignItems: 'center',
     },
     headerButton: {
-      padding: moderateScale(spacing.xs),
-      marginLeft: moderateScale(spacing.xs),
+      padding: spacing.xs,
+      marginLeft: spacing.xs,
     },
     messagesList: {
       flex: 1,
     },
     messagesContent: {
-      paddingHorizontal: moderateScale(spacing.md),
-      paddingVertical: moderateScale(spacing.sm),
+      paddingHorizontal: spacing.medium,
+      paddingVertical: spacing.small,
     },
     messageContainer: {
       flexDirection: 'row',
-      marginVertical: moderateScale(spacing.xs / 2),
+      marginVertical: spacing.xs,
       position: 'relative',
     },
     ownMessageContainer: {
@@ -613,28 +614,28 @@ const createStyles = (colors: any) =>
       justifyContent: 'flex-start',
     },
     firstInGroup: {
-      marginTop: moderateScale(spacing.sm),
+      marginTop: spacing.small,
     },
     lastInGroup: {
-      marginBottom: moderateScale(spacing.sm),
+      marginBottom: spacing.small,
     },
     messageBubble: {
       maxWidth: '75%',
-      paddingHorizontal: moderateScale(spacing.md),
-      paddingVertical: moderateScale(spacing.sm),
+      paddingHorizontal: spacing.medium,
+      paddingVertical: spacing.small,
       borderRadius: moderateScale(18),
     },
     ownMessageBubble: {
       backgroundColor: colors.primary,
-      borderBottomRightRadius: moderateScale(4),
+      borderBottomRightRadius: radius.sm,
     },
     otherMessageBubble: {
       backgroundColor: colors.inputBorder,
-      borderBottomLeftRadius: moderateScale(4),
+      borderBottomLeftRadius: radius.sm,
     },
     typingBubble: {
-      paddingHorizontal: moderateScale(spacing.md),
-      paddingVertical: moderateScale(spacing.md),
+      paddingHorizontal: spacing.medium,
+      paddingVertical: spacing.medium,
     },
     messageText: {
       lineHeight: moderateScale(20),
@@ -643,17 +644,17 @@ const createStyles = (colors: any) =>
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'flex-end',
-      marginTop: moderateScale(spacing.xs),
+      marginTop: spacing.xs,
     },
     messageTime: {
-      marginRight: moderateScale(spacing.xs),
+      marginRight: spacing.xs,
     },
     statusContainer: {
       flexDirection: 'row',
       alignItems: 'center',
     },
     avatarContainer: {
-      marginLeft: moderateScale(spacing.xs),
+      marginLeft: spacing.xs,
       alignSelf: 'flex-end',
     },
     avatar: {
@@ -675,23 +676,23 @@ const createStyles = (colors: any) =>
       bottom: 0,
     },
     replyContainer: {
-      marginBottom: moderateScale(spacing.xs),
-      paddingHorizontal: moderateScale(spacing.sm),
-      paddingVertical: moderateScale(spacing.xs),
-      borderRadius: moderateScale(8),
-      borderLeftWidth: 3,
+      marginBottom: spacing.xs,
+      paddingHorizontal: spacing.small,
+      paddingVertical: spacing.xs,
+      borderRadius: radius.md,
+      borderLeftWidth: border.thick,
     },
     ownReplyContainer: {
-      backgroundColor: `${colors.primary}20`,
+      backgroundColor: `${colors.primary}33`,
       borderLeftColor: colors.primary,
     },
     otherReplyContainer: {
-      backgroundColor: `${colors.inputBorder}50`,
+      backgroundColor: `${colors.inputBorder}80`,
       borderLeftColor: colors.inputBorder,
     },
     replySender: {
       fontWeight: 'bold',
-      marginBottom: moderateScale(spacing.xs / 2),
+      marginBottom: spacing.xs,
     },
     replyText: {
       lineHeight: moderateScale(16),
@@ -705,7 +706,7 @@ const createStyles = (colors: any) =>
       height: moderateScale(6),
       borderRadius: moderateScale(3),
       backgroundColor: colors.paragraph,
-      marginHorizontal: moderateScale(spacing.xs / 2),
+      marginHorizontal: spacing.xs,
     },
     typingDot1: {
       opacity: 0.4,
@@ -717,57 +718,57 @@ const createStyles = (colors: any) =>
       opacity: 0.8,
     },
     inputContainer: {
-      borderTopWidth: 1,
+      borderTopWidth: border.normal,
       borderTopColor: colors.inputBorder,
       backgroundColor: colors.backgroundColor,
-      paddingHorizontal: moderateScale(spacing.md),
-      paddingVertical: moderateScale(spacing.sm),
+      paddingHorizontal: spacing.medium,
+      paddingVertical: spacing.small,
     },
     replyPreview: {
       flexDirection: 'row',
       alignItems: 'center',
       backgroundColor: colors.inputBorder,
-      borderRadius: moderateScale(8),
-      padding: moderateScale(spacing.sm),
-      marginBottom: moderateScale(spacing.sm),
+      borderRadius: radius.md,
+      padding: spacing.small,
+      marginBottom: spacing.small,
     },
     replyPreviewContent: {
       flex: 1,
     },
     replyPreviewSender: {
       fontWeight: 'bold',
-      marginBottom: moderateScale(spacing.xs / 2),
+      marginBottom: spacing.xs,
     },
     replyPreviewText: {
       lineHeight: moderateScale(16),
     },
     cancelReplyButton: {
-      padding: moderateScale(spacing.xs),
+      padding: spacing.xs,
     },
     inputRow: {
       flexDirection: 'row',
       alignItems: 'flex-end',
     },
     inputButton: {
-      padding: moderateScale(spacing.sm),
-      marginHorizontal: moderateScale(spacing.xs),
+      padding: spacing.small,
+      marginHorizontal: spacing.xs,
     },
     textInputContainer: {
       flex: 1,
-      marginHorizontal: moderateScale(spacing.xs),
+      marginHorizontal: spacing.xs,
     },
     inputWrapper: {
       backgroundColor: colors.inputBorder,
       borderRadius: moderateScale(20),
-      paddingHorizontal: moderateScale(spacing.md),
-      paddingVertical: moderateScale(spacing.sm),
+      paddingHorizontal: spacing.medium,
+      paddingVertical: spacing.small,
       minHeight: moderateScale(40),
       maxHeight: moderateScale(100),
     },
     textInput: {
       padding: 0,
       margin: 0,
-      fontSize: moderateScale(16),
+      fontSize: fontSize[16],
     },
     sendButton: {
       backgroundColor: colors.primary,
@@ -776,13 +777,14 @@ const createStyles = (colors: any) =>
       borderRadius: moderateScale(20),
       justifyContent: 'center',
       alignItems: 'center',
-      marginLeft: moderateScale(spacing.xs),
+      marginLeft: spacing.xs,
     },
     sendButtonDisabled: {
       backgroundColor: colors.inputBorder,
     },
     sendButtonText: {
-      fontSize: moderateScale(16),
+      fontSize: fontSize[16],
       fontWeight: 'bold',
     },
   });
+};

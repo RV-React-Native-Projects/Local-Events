@@ -14,7 +14,11 @@ import {
   HomeRouteProp,
   ScreenPropsType,
 } from '@navigation/types';
-import { lightTheme } from '@themes/colors';
+import { useAppTheme } from '@redux/hooks';
+import { radius, border } from '@themes/border';
+import { fontSize } from '@themes/fontSize';
+import { moderateScale } from '@themes/responsive';
+import { spacing } from '@themes/spacing';
 
 const mockEvents = [
   {
@@ -121,6 +125,7 @@ export default function Home({}: ScreenPropsType<
   HomeNavigationProps,
   HomeRouteProp
 >) {
+  const styles = useStyles();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedFilter, setSelectedFilter] = useState('all');
 
@@ -155,7 +160,9 @@ export default function Home({}: ScreenPropsType<
               styles.categoryBadge,
               { backgroundColor: event.categoryColor },
             ]}>
-            <AppText style={styles.categoryText}>{event.category}</AppText>
+            <AppText variant="footnote10" color="white">
+              {event.category}
+            </AppText>
           </View>
           <View style={styles.actionButtons}>
             <TouchableOpacity
@@ -178,8 +185,13 @@ export default function Home({}: ScreenPropsType<
         <View style={styles.eventContent}>
           <View style={styles.eventHeader}>
             <View style={styles.eventTitleContainer}>
-              <AppText style={styles.eventTitle}>{event.title}</AppText>
-              <AppText style={styles.eventDescription} numberOfLines={2}>
+              <AppText variant="title3" color="text">
+                {event.title}
+              </AppText>
+              <AppText
+                variant="footnote"
+                color="secondaryText"
+                numberOfLines={2}>
                 {event.description}
               </AppText>
             </View>
@@ -189,21 +201,27 @@ export default function Home({}: ScreenPropsType<
           <View style={styles.eventDetails}>
             <View style={styles.detailRow}>
               <AppText style={styles.detailIcon}>📅</AppText>
-              <AppText style={styles.detailText}>
+              <AppText variant="footnote" color="secondaryText">
                 {event.date} • {event.time}
               </AppText>
             </View>
             <View style={styles.detailRow}>
               <AppText style={styles.detailIcon}>📍</AppText>
-              <AppText style={styles.detailText}>{event.location}</AppText>
-              <AppText style={styles.distanceText}>• {event.distance}</AppText>
+              <AppText variant="footnote" color="secondaryText">
+                {event.location}
+              </AppText>
+              <AppText variant="footnote" color="primary">
+                • {event.distance}
+              </AppText>
             </View>
             <View style={styles.detailRow}>
               <AppText style={styles.detailIcon}>👥</AppText>
-              <AppText style={styles.detailText}>
+              <AppText variant="footnote" color="secondaryText">
                 {event.attendees}/{event.maxAttendees} attending
               </AppText>
-              <AppText style={styles.priceText}>• {event.price}</AppText>
+              <AppText variant="footnote" color="success">
+                • {event.price}
+              </AppText>
             </View>
           </View>
 
@@ -214,7 +232,7 @@ export default function Home({}: ScreenPropsType<
                 source={{ uri: event.host.avatar }}
                 style={styles.hostAvatar}
               />
-              <AppText style={styles.hostText}>
+              <AppText variant="footnote" color="secondaryText">
                 Hosted by {event.host.name}
               </AppText>
             </View>
@@ -235,8 +253,10 @@ export default function Home({}: ScreenPropsType<
       <View style={styles.header}>
         <View style={styles.headerContent}>
           <View>
-            <AppText style={styles.headerTitle}>Events Near You</AppText>
-            <AppText style={styles.headerSubtitle}>
+            <AppText variant="title1" color="text">
+              Events Near You
+            </AppText>
+            <AppText variant="subhead" color="secondaryText">
               Discover local happenings
             </AppText>
           </View>
@@ -270,11 +290,12 @@ export default function Home({}: ScreenPropsType<
               ]}
               onPress={() => setSelectedFilter(filter.toLowerCase())}>
               <AppText
-                style={[
-                  styles.filterChipText,
-                  selectedFilter === filter.toLowerCase() &&
-                    styles.selectedFilterChipText,
-                ]}>
+                variant="label"
+                color={
+                  selectedFilter === filter.toLowerCase()
+                    ? 'primary'
+                    : 'secondaryText'
+                }>
                 {filter}
               </AppText>
             </TouchableOpacity>
@@ -303,237 +324,218 @@ export default function Home({}: ScreenPropsType<
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f9fafb',
-  },
-  header: {
-    backgroundColor: 'white',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: '#e5e7eb',
-  },
-  headerContent: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  headerTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: lightTheme.text,
-    marginBottom: 4,
-  },
-  headerSubtitle: {
-    fontSize: 14,
-    color: lightTheme.secondaryText,
-  },
-  filterButton: {
-    padding: 8,
-  },
-  filterIcon: {
-    fontSize: 20,
-  },
-  searchContainer: {
-    position: 'relative',
-  },
-  searchIcon: {
-    position: 'absolute',
-    left: 12,
-    top: '50%',
-    transform: [{ translateY: -8 }],
-    fontSize: 16,
-    color: lightTheme.secondaryText,
-    zIndex: 1,
-  },
-  searchInput: {
-    paddingLeft: 44,
-    backgroundColor: '#f3f4f6',
-    borderColor: '#e5e7eb',
-    height: 44,
-    borderRadius: 8,
-  },
-  filtersContainer: {
-    backgroundColor: 'white',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: '#e5e7eb',
-  },
-  filterChip: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: '#e5e7eb',
-    backgroundColor: 'white',
-    marginRight: 8,
-  },
-  selectedFilterChip: {
-    backgroundColor: '#3b82f6',
-    borderColor: '#3b82f6',
-  },
-  filterChipText: {
-    fontSize: 12,
-    color: lightTheme.text,
-  },
-  selectedFilterChipText: {
-    color: 'white',
-    fontWeight: '600',
-  },
-  eventsContainer: {
-    flex: 1,
-    paddingHorizontal: 16,
-    paddingVertical: 16,
-  },
-  eventsGrid: {
-    gap: 16,
-  },
-  eventCard: {
-    backgroundColor: 'white',
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#e5e7eb',
-    overflow: 'hidden',
-    marginBottom: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  imageContainer: {
-    position: 'relative',
-  },
-  eventImage: {
-    width: '100%',
-    height: 180,
-    resizeMode: 'cover',
-  },
-  categoryBadge: {
-    position: 'absolute',
-    top: 12,
-    left: 12,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 12,
-  },
-  categoryText: {
-    fontSize: 12,
-    color: 'white',
-    fontWeight: '600',
-  },
-  actionButtons: {
-    position: 'absolute',
-    top: 12,
-    right: 12,
-    flexDirection: 'row',
-    gap: 8,
-  },
-  actionButton: {
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
-    padding: 8,
-    borderRadius: 8,
-    width: 36,
-    height: 36,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  actionIcon: {
-    fontSize: 16,
-    color: lightTheme.text,
-  },
-  likedIcon: {
-    color: '#ef4444',
-  },
-  eventContent: {
-    padding: 16,
-  },
-  eventHeader: {
-    marginBottom: 12,
-  },
-  eventTitleContainer: {
-    flex: 1,
-  },
-  eventTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: lightTheme.text,
-    marginBottom: 8,
-    lineHeight: 24,
-  },
-  eventDescription: {
-    fontSize: 14,
-    color: lightTheme.secondaryText,
-    lineHeight: 20,
-    marginBottom: 12,
-  },
-  eventDetails: {
-    marginBottom: 16,
-  },
-  detailRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  detailIcon: {
-    fontSize: 16,
-    marginRight: 8,
-  },
-  detailText: {
-    fontSize: 14,
-    color: lightTheme.secondaryText,
-    flex: 1,
-  },
-  distanceText: {
-    fontSize: 14,
-    color: '#3b82f6',
-  },
-  priceText: {
-    fontSize: 14,
-    color: '#10b981',
-  },
-  hostSection: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  hostInfo: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    flex: 1,
-  },
-  hostAvatar: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    marginRight: 12,
-  },
-  hostText: {
-    fontSize: 14,
-    color: lightTheme.secondaryText,
-  },
-  joinButton: {
-    backgroundColor: '#3b82f6',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 8,
-    minWidth: 80,
-  },
-  loadMoreContainer: {
-    alignItems: 'center',
-    marginTop: 24,
-    marginBottom: 16,
-  },
-  loadMoreButton: {
-    borderWidth: 1,
-    borderColor: '#e5e7eb',
-    backgroundColor: 'white',
-    paddingHorizontal: 32,
-    paddingVertical: 12,
-    borderRadius: 8,
-  },
-});
+const useStyles = () => {
+  const { colors } = useAppTheme();
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.appBackgroundColor,
+    },
+    header: {
+      backgroundColor: colors.primary,
+      paddingHorizontal: spacing.mediumLarge,
+      paddingVertical: spacing.large,
+    },
+    headerContent: {
+      marginBottom: spacing.large,
+    },
+    headerTitle: {
+      fontSize: fontSize[28],
+      fontWeight: 'bold',
+      color: colors.onPrimary,
+      marginBottom: spacing.base,
+    },
+    headerSubtitle: {
+      fontSize: fontSize[16],
+      color: colors.onPrimary,
+      opacity: 0.9,
+    },
+    searchContainer: {
+      position: 'relative',
+    },
+    searchIcon: {
+      position: 'absolute',
+      left: spacing.smallMedium,
+      top: '50%',
+      transform: [{ translateY: -spacing.base }],
+      fontSize: fontSize[16],
+      color: colors.secondaryText,
+      zIndex: 1,
+    },
+    searchInput: {
+      paddingLeft: moderateScale(44),
+      backgroundColor: colors.onPrimary,
+      opacity: 0.9,
+      borderWidth: 0,
+      height: moderateScale(48),
+      borderRadius: radius.lg,
+    },
+    scrollView: {
+      flex: 1,
+      paddingHorizontal: spacing.mediumLarge,
+      paddingVertical: spacing.mediumLarge,
+    },
+    section: {
+      marginBottom: spacing.extraLargePlus,
+    },
+    sectionHeader: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginBottom: spacing.mediumLarge,
+    },
+    sectionIcon: {
+      fontSize: fontSize[20],
+      marginRight: spacing.base,
+    },
+    sectionTitle: {
+      fontSize: fontSize[20],
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: spacing.mediumLarge,
+    },
+    eventCard: {
+      backgroundColor: colors.backgroundColor,
+      borderRadius: radius.xl,
+      borderWidth: border.normal,
+      borderColor: colors.inputBorder,
+      overflow: 'hidden',
+      marginBottom: spacing.mediumLarge,
+      shadowColor: colors.shadow,
+      shadowOffset: { width: 0, height: moderateScale(2) },
+      shadowOpacity: 0.1,
+      shadowRadius: moderateScale(4),
+      elevation: 2,
+    },
+    imageContainer: {
+      position: 'relative',
+    },
+    eventImage: {
+      width: '100%',
+      height: moderateScale(180),
+      resizeMode: 'cover',
+    },
+    categoryBadge: {
+      position: 'absolute',
+      top: spacing.smallMedium,
+      left: spacing.smallMedium,
+      paddingHorizontal: spacing.smallMedium,
+      paddingVertical: spacing.xs,
+      borderRadius: radius.xl,
+    },
+    actionButtons: {
+      position: 'absolute',
+      top: spacing.smallMedium,
+      right: spacing.smallMedium,
+      flexDirection: 'row',
+      gap: spacing.base,
+    },
+    actionButton: {
+      backgroundColor: colors.onPrimary,
+      opacity: 0.9,
+      padding: spacing.base,
+      borderRadius: radius.lg,
+      width: moderateScale(36),
+      height: moderateScale(36),
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    actionIcon: {
+      fontSize: fontSize[16],
+      color: colors.text,
+    },
+    likedIcon: {
+      color: colors.error,
+    },
+    eventContent: {
+      padding: spacing.mediumLarge,
+    },
+    eventHeader: {
+      marginBottom: spacing.smallMedium,
+    },
+    eventTitleContainer: {
+      flex: 1,
+    },
+    eventDetails: {
+      marginBottom: spacing.mediumLarge,
+    },
+    detailRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginBottom: spacing.base,
+    },
+    detailIcon: {
+      fontSize: fontSize[16],
+      marginRight: spacing.base,
+    },
+    hostSection: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+    hostInfo: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      flex: 1,
+    },
+    hostAvatar: {
+      width: moderateScale(36),
+      height: moderateScale(36),
+      borderRadius: moderateScale(18),
+      marginRight: spacing.smallMedium,
+    },
+    joinButton: {
+      backgroundColor: colors.primary,
+      paddingHorizontal: spacing.mediumLarge,
+      paddingVertical: spacing.base,
+      borderRadius: radius.lg,
+      minWidth: moderateScale(80),
+    },
+    loadMoreContainer: {
+      alignItems: 'center',
+      marginTop: spacing.large,
+      marginBottom: spacing.mediumLarge,
+    },
+    loadMoreButton: {
+      borderWidth: border.normal,
+      borderColor: colors.inputBorder,
+      backgroundColor: colors.backgroundColor,
+      paddingHorizontal: spacing.extraLargePlus,
+      paddingVertical: spacing.smallMedium,
+      borderRadius: radius.lg,
+    },
+    filterButton: {
+      backgroundColor: colors.onPrimary,
+      opacity: 0.9,
+      padding: spacing.base,
+      borderRadius: radius.lg,
+      width: moderateScale(36),
+      height: moderateScale(36),
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    filterIcon: {
+      fontSize: fontSize[16],
+      color: colors.text,
+    },
+    filtersContainer: {
+      flexDirection: 'row',
+      gap: spacing.small,
+      marginTop: spacing.medium,
+    },
+    filterChip: {
+      backgroundColor: colors.inputBorder,
+      paddingHorizontal: spacing.medium,
+      paddingVertical: spacing.small,
+      borderRadius: radius.xl,
+    },
+    selectedFilterChip: {
+      backgroundColor: colors.primary,
+    },
+    eventsContainer: {
+      flex: 1,
+    },
+    eventsGrid: {
+      gap: spacing.mediumLarge,
+    },
+  });
+};

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import PagerView from 'react-native-pager-view';
 import Animated, {
@@ -10,6 +10,7 @@ import Animated, {
   Easing,
 } from 'react-native-reanimated';
 import VibeSyncLogo from '@components/AppLogo/VibeSyncLogo';
+import { AppText } from '@components/AppText';
 import { ConnectPeopleIllustration } from '@components/Illustration/ConnectPeopleIllustration';
 import DiscoverEventsIllustration from '@components/Illustration/DiscoverEventsIllustration';
 import HostEventsIllustration from '@components/Illustration/HostEventsIllustration';
@@ -19,7 +20,10 @@ import {
   OnBoardingRouteProp,
   ScreenPropsType,
 } from '@navigation/types';
+import { useAppTheme } from '@redux/hooks';
 import { radius } from '@themes/border';
+import { fontSize } from '@themes/fontSize';
+import { moderateScale } from '@themes/responsive';
 import { spacing } from '@themes/spacing';
 import { device } from '@utils/device';
 
@@ -85,6 +89,7 @@ const onboardingData = [
 export default function OnBoarding({
   navigation,
 }: ScreenPropsType<OnBoardingNavigationProps, OnBoardingRouteProp>) {
+  const styles = useStyles();
   const [currentIndex, setCurrentIndex] = useState(0);
   const pagerRef = useRef<PagerView>(null);
 
@@ -157,9 +162,9 @@ export default function OnBoarding({
                 styles.statsBadge,
                 { backgroundColor: slide.gradientColors[0] },
               ]}>
-              <Text style={styles.statsText}>
+              <AppText variant="footnote" color="white">
                 {Object.values(slide.stats).join(' • ')}
-              </Text>
+              </AppText>
             </View>
           </View>
 
@@ -171,7 +176,9 @@ export default function OnBoarding({
                   styles.iconContainer,
                   { backgroundColor: slide.gradientColors[0] },
                 ]}>
-                <Text style={styles.iconText}>{slide.icon}</Text>
+                <AppText variant="title1" color="white">
+                  {slide.icon}
+                </AppText>
               </View>
               {isTablet ? (
                 <View style={styles.titleTextContainer}>
@@ -300,232 +307,234 @@ export default function OnBoarding({
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: spacing.medium,
-    paddingVertical: spacing.medium,
-    zIndex: 10,
-    position: 'absolute',
-    top: spacing.extraLargePlus,
-    left: 0,
-    right: 0,
-  },
-  headerTablet: {
-    paddingHorizontal: spacing.large,
-    paddingVertical: spacing.large,
-  },
-  headerRight: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.medium,
-  },
-  progressContainer: {
-    flexDirection: 'row',
-    gap: spacing.small,
-  },
-  progressPill: {
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: '#D1D5DB',
-    width: 8,
-  },
-  activePill: {
-    width: 32,
-  },
-  skipButton: {
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-  },
-  skipText: {
-    color: '#6B7280',
-    fontSize: 14,
-    fontWeight: '500',
-  },
-  content: {
-    flex: 1,
-  },
-  pagerView: {
-    flex: 1,
-  },
-  slide: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: spacing.medium,
-  },
-  tabletLayout: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.extraLarge * 2,
-    maxWidth: 1200,
-    width: '100%',
-  },
-  mobileLayout: {
-    alignItems: 'center',
-    maxWidth: 400,
-    width: '100%',
-  },
-  illustrationContainer: {
-    position: 'relative',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  illustrationContainerTab: { maxHeight: 500 },
-  illustrationContainerMobile: { maxHeight: 400 },
-  statsBadge: {
-    position: 'absolute',
-    top: spacing.massive,
-    right: spacing.extraLargePlus,
-    paddingHorizontal: spacing.medium,
-    paddingVertical: spacing.small,
-    borderRadius: radius.round,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  statsText: {
-    color: '#FFFFFF',
-    fontSize: 12,
-    fontWeight: '600',
-  },
-  tabletContent: {
-    flex: 1,
-    maxWidth: 500,
-  },
-  mobileContent: {
-    alignItems: 'center',
-    marginTop: spacing.large,
-    width: '100%',
-  },
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.medium,
-    marginBottom: spacing.large,
-  },
-  iconContainer: {
-    width: isTablet ? 64 : 48,
-    height: isTablet ? 64 : 48,
-    borderRadius: radius.lg,
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 4,
-  },
-  iconText: {
-    fontSize: isTablet ? 32 : 24,
-    color: '#FFFFFF',
-  },
-  titleTextContainer: {
-    flex: 1,
-  },
-  title: {
-    fontSize: isTablet ? 48 : 24,
-    fontWeight: '700',
-    color: '#1F2937',
-    marginBottom: spacing.small,
-  },
-  subtitle: {
-    fontSize: isTablet ? 20 : 16,
-    color: '#6B7280',
-    marginBottom: spacing.medium,
-  },
-  description: {
-    fontSize: isTablet ? 18 : 14,
-    color: '#6B7280',
-    lineHeight: isTablet ? 28 : 20,
-    marginBottom: spacing.large,
-    textAlign: isTablet ? 'left' : 'center',
-  },
-  highlightsContainer: {
-    gap: spacing.medium,
-    width: '100%',
-  },
-  highlightItem: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    gap: spacing.medium,
-    width: '100%',
-  },
-  checkCircle: {
-    width: isTablet ? 24 : 16,
-    height: isTablet ? 24 : 16,
-    borderRadius: radius.round,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 2,
-  },
-  checkText: {
-    color: '#FFFFFF',
-    fontSize: isTablet ? 12 : 10,
-    fontWeight: '600',
-  },
-  highlightText: {
-    fontSize: isTablet ? 18 : 14,
-    color: '#374151',
-    flex: 1,
-    lineHeight: isTablet ? 24 : 18,
-  },
-  navigation: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: spacing.medium,
-    paddingBottom: spacing.large,
-  },
-  navigationTablet: {
-    paddingHorizontal: spacing.extraLarge,
-    paddingBottom: spacing.extraLarge,
-  },
-  navButton: {
-    paddingVertical: spacing.medium,
-    paddingHorizontal: spacing.large,
-  },
-  navButtonDisabled: {
-    opacity: 0,
-  },
-  navButtonText: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: '#6B7280',
-  },
-  navButtonTextDisabled: {
-    color: '#D1D5DB',
-  },
-  nextButton: {
-    borderRadius: radius.lg,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 4,
-  },
-  nextButtonTouchable: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.small,
-    paddingVertical: spacing.baseLarge,
-    paddingHorizontal: spacing.large,
-  },
-  nextButtonText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#FFFFFF',
-  },
-  sparkleText: {
-    fontSize: 16,
-    color: '#FFFFFF',
-  },
-});
+const useStyles = () => {
+  const { colors } = useAppTheme();
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+    header: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      paddingHorizontal: spacing.medium,
+      paddingVertical: spacing.medium,
+      zIndex: 10,
+      position: 'absolute',
+      top: spacing.extraLargePlus,
+      left: 0,
+      right: 0,
+    },
+    headerTablet: {
+      paddingHorizontal: spacing.large,
+      paddingVertical: spacing.large,
+    },
+    headerRight: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: spacing.medium,
+    },
+    progressContainer: {
+      flexDirection: 'row',
+      gap: spacing.small,
+    },
+    progressPill: {
+      height: moderateScale(8),
+      borderRadius: moderateScale(4),
+      backgroundColor: colors.secondaryText,
+      width: moderateScale(8),
+    },
+    activePill: {
+      width: moderateScale(32),
+    },
+    skipButton: {
+      paddingVertical: spacing.base,
+      paddingHorizontal: spacing.smallMedium,
+    },
+    skipText: {
+      color: colors.secondaryText,
+      fontSize: fontSize[14],
+      fontWeight: '500',
+    },
+    content: {
+      flex: 1,
+    },
+    pagerView: {
+      flex: 1,
+    },
+    slide: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      paddingHorizontal: spacing.medium,
+    },
+    tabletLayout: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: spacing.extraLarge * 2,
+      maxWidth: moderateScale(1200),
+      width: '100%',
+    },
+    mobileLayout: {
+      alignItems: 'center',
+      maxWidth: moderateScale(400),
+      width: '100%',
+    },
+    illustrationContainer: {
+      position: 'relative',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    illustrationContainerTab: { maxHeight: moderateScale(500) },
+    illustrationContainerMobile: { maxHeight: moderateScale(400) },
+    statsBadge: {
+      position: 'absolute',
+      top: spacing.massive,
+      right: spacing.extraLargePlus,
+      paddingHorizontal: spacing.medium,
+      paddingVertical: spacing.small,
+      borderRadius: radius.round,
+      shadowColor: colors.shadow,
+      shadowOffset: { width: 0, height: moderateScale(2) },
+      shadowOpacity: 0.1,
+      shadowRadius: moderateScale(4),
+      elevation: 3,
+    },
+    statsText: {
+      color: colors.onPrimary,
+      fontSize: fontSize[12],
+      fontWeight: '600',
+    },
+    tabletContent: {
+      flex: 1,
+      maxWidth: moderateScale(500),
+    },
+    mobileContent: {
+      alignItems: 'center',
+      marginTop: spacing.large,
+      width: '100%',
+    },
+    titleContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: spacing.medium,
+      marginBottom: spacing.large,
+    },
+    iconContainer: {
+      width: isTablet ? moderateScale(64) : moderateScale(48),
+      height: isTablet ? moderateScale(64) : moderateScale(48),
+      borderRadius: radius.lg,
+      alignItems: 'center',
+      justifyContent: 'center',
+      shadowColor: colors.shadow,
+      shadowOffset: { width: 0, height: moderateScale(4) },
+      shadowOpacity: 0.1,
+      shadowRadius: moderateScale(8),
+      elevation: 4,
+    },
+    iconText: {
+      fontSize: isTablet ? fontSize[32] : fontSize[24],
+      color: colors.onPrimary,
+    },
+    titleTextContainer: {
+      flex: 1,
+    },
+    title: {
+      fontSize: isTablet ? fontSize[48] : fontSize[24],
+      fontWeight: '700',
+      color: colors.text,
+      marginBottom: spacing.small,
+    },
+    subtitle: {
+      fontSize: isTablet ? fontSize[20] : fontSize[16],
+      color: colors.secondaryText,
+      marginBottom: spacing.medium,
+    },
+    description: {
+      fontSize: isTablet ? fontSize[18] : fontSize[14],
+      color: colors.secondaryText,
+      lineHeight: isTablet ? moderateScale(28) : moderateScale(20),
+      marginBottom: spacing.large,
+      textAlign: isTablet ? 'left' : 'center',
+    },
+    highlightsContainer: {
+      gap: spacing.medium,
+      width: '100%',
+    },
+    highlightItem: {
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+      gap: spacing.medium,
+      width: '100%',
+    },
+    checkCircle: {
+      width: isTablet ? moderateScale(24) : moderateScale(16),
+      height: isTablet ? moderateScale(24) : moderateScale(16),
+      borderRadius: radius.round,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginTop: moderateScale(2),
+    },
+    checkText: {
+      color: colors.onPrimary,
+      fontSize: isTablet ? fontSize[12] : fontSize[10],
+      fontWeight: '600',
+    },
+    highlightText: {
+      fontSize: isTablet ? fontSize[18] : fontSize[14],
+      color: colors.text,
+      flex: 1,
+      lineHeight: isTablet ? moderateScale(24) : moderateScale(18),
+    },
+    navigation: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      paddingHorizontal: spacing.medium,
+      paddingBottom: spacing.large,
+    },
+    navigationTablet: {
+      paddingHorizontal: spacing.extraLarge,
+      paddingBottom: spacing.extraLarge,
+    },
+    navButton: {
+      paddingVertical: spacing.medium,
+      paddingHorizontal: spacing.large,
+    },
+    navButtonDisabled: {
+      opacity: 0,
+    },
+    navButtonText: {
+      fontSize: fontSize[16],
+      fontWeight: '500',
+      color: colors.secondaryText,
+    },
+    navButtonTextDisabled: {
+      color: colors.inputBorder,
+    },
+    nextButton: {
+      borderRadius: radius.lg,
+      shadowColor: colors.shadow,
+      shadowOffset: { width: 0, height: moderateScale(4) },
+      shadowOpacity: 0.1,
+      shadowRadius: moderateScale(8),
+      elevation: 4,
+    },
+    nextButtonTouchable: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: spacing.small,
+      paddingVertical: spacing.baseLarge,
+      paddingHorizontal: spacing.large,
+    },
+    nextButtonText: {
+      fontSize: fontSize[16],
+      fontWeight: '600',
+      color: colors.onPrimary,
+    },
+    sparkleText: {
+      fontSize: fontSize[16],
+      color: colors.onPrimary,
+    },
+  });
+};

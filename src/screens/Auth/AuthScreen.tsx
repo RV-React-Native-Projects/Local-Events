@@ -1,7 +1,7 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { MaterialDesignIcons } from '@react-native-vector-icons/material-design-icons';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { AppButton, SegmentButton } from '@components/AppButton';
 import AppInput from '@components/AppInput/AppInput';
 import PasswordInput from '@components/AppInput/PasswordInput';
@@ -11,27 +11,31 @@ import { ScreenWrapper } from '@components/Wrapper';
 import {
   AuthNavigationProps,
   AuthRouteProp,
+  AuthStackParamList,
   ScreenPropsType,
 } from '@navigation/types';
-import { useAppDispatch, useAppTheme } from '@redux/hooks';
-import { toggleAuth } from '@slice/userSlice';
+import { useAppTheme } from '@redux/hooks';
+import { radius, border } from '@themes/border';
+import { fontSize } from '@themes/fontSize';
+import { opacity } from '@themes/opacity';
+import { moderateScale } from '@themes/responsive';
 import { spacing } from '@themes/spacing';
 import { device } from '@utils/device';
 
 // Login Component
 const LoginComponent = () => {
+  const navigation = useNavigation<NavigationProp<AuthStackParamList>>();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const storeDispatch = useAppDispatch();
-
-  const styles = style();
+  const styles = useStyles();
 
   const handleLogin = async () => {
     setIsLoading(true);
     // await new Promise(resolve => setTimeout(resolve, 1000));
-    storeDispatch(toggleAuth());
+    // storeDispatch(toggleAuth());
+    navigation.navigate('Interests');
     setIsLoading(false);
   };
 
@@ -96,7 +100,7 @@ const SignupComponent = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const styles = style();
+  const styles = useStyles();
 
   const handleSignup = async () => {
     setIsLoading(true);
@@ -184,7 +188,7 @@ export default function AuthScreen({}: ScreenPropsType<
   const [activeTab, setActiveTab] = useState<IActiveTab>('login');
   const isTablet = device.isTablet;
 
-  const styles = style();
+  const styles = useStyles();
 
   return (
     <ScreenWrapper scrollEnabled hideStatusbar>
@@ -230,7 +234,7 @@ export default function AuthScreen({}: ScreenPropsType<
   );
 }
 
-const style = () => {
+const useStyles = () => {
   const { colors } = useAppTheme();
   return StyleSheet.create({
     container: {
@@ -251,27 +255,28 @@ const style = () => {
       marginBottom: spacing.large,
     },
     title: {
-      fontSize: 24,
+      fontSize: fontSize[24],
       fontWeight: 'bold',
       marginBottom: spacing.small,
+      color: colors.text,
     },
     titleTablet: {
-      fontSize: 32,
+      fontSize: fontSize[32],
     },
     subtitle: {
-      fontSize: 16,
-      color: '#8893A4',
+      fontSize: fontSize[16],
+      color: colors.secondaryText,
     },
     subtitleTablet: {
-      fontSize: 18,
+      fontSize: fontSize[18],
     },
     card: {
-      backgroundColor: colors.white,
-      borderRadius: 16,
-      shadowColor: colors.black,
-      shadowOffset: { width: 0, height: 4 },
-      shadowOpacity: 0.1,
-      shadowRadius: 12,
+      backgroundColor: colors.backgroundColor,
+      borderRadius: radius.xl,
+      shadowColor: colors.shadow,
+      shadowOffset: { width: 0, height: moderateScale(4) },
+      shadowOpacity: opacity.veryLight,
+      shadowRadius: moderateScale(12),
       elevation: 8,
       marginBottom: spacing.large,
     },
@@ -282,9 +287,9 @@ const style = () => {
     },
     segmentContainer: {
       padding: spacing.medium,
-      backgroundColor: '#8893A4',
+      backgroundColor: colors.secondaryText,
       margin: spacing.medium,
-      borderRadius: 12,
+      borderRadius: radius.xl,
     },
     segmentContainerTablet: {
       padding: spacing.large,
@@ -292,37 +297,37 @@ const style = () => {
     },
     segmentBackground: {
       flexDirection: 'row',
-      backgroundColor: colors.white,
-      borderRadius: 8,
-      padding: 4,
+      backgroundColor: colors.backgroundColor,
+      borderRadius: radius.lg,
+      padding: spacing.xs,
     },
     segmentButton: {
       flex: 1,
-      height: 40,
-      borderRadius: 6,
+      height: moderateScale(40),
+      borderRadius: radius.md,
       backgroundColor: 'transparent',
     },
     segmentButtonTablet: {
-      height: 48,
+      height: moderateScale(48),
     },
     activeSegmentButton: {
-      backgroundColor: colors.white,
-      shadowColor: colors.black,
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.1,
-      shadowRadius: 4,
+      backgroundColor: colors.backgroundColor,
+      shadowColor: colors.shadow,
+      shadowOffset: { width: 0, height: moderateScale(2) },
+      shadowOpacity: opacity.veryLight,
+      shadowRadius: moderateScale(4),
       elevation: 2,
     },
     segmentButtonText: {
-      fontSize: 14,
+      fontSize: fontSize[14],
       fontWeight: '500',
-      color: '#8893A4',
+      color: colors.secondaryText,
     },
     segmentButtonTextTablet: {
-      fontSize: 16,
+      fontSize: fontSize[16],
     },
     activeSegmentButtonText: {
-      color: '#8893A4',
+      color: colors.secondaryText,
       fontWeight: '600',
     },
     formContent: {
@@ -338,31 +343,31 @@ const style = () => {
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'center',
-      backgroundColor: colors.white,
-      borderWidth: 2,
-      borderColor: '#8893A4',
-      height: 48,
+      backgroundColor: colors.backgroundColor,
+      borderWidth: border.thick,
+      borderColor: colors.secondaryText,
+      height: moderateScale(48),
     },
     googleButtonTablet: {
-      height: 56,
+      height: moderateScale(56),
     },
     googleIcon: {
-      width: 20,
-      height: 20,
-      borderRadius: 2,
-      backgroundColor: '#8893A4',
+      width: moderateScale(20),
+      height: moderateScale(20),
+      borderRadius: moderateScale(2),
+      backgroundColor: colors.secondaryText,
       alignItems: 'center',
       justifyContent: 'center',
       marginRight: spacing.small,
     },
     googleIconText: {
-      color: colors.white,
-      fontSize: 12,
+      color: colors.backgroundColor,
+      fontSize: fontSize[12],
       fontWeight: 'bold',
     },
     googleButtonText: {
-      color: '#8893A4',
-      fontSize: 16,
+      color: colors.secondaryText,
+      fontSize: fontSize[16],
       fontWeight: '500',
     },
     divider: {
@@ -372,12 +377,12 @@ const style = () => {
     },
     dividerLine: {
       flex: 1,
-      height: 1,
-      backgroundColor: '#8893A4',
+      height: border.normal,
+      backgroundColor: colors.secondaryText,
     },
     dividerText: {
-      fontSize: 12,
-      color: '#8893A4',
+      fontSize: fontSize[12],
+      color: colors.secondaryText,
       marginHorizontal: spacing.medium,
       textTransform: 'uppercase',
     },
@@ -385,13 +390,13 @@ const style = () => {
       gap: spacing.medium,
     },
     input: {
-      height: 48,
-      backgroundColor: '#8893A4',
-      borderColor: '#8893A4',
+      height: moderateScale(48),
+      backgroundColor: colors.appBackgroundColor,
+      borderColor: colors.inputBorder,
     },
     inputTablet: {
-      height: 56,
-      fontSize: 16,
+      height: moderateScale(56),
+      fontSize: fontSize[16],
     },
     passwordContainer: {
       flexDirection: 'row',
@@ -409,24 +414,24 @@ const style = () => {
       paddingVertical: 0,
     },
     forgotPasswordText: {
-      color: '#8893A4',
-      fontSize: 14,
+      color: colors.secondaryText,
+      fontSize: fontSize[14],
     },
     submitButton: {
-      height: 48,
-      backgroundColor: '#8893A4',
+      height: moderateScale(48),
+      backgroundColor: colors.primary,
     },
     submitButtonTablet: {
-      height: 56,
+      height: moderateScale(56),
     },
     submitButtonText: {
-      color: colors.white,
-      fontSize: 16,
+      color: colors.onPrimary,
+      fontSize: fontSize[16],
       fontWeight: '600',
     },
     errorText: {
-      color: '#8893A4',
-      fontSize: 14,
+      color: colors.error,
+      fontSize: fontSize[14],
       textAlign: 'center',
     },
     termsContainer: {
@@ -434,16 +439,16 @@ const style = () => {
       paddingHorizontal: spacing.large,
     },
     termsText: {
-      fontSize: 12,
-      color: '#8893A4',
+      fontSize: fontSize[12],
+      color: colors.secondaryText,
       textAlign: 'center',
-      lineHeight: 18,
+      lineHeight: moderateScale(18),
     },
     termsTextTablet: {
-      fontSize: 14,
+      fontSize: fontSize[14],
     },
     linkText: {
-      color: '#8893A4',
+      color: colors.primary,
       textDecorationLine: 'underline',
     },
   });

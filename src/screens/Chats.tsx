@@ -9,9 +9,11 @@ import {
   Text,
   TextInput,
 } from 'react-native';
-import { lightTheme } from '../themes/colors/Colors';
-import { fontSize } from '../themes/fontSize';
-import { spacing } from '../themes/spacing';
+import { useAppTheme } from '@redux/hooks';
+import { border } from '@themes/border';
+import { fontSize } from '@themes/fontSize';
+import { moderateScale } from '@themes/responsive';
+import { spacing } from '@themes/spacing';
 
 interface ChatItem {
   id: number;
@@ -77,6 +79,8 @@ const mockChats: ChatItem[] = [
 ];
 
 const Chats: React.FC = () => {
+  const { colors } = useAppTheme();
+  const styles = useStyles();
   const [activeTab, setActiveTab] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -139,7 +143,10 @@ const Chats: React.FC = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor={lightTheme.white} />
+      <StatusBar
+        barStyle="dark-content"
+        backgroundColor={colors.backgroundColor}
+      />
 
       {/* Header */}
       <View style={styles.header}>
@@ -161,7 +168,7 @@ const Chats: React.FC = () => {
           value={searchQuery}
           onChangeText={setSearchQuery}
           style={styles.searchInput}
-          placeholderTextColor={lightTheme.paragraph}
+          placeholderTextColor={colors.secondaryText}
         />
       </View>
 
@@ -196,202 +203,205 @@ const Chats: React.FC = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: lightTheme.appBackgroundColor,
-  },
-  header: {
-    backgroundColor: lightTheme.white,
-    paddingHorizontal: spacing.mediumLarge,
-    paddingVertical: spacing.medium,
-    borderBottomWidth: 1,
-    borderBottomColor: lightTheme.borderAlt,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  headerContent: {
-    flex: 1,
-  },
-  title: {
-    fontSize: fontSize[20],
-    fontWeight: 'bold',
-    color: lightTheme.text,
-  },
-  subtitle: {
-    fontSize: fontSize[14],
-    color: lightTheme.secondaryText,
-    marginTop: spacing.extraSmall,
-  },
-  addButton: {
-    padding: spacing.medium,
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: lightTheme.primary,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  addButtonText: {
-    color: lightTheme.white,
-    fontSize: fontSize[20],
-    fontWeight: 'bold',
-  },
-  searchContainer: {
-    backgroundColor: lightTheme.white,
-    paddingHorizontal: spacing.mediumLarge,
-    paddingVertical: spacing.medium,
-  },
-  searchInput: {
-    backgroundColor: lightTheme.appBackgroundColor,
-    borderColor: lightTheme.border,
-    borderWidth: 1,
-    borderRadius: spacing.small,
-    paddingHorizontal: spacing.medium,
-    paddingVertical: spacing.medium,
-    fontSize: fontSize[14],
-    color: lightTheme.text,
-  },
-  tabsContainer: {
-    backgroundColor: lightTheme.white,
-    paddingHorizontal: spacing.mediumLarge,
-    paddingVertical: spacing.medium,
-    borderBottomWidth: 1,
-    borderBottomColor: lightTheme.borderAlt,
-  },
-  tabsList: {
-    flexDirection: 'row',
-    backgroundColor: lightTheme.appBackgroundColor,
-    borderRadius: spacing.small,
-    padding: spacing.extraSmall,
-  },
-  tabButton: {
-    flex: 1,
-    paddingVertical: spacing.medium,
-    alignItems: 'center',
-    borderRadius: spacing.extraSmall,
-  },
-  activeTabButton: {
-    backgroundColor: lightTheme.white,
-  },
-  tabText: {
-    fontSize: fontSize[14],
-    color: lightTheme.secondaryText,
-  },
-  activeTabText: {
-    color: lightTheme.text,
-    fontWeight: '600',
-  },
-  chatList: {
-    padding: spacing.mediumLarge,
-  },
-  chatItem: {
-    backgroundColor: lightTheme.white,
-    borderRadius: spacing.small,
-    padding: spacing.mediumLarge,
-    marginBottom: spacing.medium,
-    borderWidth: 1,
-    borderColor: lightTheme.border,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  avatarContainer: {
-    position: 'relative',
-    marginRight: spacing.mediumLarge,
-  },
-  avatar: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: lightTheme.primary,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  avatarText: {
-    color: lightTheme.white,
-    fontSize: fontSize[14],
-    fontWeight: 'bold',
-  },
-  onlineIndicator: {
-    position: 'absolute',
-    bottom: 0,
-    right: 0,
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-    backgroundColor: lightTheme.success,
-    borderWidth: 2,
-    borderColor: lightTheme.white,
-  },
-  chatContent: {
-    flex: 1,
-  },
-  chatHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: spacing.extraSmall,
-  },
-  nameContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    flex: 1,
-  },
-  chatName: {
-    fontSize: fontSize[14],
-    fontWeight: '600',
-    color: lightTheme.text,
-    marginRight: spacing.extraSmall,
-  },
-  typeIcon: {
-    fontSize: fontSize[12],
-  },
-  timeContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  timeText: {
-    fontSize: fontSize[10],
-    color: lightTheme.secondaryText,
-    marginRight: spacing.extraSmall,
-  },
-  unreadBadge: {
-    backgroundColor: lightTheme.primary,
-    borderRadius: 10,
-    minWidth: 20,
-    height: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: spacing.extraSmall,
-  },
-  unreadText: {
-    color: lightTheme.white,
-    fontSize: fontSize[10],
-    fontWeight: 'bold',
-  },
-  lastMessage: {
-    fontSize: fontSize[14],
-    color: lightTheme.secondaryText,
-  },
-  emptyContainer: {
-    alignItems: 'center',
-    paddingVertical: spacing.colossal,
-  },
-  emptyIcon: {
-    fontSize: fontSize[48],
-    marginBottom: spacing.medium,
-  },
-  emptyTitle: {
-    fontSize: fontSize[16],
-    color: lightTheme.secondaryText,
-    marginBottom: spacing.small,
-  },
-  emptySubtitle: {
-    fontSize: fontSize[14],
-    color: lightTheme.secondaryText,
-    textAlign: 'center',
-  },
-});
+const useStyles = () => {
+  const { colors } = useAppTheme();
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.appBackgroundColor,
+    },
+    header: {
+      backgroundColor: colors.backgroundColor,
+      paddingHorizontal: spacing.mediumLarge,
+      paddingVertical: spacing.medium,
+      borderBottomWidth: border.normal,
+      borderBottomColor: colors.inputBorder,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+    },
+    headerContent: {
+      flex: 1,
+    },
+    title: {
+      fontSize: fontSize[20],
+      fontWeight: 'bold',
+      color: colors.text,
+    },
+    subtitle: {
+      fontSize: fontSize[14],
+      color: colors.secondaryText,
+      marginTop: spacing.extraSmall,
+    },
+    addButton: {
+      padding: spacing.medium,
+      width: moderateScale(40),
+      height: moderateScale(40),
+      borderRadius: moderateScale(20),
+      backgroundColor: colors.primary,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    addButtonText: {
+      color: colors.onPrimary,
+      fontSize: fontSize[20],
+      fontWeight: 'bold',
+    },
+    searchContainer: {
+      backgroundColor: colors.backgroundColor,
+      paddingHorizontal: spacing.mediumLarge,
+      paddingVertical: spacing.medium,
+    },
+    searchInput: {
+      backgroundColor: colors.appBackgroundColor,
+      borderColor: colors.inputBorder,
+      borderWidth: border.normal,
+      borderRadius: spacing.small,
+      paddingHorizontal: spacing.medium,
+      paddingVertical: spacing.medium,
+      fontSize: fontSize[14],
+      color: colors.text,
+    },
+    tabsContainer: {
+      backgroundColor: colors.backgroundColor,
+      paddingHorizontal: spacing.mediumLarge,
+      paddingVertical: spacing.medium,
+      borderBottomWidth: border.normal,
+      borderBottomColor: colors.inputBorder,
+    },
+    tabsList: {
+      flexDirection: 'row',
+      backgroundColor: colors.appBackgroundColor,
+      borderRadius: spacing.small,
+      padding: spacing.extraSmall,
+    },
+    tabButton: {
+      flex: 1,
+      paddingVertical: spacing.medium,
+      alignItems: 'center',
+      borderRadius: spacing.extraSmall,
+    },
+    activeTabButton: {
+      backgroundColor: colors.backgroundColor,
+    },
+    tabText: {
+      fontSize: fontSize[14],
+      color: colors.secondaryText,
+    },
+    activeTabText: {
+      color: colors.text,
+      fontWeight: '600',
+    },
+    chatList: {
+      padding: spacing.mediumLarge,
+    },
+    chatItem: {
+      backgroundColor: colors.backgroundColor,
+      borderRadius: spacing.small,
+      padding: spacing.mediumLarge,
+      marginBottom: spacing.medium,
+      borderWidth: border.normal,
+      borderColor: colors.inputBorder,
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    avatarContainer: {
+      position: 'relative',
+      marginRight: spacing.mediumLarge,
+    },
+    avatar: {
+      width: moderateScale(40),
+      height: moderateScale(40),
+      borderRadius: moderateScale(20),
+      backgroundColor: colors.primary,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    avatarText: {
+      color: colors.onPrimary,
+      fontSize: fontSize[14],
+      fontWeight: 'bold',
+    },
+    onlineIndicator: {
+      position: 'absolute',
+      bottom: 0,
+      right: 0,
+      width: moderateScale(12),
+      height: moderateScale(12),
+      borderRadius: moderateScale(6),
+      backgroundColor: colors.success,
+      borderWidth: border.thick,
+      borderColor: colors.backgroundColor,
+    },
+    chatContent: {
+      flex: 1,
+    },
+    chatHeader: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: spacing.extraSmall,
+    },
+    nameContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      flex: 1,
+    },
+    chatName: {
+      fontSize: fontSize[14],
+      fontWeight: '600',
+      color: colors.text,
+      marginRight: spacing.extraSmall,
+    },
+    typeIcon: {
+      fontSize: fontSize[12],
+    },
+    timeContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    timeText: {
+      fontSize: fontSize[10],
+      color: colors.secondaryText,
+      marginRight: spacing.extraSmall,
+    },
+    unreadBadge: {
+      backgroundColor: colors.primary,
+      borderRadius: moderateScale(10),
+      minWidth: moderateScale(20),
+      height: moderateScale(20),
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingHorizontal: spacing.extraSmall,
+    },
+    unreadText: {
+      color: colors.onPrimary,
+      fontSize: fontSize[10],
+      fontWeight: 'bold',
+    },
+    lastMessage: {
+      fontSize: fontSize[14],
+      color: colors.secondaryText,
+    },
+    emptyContainer: {
+      alignItems: 'center',
+      paddingVertical: spacing.colossal,
+    },
+    emptyIcon: {
+      fontSize: fontSize[48],
+      marginBottom: spacing.medium,
+    },
+    emptyTitle: {
+      fontSize: fontSize[16],
+      color: colors.secondaryText,
+      marginBottom: spacing.small,
+    },
+    emptySubtitle: {
+      fontSize: fontSize[14],
+      color: colors.secondaryText,
+      textAlign: 'center',
+    },
+  });
+};
 
 export default Chats;

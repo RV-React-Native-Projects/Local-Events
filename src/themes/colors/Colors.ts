@@ -28,6 +28,9 @@ const colorPalette = {
   warmGray: '#EAEAEA',
   lightSteelBlue: '#CED1DB',
   philippineGray: '#8c8c8c',
+  borderGray: '#E5E7EB',
+  backgroundGray: '#F9FAFB',
+  cardGray: '#F3F4F6',
 
   // Shades of Red and Pink
   lightRed: '#FCE4E5',
@@ -60,6 +63,7 @@ const colorPalette = {
   lime: '#BFF205',
   vividGreen: '#0F9A00',
   paleGreen: '#D2E0CB',
+  successGreen: '#10B981',
   // Shades of Blue
   darkBlue: '#2094E9',
   mediumBlue: '#3B5998',
@@ -68,6 +72,9 @@ const colorPalette = {
   navyBlue: '#2B4978',
   darkBlueGray: '#344054',
   royalBlue: '#2745F2',
+  primaryBlue: '#3B82F6',
+  lightBlue: '#DBEAFE',
+  darkBlueAccent: '#1D4ED8',
   // Miscellaneous
   darkPurple: '#303AB6',
   primaryGradient: ['#3B82F6', '#8B5CF6'],
@@ -126,7 +133,7 @@ export const lightTheme: ColorTheme = {
   transparent: 'transparent',
 
   backgroundColor: colorPalette.white,
-  appBackgroundColor: colorPalette.offWhite,
+  appBackgroundColor: colorPalette.backgroundGray,
   cardBackgroundColor: colorPalette.white,
   title: colorPalette.mediumBlack,
   header: colorPalette.black,

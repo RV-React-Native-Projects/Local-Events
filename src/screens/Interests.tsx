@@ -1,137 +1,41 @@
-import { useState } from 'react';
-import { View, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
-import { AppButton } from '@components/AppButton';
+import { useRef, useState } from 'react';
+import {
+  View,
+  TouchableOpacity,
+  StyleSheet,
+  Animated,
+  FlatList,
+} from 'react-native';
+import MaterialIcons from '@react-native-vector-icons/material-icons';
+import { AppButton, SegmentButton } from '@components/AppButton';
 import { AppText } from '@components/AppText';
+import { ScreenWrapper } from '@components/Wrapper';
+import { categories, ICategoriesData } from '@constants/interestData';
 import {
   InterestNavigationProps,
   InterestRouteProp,
   ScreenPropsType,
 } from '@navigation/types';
-import { lightTheme } from '@themes/colors';
+import { useAppDispatch, useAppTheme } from '@redux/hooks';
+import { toggleAuth } from '@slice/userSlice';
+import { radius, border } from '@themes/border';
+import { moderateScale } from '@themes/responsive';
 import size from '@themes/size';
 import { spacing } from '@themes/spacing';
 
-const categories = [
-  {
-    id: 'music',
-    name: 'Music & Audio',
-    icon: 'home',
-    description: 'Live performances, jam sessions, karaoke nights',
-    examples: ['Jazz nights', 'Open mic', 'Concerts'],
-  },
-  {
-    id: 'coffee',
-    name: 'Coffee & Chat',
-    icon: 'home',
-    description: 'Casual meetups, networking, conversations',
-    examples: ['Coffee talks', 'Networking', 'Book clubs'],
-  },
-  {
-    id: 'art',
-    name: 'Arts & Crafts',
-    icon: 'home',
-    description: 'Creative workshops, painting, DIY projects',
-    examples: ['Painting', 'Pottery', 'Crafting'],
-  },
-  {
-    id: 'photography',
-    name: 'Photography',
-    icon: 'camera',
-    description: 'Photo walks, exhibitions, technique sharing',
-    examples: ['Photo walks', 'Exhibitions', 'Workshops'],
-  },
-  {
-    id: 'reading',
-    name: 'Books & Poetry',
-    icon: 'home',
-    description: 'Literary discussions, poetry readings',
-    examples: ['Book clubs', 'Poetry', 'Readings'],
-  },
-  {
-    id: 'games',
-    name: 'Games & Sports',
-    icon: 'home',
-    description: 'Board games, chess, casual sports',
-    examples: ['Chess', 'Board games', 'Sports'],
-  },
-  {
-    id: 'food',
-    name: 'Food & Cooking',
-    icon: 'home',
-    description: 'Cooking classes, food tours, dining',
-    examples: ['Cooking', 'Food tours', 'Tastings'],
-  },
-  {
-    id: 'tech',
-    name: 'Tech & Innovation',
-    icon: 'home',
-    description: 'Coding meetups, startup events, demos',
-    examples: ['Coding', 'Startups', 'Tech talks'],
-  },
-  {
-    id: 'fitness',
-    name: 'Fitness & Wellness',
-    icon: 'home',
-    description: 'Yoga classes, running groups, meditation',
-    examples: ['Yoga', 'Running', 'Meditation'],
-  },
-  {
-    id: 'social',
-    name: 'Social Impact',
-    icon: 'home',
-    description: 'Volunteering, community service, charity',
-    examples: ['Volunteering', 'Charity', 'Community'],
-  },
-  {
-    id: 'music-production',
-    name: 'Music Production',
-    icon: 'home',
-    description: 'Beat making, mixing, electronic music',
-    examples: ['Beat making', 'Mixing', 'Electronic'],
-  },
-  {
-    id: 'business',
-    name: 'Business & Career',
-    icon: 'home',
-    description: 'Professional networking, career development',
-    examples: ['Networking', 'Career', 'Business'],
-  },
-  {
-    id: 'learning',
-    name: 'Learning & Education',
-    icon: 'home',
-    description: 'Workshops, skill sharing, study groups',
-    examples: ['Workshops', 'Skills', 'Study groups'],
-  },
-  {
-    id: 'outdoor',
-    name: 'Outdoor Adventures',
-    icon: 'home',
-    description: 'Hiking, picnics, nature exploration',
-    examples: ['Hiking', 'Picnics', 'Nature'],
-  },
-  {
-    id: 'nightlife',
-    name: 'Nightlife & Entertainment',
-    icon: 'home',
-    description: 'Parties, clubs, evening entertainment',
-    examples: ['Parties', 'Clubs', 'Entertainment'],
-  },
-  {
-    id: 'community',
-    name: 'Community Building',
-    icon: 'home',
-    description: 'Local initiatives, neighborhood events',
-    examples: ['Local events', 'Initiatives', 'Neighbors'],
-  },
-];
+const AnimatedFlatList = Animated.createAnimatedComponent(
+  FlatList<ICategoriesData>,
+);
 
 export default function Interests({}: ScreenPropsType<
   InterestNavigationProps,
   InterestRouteProp
 >) {
+  const styles = useStyles();
+  const storeDispatch = useAppDispatch();
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [viewMode, setViewMode] = useState<'grid' | 'cards'>('cards');
+  const scrollY = useRef(new Animated.Value(0)).current;
 
   const toggleCategory = (categoryId: string) => {
     setSelectedCategories(prev =>
@@ -144,9 +48,13 @@ export default function Interests({}: ScreenPropsType<
   const handleContinue = () => {
     // Handle continue logic here
     console.log('Selected categories:', selectedCategories);
+    storeDispatch(toggleAuth());
   };
 
-  const renderCategoryCard = (category: any, index: number) => {
+  const renderCategoryCard = (
+    category: (typeof categories)[0],
+    index: number,
+  ) => {
     const isSelected = selectedCategories.includes(category.id);
 
     return (
@@ -158,15 +66,21 @@ export default function Interests({}: ScreenPropsType<
         <View style={styles.cardContent}>
           <View
             style={[styles.iconContainer, isSelected && styles.selectedIcon]}>
-            {/* <AppIcon icon={category.icon} iconSize="md" color="white" /> */}
+            <MaterialIcons name={category.icon} size={size[20]} color="white" />
           </View>
 
           <View style={styles.cardText}>
             <AppText
-              style={[styles.categoryName, isSelected && styles.selectedText]}>
+              variant="title3"
+              color={isSelected ? 'primary' : 'text'}
+              style={styles.categoryName}>
               {category.name}
             </AppText>
-            <AppText style={styles.categoryDescription} numberOfLines={2}>
+            <AppText
+              variant="footnote"
+              color="secondaryText"
+              numberOfLines={2}
+              style={styles.categoryDescription}>
               {category.description}
             </AppText>
 
@@ -176,10 +90,8 @@ export default function Interests({}: ScreenPropsType<
                   key={example}
                   style={[styles.exampleTag, isSelected && styles.selectedTag]}>
                   <AppText
-                    style={[
-                      styles.exampleText,
-                      isSelected && styles.selectedTagText,
-                    ]}>
+                    variant="footnote10"
+                    color={isSelected ? 'primary' : 'secondaryText'}>
                     {example}
                   </AppText>
                 </View>
@@ -191,7 +103,10 @@ export default function Interests({}: ScreenPropsType<
     );
   };
 
-  const renderCategoryGrid = (category: any, index: number) => {
+  const renderCategoryGrid = (
+    category: (typeof categories)[0],
+    index: number,
+  ) => {
     const isSelected = selectedCategories.includes(category.id);
 
     return (
@@ -202,10 +117,12 @@ export default function Interests({}: ScreenPropsType<
         activeOpacity={0.7}>
         <View
           style={[styles.gridIconContainer, isSelected && styles.selectedIcon]}>
-          {/* <AppIcon icon={category.icon} iconSize="sm" color="white" /> */}
+          <MaterialIcons name={category.icon} size={size[20]} color="white" />
         </View>
         <AppText
-          style={[styles.gridCategoryName, isSelected && styles.selectedText]}
+          variant="label"
+          color={isSelected ? 'primary' : 'text'}
+          textAlign="center"
           numberOfLines={2}>
           {category.name}
         </AppText>
@@ -214,304 +131,224 @@ export default function Interests({}: ScreenPropsType<
   };
 
   return (
-    <View style={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
-        <View style={styles.headerContent}>
-          <AppText style={styles.title}>Choose Your Interests</AppText>
-          <AppText style={styles.subtitle}>
-            Select what excites you most
-          </AppText>
-        </View>
-
-        {/* View Toggle */}
-        <View style={styles.viewToggle}>
-          <TouchableOpacity
-            style={[
-              styles.toggleButton,
-              viewMode === 'cards' && styles.activeToggle,
-            ]}
-            onPress={() => setViewMode('cards')}>
-            <AppText
-              style={[
-                styles.toggleText,
-                viewMode === 'cards' && styles.activeToggleText,
-              ]}>
-              Cards
+    <ScreenWrapper scrollEnabled={false}>
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <View style={styles.headerContent}>
+            <AppText variant="title1" color="text">
+              Choose Your Interests
             </AppText>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[
-              styles.toggleButton,
-              viewMode === 'grid' && styles.activeToggle,
-            ]}
-            onPress={() => setViewMode('grid')}>
-            <AppText
-              style={[
-                styles.toggleText,
-                viewMode === 'grid' && styles.activeToggleText,
-              ]}>
-              Grid
+            <AppText variant="subhead" color="secondaryText">
+              Select what excites you most
             </AppText>
-          </TouchableOpacity>
+          </View>
+          <SegmentButton
+            items={[
+              { key: 'cards', value: 'Cards' },
+              { key: 'grid', value: 'Grid' },
+            ]}
+            onPress={val => setViewMode(val as typeof viewMode)}
+          />
         </View>
-      </View>
-
-      {/* Selected Count */}
-      <View style={styles.selectedCount}>
-        <View style={styles.badge}>
-          <AppText style={styles.badgeText}>
-            ✨ {selectedCategories.length} interests selected
-          </AppText>
+        <View style={styles.selectedCount}>
+          <View style={styles.badge}>
+            <AppText variant="label" color="primary">
+              ✨ {selectedCategories.length} interests selected
+            </AppText>
+          </View>
         </View>
-      </View>
 
-      {/* Categories */}
-      <ScrollView
-        style={styles.scrollView}
-        showsVerticalScrollIndicator={false}>
-        <View
-          style={
-            viewMode === 'cards' ? styles.cardsContainer : styles.gridContainer
-          }>
-          {categories.map((category, index) =>
+        <AnimatedFlatList
+          data={categories}
+          renderItem={({
+            item,
+            index,
+          }: {
+            item: (typeof categories)[0];
+            index: number;
+          }) =>
             viewMode === 'cards'
-              ? renderCategoryCard(category, index)
-              : renderCategoryGrid(category, index),
+              ? renderCategoryCard(item, index)
+              : renderCategoryGrid(item, index)
+          }
+          keyExtractor={item => item.id}
+          style={styles.scrollView}
+          contentContainerStyle={
+            viewMode === 'cards' ? styles.cardsContainer : styles.gridContainer
+          }
+          showsVerticalScrollIndicator={false}
+          onScroll={Animated.event(
+            [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+            { useNativeDriver: true },
           )}
-        </View>
-      </ScrollView>
-
-      {/* Continue Button */}
-      <View style={styles.buttonContainer}>
-        <AppButton
-          title={`Continue ${
-            selectedCategories.length > 0
-              ? `(${selectedCategories.length})`
-              : ''
-          }`}
-          onPress={handleContinue}
-          disabled={selectedCategories.length === 0}
-          style={styles.continueButton}
+          scrollEventThrottle={16}
         />
 
-        {selectedCategories.length === 0 && (
-          <AppText style={styles.helperText}>
-            Select at least one interest to continue
-          </AppText>
-        )}
+        {/* Continue Button */}
+        <View style={styles.buttonContainer}>
+          <AppButton
+            title={`Continue ${
+              selectedCategories.length > 0
+                ? `(${selectedCategories.length})`
+                : ''
+            }`}
+            onPress={handleContinue}
+            disabled={selectedCategories.length === 0}
+            style={styles.continueButton}
+          />
+
+          {selectedCategories.length === 0 && (
+            <AppText
+              variant="footnote"
+              color="secondaryText"
+              textAlign="center">
+              Select at least one interest to continue
+            </AppText>
+          )}
+        </View>
       </View>
-    </View>
+    </ScreenWrapper>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f8fafc',
-  },
-  header: {
-    backgroundColor: 'white',
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm,
-    borderBottomWidth: 1,
-    borderBottomColor: '#e2e8f0',
-  },
-  headerContent: {
-    marginBottom: spacing.sm,
-  },
-  title: {
-    fontSize: size.lg,
-    fontWeight: 'bold',
-    color: lightTheme.text,
-    marginBottom: spacing.xs,
-  },
-  subtitle: {
-    fontSize: size.sm,
-    color: lightTheme.secondaryText,
-  },
-  viewToggle: {
-    flexDirection: 'row',
-    backgroundColor: '#f1f5f9',
-    borderRadius: 8,
-    padding: 2,
-  },
-  toggleButton: {
-    flex: 1,
-    paddingVertical: spacing.xs,
-    paddingHorizontal: spacing.sm,
-    borderRadius: 6,
-    alignItems: 'center',
-  },
-  activeToggle: {
-    backgroundColor: 'white',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
-  },
-  toggleText: {
-    fontSize: size.xs,
-    color: lightTheme.secondaryText,
-  },
-  activeToggleText: {
-    color: lightTheme.text,
-    fontWeight: '600',
-  },
-  selectedCount: {
-    alignItems: 'center',
-    paddingVertical: spacing.sm,
-  },
-  badge: {
-    backgroundColor: '#dbeafe',
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.xs,
-    borderRadius: 20,
-  },
-  badgeText: {
-    color: '#1d4ed8',
-    fontSize: size.sm,
-    fontWeight: '600',
-  },
-  scrollView: {
-    flex: 1,
-    paddingHorizontal: spacing.md,
-  },
-  cardsContainer: {
-    paddingVertical: spacing.md,
-  },
-  gridContainer: {
-    paddingVertical: spacing.md,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-  },
-  categoryCard: {
-    backgroundColor: 'white',
-    borderRadius: 12,
-    padding: spacing.md,
-    marginBottom: spacing.sm,
-    borderWidth: 2,
-    borderColor: '#e2e8f0',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  selectedCard: {
-    borderColor: '#3b82f6',
-    backgroundColor: '#eff6ff',
-    transform: [{ scale: 1.02 }],
-  },
-  cardContent: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-  },
-  iconContainer: {
-    width: 56,
-    height: 56,
-    borderRadius: 12,
-    backgroundColor: '#3b82f6',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: spacing.md,
-  },
-  selectedIcon: {
-    backgroundColor: '#1d4ed8',
-  },
-  cardText: {
-    flex: 1,
-  },
-  categoryName: {
-    fontSize: size.md,
-    fontWeight: '600',
-    color: lightTheme.text,
-    marginBottom: spacing.xs,
-  },
-  selectedText: {
-    color: '#1e40af',
-  },
-  categoryDescription: {
-    fontSize: size.sm,
-    color: lightTheme.secondaryText,
-    marginBottom: spacing.sm,
-    lineHeight: 20,
-  },
-  examplesContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: spacing.xs,
-  },
-  exampleTag: {
-    backgroundColor: '#f1f5f9',
-    paddingHorizontal: spacing.sm,
-    paddingVertical: spacing.xs,
-    borderRadius: 12,
-  },
-  selectedTag: {
-    backgroundColor: '#dbeafe',
-  },
-  exampleText: {
-    fontSize: size.xs,
-    color: lightTheme.secondaryText,
-  },
-  selectedTagText: {
-    color: '#1d4ed8',
-  },
-  gridCard: {
-    width: '30%',
-    backgroundColor: 'white',
-    borderRadius: 8,
-    padding: spacing.sm,
-    marginBottom: spacing.sm,
-    borderWidth: 2,
-    borderColor: '#e2e8f0',
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 1,
-  },
-  selectedGridCard: {
-    borderColor: '#3b82f6',
-    backgroundColor: '#eff6ff',
-    transform: [{ scale: 1.05 }],
-  },
-  gridIconContainer: {
-    width: 40,
-    height: 40,
-    borderRadius: 8,
-    backgroundColor: '#3b82f6',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: spacing.xs,
-  },
-  gridCategoryName: {
-    fontSize: size.xs,
-    fontWeight: '500',
-    color: lightTheme.text,
-    textAlign: 'center',
-    lineHeight: 16,
-  },
-  buttonContainer: {
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.md,
-    backgroundColor: 'white',
-    borderTopWidth: 1,
-    borderTopColor: '#e2e8f0',
-  },
-  continueButton: {
-    backgroundColor: '#3b82f6',
-    borderRadius: 12,
-    paddingVertical: spacing.md,
-  },
-  helperText: {
-    textAlign: 'center',
-    color: lightTheme.secondaryText,
-    fontSize: size.xs,
-    marginTop: spacing.sm,
-  },
-});
+const useStyles = () => {
+  const { colors } = useAppTheme();
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: 'transparent',
+    },
+    header: {
+      backgroundColor: colors.backgroundColor,
+      paddingHorizontal: spacing.mediumLarge,
+      paddingVertical: spacing.small,
+      borderBottomWidth: border.normal,
+      borderBottomColor: 'transparent',
+    },
+    headerContent: {
+      marginBottom: spacing.small,
+    },
+    selectedCount: {
+      alignItems: 'center',
+      paddingVertical: spacing.small,
+    },
+    badge: {
+      backgroundColor: colors.info,
+      paddingHorizontal: spacing.mediumLarge,
+      paddingVertical: spacing.xs,
+      borderRadius: moderateScale(20),
+    },
+    scrollView: {
+      flex: 1,
+      paddingHorizontal: spacing.mediumLarge,
+    },
+    cardsContainer: {
+      paddingVertical: spacing.mediumLarge,
+    },
+    gridContainer: {
+      paddingVertical: spacing.mediumLarge,
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      justifyContent: 'space-between',
+    },
+    categoryCard: {
+      backgroundColor: colors.backgroundColor,
+      borderRadius: radius.xl,
+      padding: spacing.mediumLarge,
+      marginBottom: spacing.small,
+      borderWidth: border.thick,
+      borderColor: colors.inputBorder,
+      shadowColor: colors.shadow,
+      shadowOffset: { width: 0, height: moderateScale(2) },
+      shadowOpacity: 0.1,
+      shadowRadius: moderateScale(4),
+      elevation: 2,
+    },
+    selectedCard: {
+      borderColor: colors.primary,
+      backgroundColor: colors.info,
+      transform: [{ scale: 1.02 }],
+    },
+    cardContent: {
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+    },
+    iconContainer: {
+      width: moderateScale(56),
+      height: moderateScale(56),
+      borderRadius: radius.xl,
+      backgroundColor: colors.primary,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginRight: spacing.mediumLarge,
+    },
+    selectedIcon: {
+      backgroundColor: colors.primary,
+    },
+    cardText: {
+      flex: 1,
+    },
+    categoryName: {
+      marginBottom: spacing.xs,
+    },
+    categoryDescription: {
+      marginBottom: spacing.small,
+      lineHeight: moderateScale(20),
+    },
+    examplesContainer: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      gap: spacing.xs,
+    },
+    exampleTag: {
+      backgroundColor: colors.appBackgroundColor,
+      paddingHorizontal: spacing.small,
+      paddingVertical: spacing.xs,
+      borderRadius: radius.xl,
+    },
+    selectedTag: {
+      backgroundColor: colors.info,
+    },
+    gridCard: {
+      width: '48%',
+      backgroundColor: colors.backgroundColor,
+      borderRadius: radius.lg,
+      padding: spacing.small,
+      marginBottom: spacing.small,
+      borderWidth: border.thick,
+      borderColor: colors.inputBorder,
+      alignItems: 'center',
+      shadowColor: colors.shadow,
+      shadowOffset: { width: 0, height: moderateScale(1) },
+      shadowOpacity: 0.1,
+      shadowRadius: moderateScale(2),
+      elevation: 1,
+    },
+    selectedGridCard: {
+      borderColor: colors.primary,
+      backgroundColor: colors.info,
+      transform: [{ scale: 1.05 }],
+    },
+    gridIconContainer: {
+      width: moderateScale(40),
+      height: moderateScale(40),
+      borderRadius: radius.lg,
+      backgroundColor: colors.primary,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginBottom: spacing.xs,
+    },
+    buttonContainer: {
+      paddingHorizontal: spacing.mediumLarge,
+      paddingVertical: spacing.mediumLarge,
+      backgroundColor: colors.backgroundColor,
+      borderTopWidth: border.normal,
+      borderTopColor: colors.inputBorder,
+    },
+    continueButton: {
+      backgroundColor: colors.primary,
+      borderRadius: radius.xl,
+      paddingVertical: spacing.mediumLarge,
+    },
+  });
+};

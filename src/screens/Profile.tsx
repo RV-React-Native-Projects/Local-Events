@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/no-unstable-nested-components */
 import { useState } from 'react';
 import {
@@ -8,6 +7,7 @@ import {
   Image,
   Switch,
   Alert,
+  StyleSheet,
 } from 'react-native';
 import AppButton from '@components/AppButton/AppButton';
 import AppInput from '@components/AppInput/AppInput';
@@ -19,6 +19,8 @@ import {
   ScreenPropsType,
 } from '@navigation/types';
 import { useAppTheme } from '@redux/hooks';
+import { radius, border } from '@themes/border';
+import { fontSize } from '@themes/fontSize';
 import { moderateScale } from '@themes/responsive';
 import { spacing } from '@themes/spacing';
 
@@ -63,6 +65,7 @@ export default function Profile({}: ScreenPropsType<
   ProfileNavigationProps,
   ProfileRouteProp
 >) {
+  const styles = useStyles();
   const { colors } = useAppTheme();
   const [isEditing, setIsEditing] = useState(false);
   const [userInfo, setUserInfo] = useState({
@@ -104,49 +107,25 @@ export default function Profile({}: ScreenPropsType<
     value: string | number;
     icon?: string;
   }) => (
-    <View
-      style={{
-        flex: 1,
-        alignItems: 'center',
-        paddingVertical: spacing.medium,
-      }}>
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          marginBottom: spacing.small,
-        }}>
+    <View style={styles.statCard}>
+      <View style={styles.statContent}>
         {/* {icon && <AppIcon icon={icon as any} iconSize="sm" color="primary" />} */}
-        <AppText
-          variant="title"
-          color="text"
-          style={{ fontSize: moderateScale(18) }}>
+        <AppText variant="title" color="text" style={styles.statValue}>
           {value}
         </AppText>
       </View>
       <AppText
         variant="footnote"
         color="secondaryText"
-        style={{ textAlign: 'center' }}>
+        style={styles.statLabel}>
         {title} {icon}
       </AppText>
     </View>
   );
 
   const InterestBadge = ({ interest }: { interest: string }) => (
-    <View
-      style={{
-        backgroundColor: colors.primaryVariant,
-        paddingHorizontal: spacing.medium,
-        paddingVertical: spacing.small,
-        borderRadius: moderateScale(20),
-        marginRight: spacing.small,
-        marginBottom: spacing.small,
-      }}>
-      <AppText
-        variant="footnote"
-        color="primary"
-        style={{ fontSize: moderateScale(12) }}>
+    <View style={styles.interestBadge}>
+      <AppText variant="footnote" color="primary" style={styles.interestText}>
         {interest}
       </AppText>
     </View>
@@ -163,23 +142,15 @@ export default function Profile({}: ScreenPropsType<
     key: string;
     value: boolean;
   }) => (
-    <View
-      style={{
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        paddingVertical: spacing.medium,
-        borderBottomWidth: 1,
-        borderBottomColor: colors.borderAlt,
-      }}>
-      <View style={{ flex: 1, marginRight: spacing.medium }}>
-        <AppText
-          variant="body"
-          color="text"
-          style={{ marginBottom: spacing.small }}>
+    <View style={styles.notificationItem}>
+      <View style={styles.notificationInfo}>
+        <AppText variant="body" color="text" style={styles.notificationTitle}>
           {title}
         </AppText>
-        <AppText variant="footnote" color="secondaryText">
+        <AppText
+          variant="footnote"
+          color="secondaryText"
+          style={styles.notificationDescription}>
           {description}
         </AppText>
       </View>
@@ -205,31 +176,24 @@ export default function Profile({}: ScreenPropsType<
     onPress: () => void;
     isDestructive?: boolean;
   }) => (
-    <TouchableOpacity
-      style={{
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingVertical: spacing.medium,
-        borderBottomWidth: 1,
-        borderBottomColor: colors.borderAlt,
-      }}
-      onPress={onPress}>
+    <TouchableOpacity style={styles.settingsItem} onPress={onPress}>
       {/* <AppIcon
         icon={icon}
         iconSize="md"
         color={isDestructive ? 'error' : 'text'}
-        style={{ marginRight: spacing.medium }}
+        style={styles.settingsIcon}
       /> */}
-      <View style={{ flex: 1 }}>
+      <View style={styles.settingsInfo}>
         <AppText
           variant="body"
           color={isDestructive ? 'error' : 'text'}
-          style={{ marginBottom: spacing.small }}>
+          style={styles.settingsItemTitle}>
           {title}
         </AppText>
         <AppText
           variant="footnote"
-          color={isDestructive ? 'error' : 'secondaryText'}>
+          color={isDestructive ? 'error' : 'secondaryText'}
+          style={styles.settingsDescription}>
           {description} {icon}
         </AppText>
       </View>
@@ -239,25 +203,10 @@ export default function Profile({}: ScreenPropsType<
   return (
     <ScreenWrapper scrollEnabled>
       {/* Header */}
-      <View
-        style={{
-          backgroundColor: colors.white,
-          borderBottomWidth: 1,
-          borderBottomColor: colors.borderAlt,
-          paddingHorizontal: spacing.mediumLarge,
-          paddingVertical: spacing.medium,
-        }}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}>
+      <View style={styles.header}>
+        <View style={styles.headerContent}>
           <View>
-            <AppText
-              variant="title"
-              color="text"
-              style={{ marginBottom: spacing.small }}>
+            <AppText variant="title" color="text" style={styles.headerText}>
               Profile
             </AppText>
             <AppText variant="body" color="secondaryText">
@@ -266,62 +215,36 @@ export default function Profile({}: ScreenPropsType<
           </View>
           <TouchableOpacity
             onPress={() => setIsEditing(!isEditing)}
-            style={{
-              padding: spacing.small,
-              borderRadius: moderateScale(8),
-            }}>
+            style={styles.editButton}>
             {/* <AppIcon icon="edit" iconSize="md" color="text" /> */}
           </TouchableOpacity>
         </View>
       </View>
 
       <ScrollView
-        style={{ flex: 1, backgroundColor: colors.background }}
-        contentContainerStyle={{ padding: spacing.mediumLarge }}
+        style={styles.scrollView}
+        contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}>
         {/* Profile Info Card */}
-        <View
-          style={{
-            backgroundColor: colors.white,
-            borderRadius: moderateScale(12),
-            padding: spacing.large,
-            marginBottom: spacing.large,
-            borderWidth: 1,
-            borderColor: colors.borderAlt,
-          }}>
-          <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
-            <View style={{ position: 'relative', marginRight: spacing.large }}>
+        <View style={styles.profileCard}>
+          <View style={styles.profileContent}>
+            <View style={styles.avatarContainer}>
               <Image
                 source={{
                   uri: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop',
                 }}
-                style={{
-                  width: moderateScale(80),
-                  height: moderateScale(80),
-                  borderRadius: moderateScale(40),
-                }}
+                style={styles.avatar}
               />
               {isEditing && (
-                <TouchableOpacity
-                  style={{
-                    position: 'absolute',
-                    bottom: -spacing.small,
-                    right: -spacing.small,
-                    backgroundColor: colors.primary,
-                    width: moderateScale(32),
-                    height: moderateScale(32),
-                    borderRadius: moderateScale(16),
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}>
+                <TouchableOpacity style={styles.cameraButton}>
                   {/* <AppIcon icon="camera-alt" iconSize="sm" color="onPrimary" /> */}
                 </TouchableOpacity>
               )}
             </View>
 
-            <View style={{ flex: 1 }}>
+            <View style={styles.profileInfo}>
               {isEditing ? (
-                <View style={{ gap: spacing.medium }}>
+                <View style={styles.inputContainer}>
                   <AppInput
                     value={userInfo.name}
                     onChangeText={text =>
@@ -344,69 +267,60 @@ export default function Profile({}: ScreenPropsType<
                     }
                     placeholder="Location"
                   />
-                  <View style={{ flexDirection: 'row', gap: spacing.medium }}>
+                  <View style={styles.buttonRow}>
                     <AppButton
                       title="Save Changes"
                       onPress={handleSaveProfile}
-                      style={{ flex: 1 }}
+                      style={styles.buttonHalf}
                     />
                     <AppButton
                       title="Cancel"
                       variant="outline"
                       onPress={() => setIsEditing(false)}
-                      style={{ flex: 1 }}
+                      style={styles.buttonHalf}
                     />
                   </View>
                 </View>
               ) : (
                 <View>
-                  <AppText
-                    variant="title"
-                    color="text"
-                    style={{ marginBottom: spacing.small }}>
+                  <AppText variant="title" color="text" style={styles.userName}>
                     {userInfo.name}
                   </AppText>
                   <AppText
                     variant="body"
                     color="secondaryText"
-                    style={{
-                      marginBottom: spacing.medium,
-                      lineHeight: moderateScale(20),
-                    }}>
+                    style={styles.userBio}>
                     {userInfo.bio}
                   </AppText>
-                  <View style={{ gap: spacing.medium }}>
-                    <View
-                      style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <View style={styles.userDetails}>
+                    <View style={styles.userDetailItem}>
                       {/* <AppIcon
                         icon="location-on"
                         iconSize="sm"
                         color="secondaryText"
-                        style={{ marginRight: spacing.small }}
+                        style={styles.detailIcon}
                       /> */}
                       <AppText variant="footnote" color="secondaryText">
                         {userInfo.location}
                       </AppText>
                     </View>
-                    <View
-                      style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <View style={styles.userDetailItem}>
                       {/* <AppIcon
                         icon="event"
                         iconSize="sm"
                         color="secondaryText"
-                        style={{ marginRight: spacing.small }}
+                        style={styles.detailIcon}
                       /> */}
                       <AppText variant="body" color="secondaryText">
                         Joined {userInfo.joinDate}
                       </AppText>
                     </View>
-                    <View
-                      style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <View style={styles.userDetailItem}>
                       {/* <AppIcon
                         icon="star"
                         iconSize="sm"
                         color="primary"
-                        style={{ marginRight: spacing.small }}
+                        style={styles.detailIcon}
                       /> */}
                       <AppText variant="body" color="secondaryText">
                         {userStats.rating}
@@ -420,22 +334,11 @@ export default function Profile({}: ScreenPropsType<
         </View>
 
         {/* Stats Card */}
-        <View
-          style={{
-            backgroundColor: colors.white,
-            borderRadius: moderateScale(12),
-            padding: spacing.large,
-            marginBottom: spacing.large,
-            borderWidth: 1,
-            borderColor: colors.borderAlt,
-          }}>
-          <AppText
-            variant="title"
-            color="text"
-            style={{ marginBottom: spacing.medium }}>
+        <View style={styles.statsCard}>
+          <AppText variant="title" color="text" style={styles.statsTitle}>
             Activity
           </AppText>
-          <View style={{ flexDirection: 'row' }}>
+          <View style={styles.statsGrid}>
             <StatCard
               title="Events Attended"
               value={userStats.eventsAttended}
@@ -447,28 +350,14 @@ export default function Profile({}: ScreenPropsType<
         </View>
 
         {/* Interests Card */}
-        <View
-          style={{
-            backgroundColor: colors.white,
-            borderRadius: moderateScale(12),
-            padding: spacing.large,
-            marginBottom: spacing.large,
-            borderWidth: 1,
-            borderColor: colors.borderAlt,
-          }}>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginBottom: spacing.medium,
-            }}>
+        <View style={styles.interestsCard}>
+          <View style={styles.interestsHeader}>
             <AppText variant="title" color="text">
               Interests
             </AppText>
             <AppButton title="Edit" variant="outline" size="compact" />
           </View>
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+          <View style={styles.interestsContainer}>
             {userInterests.map(interest => (
               <InterestBadge key={interest} interest={interest} />
             ))}
@@ -476,46 +365,25 @@ export default function Profile({}: ScreenPropsType<
         </View>
 
         {/* Recent Events Card */}
-        <View
-          style={{
-            backgroundColor: colors.white,
-            borderRadius: moderateScale(12),
-            padding: spacing.large,
-            marginBottom: spacing.large,
-            borderWidth: 1,
-            borderColor: colors.borderAlt,
-          }}>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginBottom: spacing.medium,
-            }}>
+        <View style={styles.eventsCard}>
+          <View style={styles.eventsHeader}>
             <AppText variant="title" color="text">
               Recent Events
             </AppText>
             <AppButton title="View All" variant="ghost" size="compact" />
           </View>
-          <View style={{ gap: spacing.medium }}>
+          <View style={styles.eventsList}>
             {recentEvents.map(event => (
-              <View
-                key={event.id}
-                style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <View key={event.id} style={styles.eventItem}>
                 <Image
                   source={{ uri: event.image }}
-                  style={{
-                    width: moderateScale(48),
-                    height: moderateScale(48),
-                    borderRadius: moderateScale(8),
-                    marginRight: spacing.medium,
-                  }}
+                  style={styles.eventImage}
                 />
-                <View style={{ flex: 1 }}>
+                <View style={styles.eventInfo}>
                   <AppText
                     variant="body"
                     color="text"
-                    style={{ marginBottom: spacing.small }}>
+                    style={styles.eventTitle}>
                     {event.title}
                   </AppText>
                   <AppText variant="body" color="secondaryText">
@@ -523,21 +391,13 @@ export default function Profile({}: ScreenPropsType<
                   </AppText>
                 </View>
                 <View
-                  style={{
-                    backgroundColor:
-                      event.role === 'hosted'
-                        ? colors.border
-                        : colors.background,
-                    paddingHorizontal: spacing.medium,
-                    paddingVertical: spacing.small,
-                    borderRadius: moderateScale(12),
-                  }}>
-                  <AppText
-                    variant="body"
-                    // color={
-                    //   event.role === 'hosted' ? 'darkGreen' : 'secondaryText'
-                    // }
-                    style={{ textTransform: 'capitalize' }}>
+                  style={[
+                    styles.eventRole,
+                    event.role === 'hosted'
+                      ? styles.roleHosted
+                      : styles.roleAttended,
+                  ]}>
+                  <AppText variant="body" style={styles.roleText}>
                     {event.role}
                   </AppText>
                 </View>
@@ -547,26 +407,13 @@ export default function Profile({}: ScreenPropsType<
         </View>
 
         {/* Notifications Card */}
-        <View
-          style={{
-            backgroundColor: colors.white,
-            borderRadius: moderateScale(12),
-            padding: spacing.large,
-            marginBottom: spacing.large,
-            borderWidth: 1,
-            borderColor: colors.borderAlt,
-          }}>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              marginBottom: spacing.medium,
-            }}>
+        <View style={styles.notificationsCard}>
+          <View style={styles.notificationsHeader}>
             {/* <AppIcon
               icon="notifications"
               iconSize="md"
               color="text"
-              style={{ marginRight: spacing.small }}
+              style={styles.cardIcon}
             /> */}
             <AppText variant="title" color="text">
               Notifications
@@ -601,26 +448,13 @@ export default function Profile({}: ScreenPropsType<
         </View>
 
         {/* Settings Card */}
-        <View
-          style={{
-            backgroundColor: colors.white,
-            borderRadius: moderateScale(12),
-            padding: spacing.large,
-            marginBottom: spacing.large,
-            borderWidth: 1,
-            borderColor: colors.borderAlt,
-          }}>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              marginBottom: spacing.medium,
-            }}>
+        <View style={styles.settingsCard}>
+          <View style={styles.settingsHeader}>
             {/* <AppIcon
               icon="settings"
               iconSize="md"
               color="text"
-              style={{ marginRight: spacing.small }}
+              style={styles.cardIcon}
             /> */}
             <AppText variant="title" color="text">
               Settings
@@ -639,13 +473,7 @@ export default function Profile({}: ScreenPropsType<
               description="Get help or contact us"
               onPress={() => {}}
             />
-            <View
-              style={{
-                height: 1,
-                backgroundColor: colors.borderAlt,
-                marginVertical: spacing.medium,
-              }}
-            />
+            <View style={styles.divider} />
             <SettingsItem
               icon="logout"
               title="Sign Out"
@@ -659,3 +487,312 @@ export default function Profile({}: ScreenPropsType<
     </ScreenWrapper>
   );
 }
+
+const useStyles = () => {
+  const { colors } = useAppTheme();
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.backgroundColor,
+    },
+    header: {
+      backgroundColor: colors.backgroundColor,
+      borderBottomWidth: border.normal,
+      borderBottomColor: colors.inputBorder,
+      paddingHorizontal: spacing.mediumLarge,
+      paddingVertical: spacing.medium,
+    },
+    headerContent: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+    headerText: {
+      marginBottom: spacing.small,
+    },
+    editButton: {
+      padding: spacing.small,
+      borderRadius: radius.lg,
+    },
+    scrollView: {
+      flex: 1,
+      backgroundColor: colors.appBackgroundColor,
+    },
+    scrollContent: {
+      padding: spacing.mediumLarge,
+    },
+    profileCard: {
+      backgroundColor: colors.backgroundColor,
+      borderRadius: radius.xl,
+      padding: spacing.large,
+      marginBottom: spacing.large,
+      borderWidth: border.normal,
+      borderColor: colors.inputBorder,
+    },
+    profileContent: {
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+    },
+    avatarContainer: {
+      position: 'relative',
+      marginRight: spacing.large,
+    },
+    avatar: {
+      width: moderateScale(80),
+      height: moderateScale(80),
+      borderRadius: moderateScale(40),
+    },
+    cameraButton: {
+      position: 'absolute',
+      bottom: -spacing.small,
+      right: -spacing.small,
+      backgroundColor: colors.primary,
+      width: moderateScale(32),
+      height: moderateScale(32),
+      borderRadius: moderateScale(16),
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    profileInfo: {
+      flex: 1,
+    },
+    inputContainer: {
+      gap: spacing.medium,
+    },
+    statsCard: {
+      backgroundColor: colors.backgroundColor,
+      borderRadius: radius.xl,
+      padding: spacing.large,
+      marginBottom: spacing.large,
+      borderWidth: border.normal,
+      borderColor: colors.inputBorder,
+    },
+    statsTitle: {
+      marginBottom: spacing.medium,
+    },
+    statsGrid: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    },
+    statCard: {
+      flex: 1,
+      alignItems: 'center',
+      paddingVertical: spacing.medium,
+    },
+    statContent: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginBottom: spacing.small,
+    },
+    statValue: {
+      fontSize: moderateScale(18),
+    },
+    statLabel: {
+      textAlign: 'center',
+    },
+    statNumber: {
+      fontSize: fontSize[20],
+      fontWeight: 'bold',
+      color: colors.primary,
+      marginBottom: spacing.xs,
+    },
+    interestsCard: {
+      backgroundColor: colors.backgroundColor,
+      borderRadius: radius.xl,
+      padding: spacing.large,
+      marginBottom: spacing.large,
+      borderWidth: border.normal,
+      borderColor: colors.inputBorder,
+    },
+    interestsTitle: {
+      marginBottom: spacing.medium,
+    },
+    interestsHeader: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: spacing.medium,
+    },
+    interestsContainer: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      gap: spacing.small,
+    },
+    interestBadge: {
+      backgroundColor: colors.info,
+      paddingHorizontal: spacing.medium,
+      paddingVertical: spacing.xs,
+      borderRadius: radius.xl,
+    },
+    interestText: {
+      fontSize: fontSize[12],
+      color: colors.primary,
+      fontWeight: '500',
+    },
+    eventsCard: {
+      backgroundColor: colors.backgroundColor,
+      borderRadius: radius.xl,
+      padding: spacing.large,
+      marginBottom: spacing.large,
+      borderWidth: border.normal,
+      borderColor: colors.inputBorder,
+    },
+    eventsTitle: {
+      marginBottom: spacing.medium,
+    },
+    eventsHeader: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: spacing.medium,
+    },
+    eventsList: {
+      gap: spacing.medium,
+    },
+    eventItem: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginBottom: spacing.medium,
+    },
+    eventImage: {
+      width: moderateScale(48),
+      height: moderateScale(48),
+      borderRadius: radius.lg,
+      marginRight: spacing.medium,
+    },
+    eventInfo: {
+      flex: 1,
+    },
+    eventTitle: {
+      fontSize: fontSize[14],
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: spacing.xs,
+    },
+    eventDetails: {
+      fontSize: fontSize[12],
+      color: colors.secondaryText,
+    },
+    eventRole: {
+      fontSize: fontSize[10],
+      paddingHorizontal: spacing.xs,
+      paddingVertical: spacing.xs,
+      borderRadius: radius.sm,
+      overflow: 'hidden',
+    },
+    roleAttended: {
+      backgroundColor: colors.success,
+    },
+    roleHosted: {
+      backgroundColor: colors.warning,
+    },
+    notificationsCard: {
+      backgroundColor: colors.backgroundColor,
+      borderRadius: radius.xl,
+      padding: spacing.large,
+      marginBottom: spacing.large,
+      borderWidth: border.normal,
+      borderColor: colors.inputBorder,
+    },
+    notificationsHeader: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginBottom: spacing.medium,
+    },
+    notificationsTitle: {
+      marginBottom: spacing.medium,
+    },
+    notificationItem: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      paddingVertical: spacing.small,
+    },
+    notificationInfo: {
+      flex: 1,
+    },
+    notificationTitle: {
+      fontSize: fontSize[14],
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: spacing.xs,
+    },
+    notificationDescription: {
+      fontSize: fontSize[12],
+      color: colors.secondaryText,
+    },
+    settingsCard: {
+      backgroundColor: colors.backgroundColor,
+      borderRadius: radius.xl,
+      padding: spacing.large,
+      marginBottom: spacing.large,
+      borderWidth: border.normal,
+      borderColor: colors.inputBorder,
+    },
+    settingsHeader: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginBottom: spacing.medium,
+    },
+    settingsTitle: {
+      marginBottom: spacing.medium,
+    },
+    settingsItem: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      paddingVertical: spacing.small,
+    },
+    settingsInfo: {
+      flex: 1,
+    },
+    settingsItemTitle: {
+      fontSize: fontSize[14],
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: spacing.xs,
+    },
+    settingsDescription: {
+      fontSize: fontSize[12],
+      color: colors.secondaryText,
+    },
+    buttonRow: {
+      flexDirection: 'row',
+      gap: spacing.medium,
+    },
+    buttonHalf: {
+      flex: 1,
+    },
+    userName: {
+      marginBottom: spacing.small,
+    },
+    userBio: {
+      marginBottom: spacing.medium,
+      lineHeight: moderateScale(20),
+    },
+    userDetails: {
+      gap: spacing.medium,
+    },
+    userDetailItem: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    detailIcon: {
+      marginRight: spacing.small,
+    },
+    cardIcon: {
+      marginRight: spacing.small,
+    },
+    settingsIcon: {
+      marginRight: spacing.medium,
+    },
+    roleText: {
+      textTransform: 'capitalize',
+    },
+    divider: {
+      height: border.normal,
+      backgroundColor: colors.inputBorder,
+      marginVertical: spacing.medium,
+    },
+  });
+};

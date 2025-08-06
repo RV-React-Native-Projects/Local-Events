@@ -17,6 +17,7 @@ import {
   ScreenPropsType,
 } from '@navigation/types';
 import { useAppTheme } from '@redux/hooks';
+import { fontSize } from '@themes/fontSize';
 import { moderateScale } from '@themes/responsive';
 import { spacing } from '@themes/spacing';
 
@@ -24,7 +25,7 @@ export default function ForgetPassword({}: ScreenPropsType<
   ForgetPasswordNavigationProps,
   ForgetPasswordRouteProp
 >) {
-  const { colors } = useAppTheme();
+  const styles = useStyles();
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isEmailSent, setIsEmailSent] = useState(false);
@@ -75,8 +76,6 @@ export default function ForgetPassword({}: ScreenPropsType<
     setIsEmailSent(false);
     setEmail('');
   };
-
-  const styles = createStyles(colors);
 
   if (isEmailSent) {
     return (
@@ -247,8 +246,9 @@ export default function ForgetPassword({}: ScreenPropsType<
   );
 }
 
-const createStyles = (colors: any) =>
-  StyleSheet.create({
+const useStyles = () => {
+  const { colors } = useAppTheme();
+  return StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: colors.backgroundColor,
@@ -257,39 +257,39 @@ const createStyles = (colors: any) =>
       flex: 1,
     },
     header: {
-      paddingHorizontal: moderateScale(spacing.md),
-      paddingTop: moderateScale(spacing.sm),
-      paddingBottom: moderateScale(spacing.md),
+      paddingHorizontal: spacing.mediumLarge,
+      paddingTop: spacing.small,
+      paddingBottom: spacing.mediumLarge,
     },
     backButton: {
       alignSelf: 'flex-start',
     },
     content: {
       flex: 1,
-      paddingHorizontal: moderateScale(spacing.lg),
+      paddingHorizontal: spacing.large,
       justifyContent: 'center',
     },
     logoContainer: {
       alignItems: 'center',
-      marginBottom: moderateScale(spacing.xl * 2),
+      marginBottom: spacing.extraLarge * 2,
     },
     textContainer: {
       alignItems: 'center',
-      marginBottom: moderateScale(spacing.xl * 2),
+      marginBottom: spacing.extraLarge * 2,
     },
     title: {
       textAlign: 'center',
-      marginBottom: moderateScale(spacing.md),
+      marginBottom: spacing.mediumLarge,
     },
     description: {
       textAlign: 'center',
       lineHeight: moderateScale(24),
     },
     formContainer: {
-      marginBottom: moderateScale(spacing.xl * 2),
+      marginBottom: spacing.extraLarge * 2,
     },
     submitButton: {
-      marginTop: moderateScale(spacing.lg),
+      marginTop: spacing.large,
     },
     helpContainer: {
       flexDirection: 'row',
@@ -298,7 +298,7 @@ const createStyles = (colors: any) =>
       flexWrap: 'wrap',
     },
     helpText: {
-      marginRight: moderateScale(spacing.xs),
+      marginRight: spacing.xs,
     },
     signInButton: {
       paddingHorizontal: 0,
@@ -306,7 +306,7 @@ const createStyles = (colors: any) =>
     // Success state styles
     successIconContainer: {
       alignItems: 'center',
-      marginBottom: moderateScale(spacing.xl),
+      marginBottom: spacing.extraLarge,
     },
     successIcon: {
       width: moderateScale(80),
@@ -318,36 +318,37 @@ const createStyles = (colors: any) =>
     },
     checkmark: {
       color: colors.onPrimary,
-      fontSize: moderateScale(40),
+      fontSize: fontSize[48],
       fontWeight: 'bold',
     },
     messageContainer: {
       alignItems: 'center',
-      marginBottom: moderateScale(spacing.xl),
+      marginBottom: spacing.extraLarge,
     },
     emailText: {
       fontWeight: 'bold',
-      marginTop: moderateScale(spacing.sm),
+      marginTop: spacing.small,
     },
     instructionsContainer: {
-      marginBottom: moderateScale(spacing.xl),
+      marginBottom: spacing.extraLarge,
     },
     instructions: {
       textAlign: 'center',
       lineHeight: moderateScale(24),
-      marginBottom: moderateScale(spacing.lg),
+      marginBottom: spacing.large,
     },
     buttonContainer: {
-      gap: moderateScale(spacing.md),
+      gap: spacing.mediumLarge,
     },
     resendEmailButton: {
-      marginBottom: moderateScale(spacing.sm),
+      marginBottom: spacing.small,
     },
     loginButton: {
-      marginTop: moderateScale(spacing.sm),
+      marginTop: spacing.small,
     },
     resendButton: {
       paddingHorizontal: 0,
       alignSelf: 'flex-start',
     },
   });
+};

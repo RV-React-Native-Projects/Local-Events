@@ -10,7 +10,6 @@ export enum Icons {
   radioSelected = 'radio-button-checked',
   radioBlank = 'radio-button-unchecked',
   down = 'keyboard-arrow-down',
-  camera = 'camera-alt',
   folder = 'folder',
   edit = 'edit',
   star = 'star',
@@ -21,6 +20,23 @@ export enum Icons {
   security = 'security',
   help = 'help',
   logout = 'logout',
+  // Interest category icons
+  music = 'music-note',
+  coffee = 'local-cafe',
+  art = 'palette',
+  photography = 'camera-alt',
+  reading = 'book',
+  games = 'sports-esports',
+  food = 'restaurant',
+  tech = 'computer',
+  fitness = 'fitness-center',
+  social = 'volunteer-activism',
+  musicProduction = 'headphones',
+  business = 'business',
+  learning = 'school',
+  outdoor = 'park',
+  nightlife = 'nightlife',
+  community = 'groups',
 }
 
 export enum ImagePath {

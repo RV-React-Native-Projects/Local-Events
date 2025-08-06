@@ -18,6 +18,8 @@ import {
   ScreenPropsType,
 } from '@navigation/types';
 import { useAppTheme } from '@redux/hooks';
+import { radius, border } from '@themes/border';
+import { fontSize } from '@themes/fontSize';
 import { moderateScale } from '@themes/responsive';
 import { spacing } from '@themes/spacing';
 
@@ -62,6 +64,7 @@ export default function NewEvent({}: ScreenPropsType<
   NewEventNavigationProps,
   NewEventRouteProp
 >) {
+  const styles = useStyles();
   const { colors } = useAppTheme();
   const [formData, setFormData] = useState<FormData>({
     title: '',
@@ -458,140 +461,144 @@ export default function NewEvent({}: ScreenPropsType<
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  header: {
-    borderBottomWidth: 1,
-    borderBottomColor: '#f3f4f6',
-    backgroundColor: 'white',
-  },
-  headerContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: moderateScale(spacing.md),
-    paddingVertical: moderateScale(spacing.sm),
-  },
-  backButton: {
-    padding: moderateScale(spacing.xs),
-  },
-  headerText: {
-    flex: 1,
-    marginLeft: moderateScale(spacing.sm),
-  },
-  publishButton: {
-    minWidth: 80,
-  },
-  content: {
-    flex: 1,
-    paddingHorizontal: moderateScale(spacing.md),
-  },
-  section: {
-    marginBottom: moderateScale(spacing.lg),
-  },
-  sectionTitle: {
-    marginBottom: moderateScale(spacing.md),
-  },
-  formSection: {
-    gap: moderateScale(spacing.md),
-  },
-  imageUploadContainer: {
-    alignItems: 'center',
-  },
-  imageUpload: {
-    borderWidth: 2,
-    borderStyle: 'dashed',
-    borderColor: '#d1d5db',
-    borderRadius: moderateScale(8),
-    padding: moderateScale(spacing.xl),
-    alignItems: 'center',
-    width: '100%',
-  },
-  uploadIcon: {
-    fontSize: 32,
-    marginBottom: moderateScale(spacing.sm),
-  },
-  uploadText: {
-    marginTop: moderateScale(spacing.sm),
-    marginBottom: moderateScale(spacing.xs),
-  },
-  uploadSuccess: {
-    marginTop: moderateScale(spacing.sm),
-  },
-  categoryContainer: {
-    marginTop: moderateScale(spacing.sm),
-  },
-  categoryLabel: {
-    marginBottom: moderateScale(spacing.sm),
-  },
-  categoryGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: moderateScale(spacing.sm),
-  },
-  categoryItem: {
-    borderWidth: 1,
-    borderRadius: moderateScale(8),
-    padding: moderateScale(spacing.sm),
-    minWidth: '48%',
-  },
-  categoryContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: moderateScale(spacing.sm),
-  },
-  categoryIcon: {
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-  },
-  categoryText: {
-    flex: 1,
-  },
-  row: {
-    flexDirection: 'row',
-    gap: moderateScale(spacing.sm),
-  },
-  halfWidth: {
-    flex: 1,
-  },
-  switchContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: moderateScale(spacing.xs),
-  },
-  switchDescription: {
-    marginTop: moderateScale(spacing.xs),
-  },
-  previewContainer: {
-    borderRadius: moderateScale(8),
-    padding: moderateScale(spacing.md),
-  },
-  previewCard: {
-    borderRadius: moderateScale(8),
-    padding: moderateScale(spacing.md),
-    borderWidth: 1,
-    borderColor: '#dbeafe',
-  },
-  previewHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    marginBottom: moderateScale(spacing.sm),
-  },
-  previewText: {
-    flex: 1,
-    marginRight: moderateScale(spacing.sm),
-  },
-  previewBadge: {
-    paddingHorizontal: moderateScale(spacing.sm),
-    paddingVertical: moderateScale(spacing.xs),
-    borderRadius: moderateScale(12),
-  },
-  previewDetails: {
-    gap: moderateScale(spacing.xs),
-  },
-});
+const useStyles = () => {
+  const { colors } = useAppTheme();
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.appBackgroundColor,
+    },
+    header: {
+      borderBottomWidth: border.normal,
+      borderBottomColor: colors.inputBorder,
+      backgroundColor: colors.backgroundColor,
+    },
+    headerContent: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      paddingHorizontal: spacing.medium,
+      paddingVertical: spacing.small,
+    },
+    backButton: {
+      padding: spacing.xs,
+    },
+    headerText: {
+      flex: 1,
+      marginLeft: spacing.small,
+    },
+    publishButton: {
+      minWidth: moderateScale(80),
+    },
+    content: {
+      flex: 1,
+      paddingHorizontal: spacing.medium,
+    },
+    section: {
+      marginBottom: spacing.large,
+    },
+    sectionTitle: {
+      marginBottom: spacing.medium,
+    },
+    formSection: {
+      gap: spacing.medium,
+    },
+    imageUploadContainer: {
+      alignItems: 'center',
+    },
+    imageUpload: {
+      borderWidth: border.thick,
+      borderStyle: 'dashed',
+      borderColor: colors.inputBorder,
+      borderRadius: radius.md,
+      padding: spacing.extraLarge,
+      alignItems: 'center',
+      width: '100%',
+    },
+    uploadIcon: {
+      fontSize: fontSize[32],
+      marginBottom: spacing.small,
+    },
+    uploadText: {
+      marginTop: spacing.small,
+      marginBottom: spacing.xs,
+    },
+    uploadSuccess: {
+      marginTop: spacing.small,
+    },
+    categoryContainer: {
+      marginTop: spacing.small,
+    },
+    categoryLabel: {
+      marginBottom: spacing.small,
+    },
+    categoryGrid: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      gap: spacing.small,
+    },
+    categoryItem: {
+      borderWidth: border.normal,
+      borderRadius: radius.md,
+      padding: spacing.small,
+      minWidth: '48%',
+    },
+    categoryContent: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: spacing.small,
+    },
+    categoryIcon: {
+      width: moderateScale(20),
+      height: moderateScale(20),
+      borderRadius: moderateScale(10),
+    },
+    categoryText: {
+      flex: 1,
+    },
+    row: {
+      flexDirection: 'row',
+      gap: spacing.small,
+    },
+    halfWidth: {
+      flex: 1,
+    },
+    switchContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      paddingVertical: spacing.xs,
+    },
+    switchDescription: {
+      marginTop: spacing.xs,
+    },
+    previewContainer: {
+      borderRadius: radius.md,
+      padding: spacing.medium,
+    },
+    previewCard: {
+      borderRadius: radius.md,
+      padding: spacing.medium,
+      borderWidth: border.normal,
+      borderColor: colors.info,
+    },
+    previewHeader: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'flex-start',
+      marginBottom: spacing.small,
+    },
+    previewText: {
+      flex: 1,
+      marginRight: spacing.small,
+    },
+    previewBadge: {
+      paddingHorizontal: spacing.small,
+      paddingVertical: spacing.xs,
+      borderRadius: radius.lg,
+    },
+    previewDetails: {
+      gap: spacing.xs,
+    },
+  });
+};

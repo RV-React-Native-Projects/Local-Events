@@ -1,7 +1,13 @@
-/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/no-unstable-nested-components */
 import { useState } from 'react';
-import { View, ScrollView, TouchableOpacity, Image, Alert } from 'react-native';
+import {
+  View,
+  ScrollView,
+  TouchableOpacity,
+  Image,
+  Alert,
+  StyleSheet,
+} from 'react-native';
 import AppButton from '@components/AppButton/AppButton';
 import AppText from '@components/AppText/AppText';
 import { ScreenWrapper } from '@components/Wrapper';
@@ -11,6 +17,8 @@ import {
   ScreenPropsType,
 } from '@navigation/types';
 import { useAppTheme } from '@redux/hooks';
+import { radius, border } from '@themes/border';
+import { fontSize } from '@themes/fontSize';
 import { moderateScale } from '@themes/responsive';
 import { spacing } from '@themes/spacing';
 
@@ -77,7 +85,7 @@ export default function EventDetails({}: ScreenPropsType<
   EventDetailsNavigationProps,
   EventDetailsRouteProp
 >) {
-  const { colors } = useAppTheme();
+  const styles = useStyles();
   const [isLiked, setIsLiked] = useState(mockEventDetails.isLiked);
   const [isJoined, setIsJoined] = useState(mockEventDetails.isJoined);
   const [showAllAttendees, setShowAllAttendees] = useState(false);
@@ -110,19 +118,11 @@ export default function EventDetails({}: ScreenPropsType<
     index: number;
   }) => (
     <View
-      style={{
-        width: moderateScale(40),
-        height: moderateScale(40),
-        borderRadius: moderateScale(20),
-        borderWidth: 2,
-        borderColor: colors.white,
-        marginLeft: index > 0 ? -spacing.small : 0,
-        overflow: 'hidden',
-      }}>
-      <Image
-        source={{ uri: attendee.avatar }}
-        style={{ width: '100%', height: '100%' }}
-      />
+      style={[
+        styles.attendeeAvatar,
+        index > 0 ? styles.attendeeOverlap : null,
+      ]}>
+      <Image source={{ uri: attendee.avatar }} style={styles.attendeeImage} />
     </View>
   );
 
@@ -136,35 +136,20 @@ export default function EventDetails({}: ScreenPropsType<
     subtitle?: string;
     extra?: string;
   }) => (
-    <View
-      style={{
-        flexDirection: 'row',
-        alignItems: 'flex-start',
-        marginBottom: spacing.medium,
-      }}>
-      <View style={{ marginRight: spacing.medium, marginTop: spacing.small }}>
+    <View style={styles.detailItem}>
+      <View style={styles.detailIconContainer}>
         {/* Icon placeholder */}
-        <View
-          style={{
-            width: moderateScale(20),
-            height: moderateScale(20),
-            backgroundColor: colors.borderAlt,
-            borderRadius: moderateScale(10),
-          }}
-        />
+        <View style={styles.detailIcon} />
       </View>
-      <View style={{ flex: 1 }}>
-        <AppText
-          variant="body"
-          color="text"
-          style={{ marginBottom: spacing.small }}>
+      <View style={styles.detailContent}>
+        <AppText variant="body" color="text" style={styles.detailTitle}>
           {title}
         </AppText>
         {subtitle && (
           <AppText
             variant="footnote"
             color="secondaryText"
-            style={{ marginBottom: spacing.small }}>
+            style={styles.detailSubtitle}>
             {subtitle}
           </AppText>
         )}
@@ -178,19 +163,8 @@ export default function EventDetails({}: ScreenPropsType<
   );
 
   const TagBadge = ({ tag }: { tag: string }) => (
-    <View
-      style={{
-        backgroundColor: colors.background,
-        paddingHorizontal: spacing.medium,
-        paddingVertical: spacing.small,
-        borderRadius: moderateScale(12),
-        marginRight: spacing.small,
-        marginBottom: spacing.small,
-      }}>
-      <AppText
-        variant="footnote"
-        color="secondaryText"
-        style={{ fontSize: moderateScale(10) }}>
+    <View style={styles.tagBadge}>
+      <AppText variant="footnote" color="secondaryText" style={styles.tagText}>
         {tag}
       </AppText>
     </View>
@@ -199,152 +173,81 @@ export default function EventDetails({}: ScreenPropsType<
   return (
     <ScreenWrapper scrollEnabled>
       {/* Header */}
-      <View
-        style={{
-          backgroundColor: colors.white,
-          borderBottomWidth: 1,
-          borderBottomColor: colors.borderAlt,
-          paddingHorizontal: spacing.mediumLarge,
-          paddingVertical: spacing.medium,
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <TouchableOpacity
-            style={{
-              padding: spacing.small,
-              borderRadius: moderateScale(8),
-              marginRight: spacing.medium,
-            }}>
+      <View style={styles.header}>
+        <View style={styles.headerLeft}>
+          <TouchableOpacity style={styles.backButton}>
             {/* Back arrow placeholder */}
-            <View
-              style={{
-                width: moderateScale(20),
-                height: moderateScale(20),
-                backgroundColor: colors.borderAlt,
-                borderRadius: moderateScale(10),
-              }}
-            />
+            <View style={styles.backIcon} />
           </TouchableOpacity>
           <AppText
             variant="title"
             color="text"
             numberOfLines={1}
-            style={{ flex: 1 }}>
+            style={styles.headerTitle}>
             Event Details
           </AppText>
         </View>
-        <View style={{ flexDirection: 'row', gap: spacing.small }}>
-          <TouchableOpacity
-            onPress={handleLike}
-            style={{
-              padding: spacing.small,
-              borderRadius: moderateScale(8),
-            }}>
+        <View style={styles.headerActions}>
+          <TouchableOpacity onPress={handleLike} style={styles.headerButton}>
             {/* Heart icon placeholder */}
             <View
-              style={{
-                width: moderateScale(20),
-                height: moderateScale(20),
-                backgroundColor: isLiked ? colors.error : colors.borderAlt,
-                borderRadius: moderateScale(10),
-              }}
+              style={[
+                styles.headerIcon,
+                isLiked ? styles.likedIcon : styles.unlikedIcon,
+              ]}
             />
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={handleShare}
-            style={{
-              padding: spacing.small,
-              borderRadius: moderateScale(8),
-            }}>
+          <TouchableOpacity onPress={handleShare} style={styles.headerButton}>
             {/* Share icon placeholder */}
-            <View
-              style={{
-                width: moderateScale(20),
-                height: moderateScale(20),
-                backgroundColor: colors.borderAlt,
-                borderRadius: moderateScale(10),
-              }}
-            />
+            <View style={[styles.headerIcon, styles.unlikedIcon]} />
           </TouchableOpacity>
         </View>
       </View>
 
       <ScrollView
-        style={{ flex: 1, backgroundColor: colors.background }}
-        contentContainerStyle={{ paddingBottom: spacing.massive }}
+        style={styles.scrollView}
+        contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}>
         {/* Event Image */}
-        <View style={{ position: 'relative', marginBottom: spacing.large }}>
+        <View style={styles.imageContainer}>
           <Image
             source={{ uri: mockEventDetails.image }}
-            style={{
-              width: '100%',
-              height: moderateScale(200),
-              resizeMode: 'cover',
-            }}
+            style={styles.eventImage}
           />
-          <View
-            style={{
-              position: 'absolute',
-              top: spacing.medium,
-              left: spacing.medium,
-              backgroundColor: colors.primaryVariant,
-              paddingHorizontal: spacing.medium,
-              paddingVertical: spacing.small,
-              borderRadius: moderateScale(12),
-            }}>
+          <View style={styles.categoryBadge}>
             <AppText
               variant="footnote"
               color="primary"
-              style={{ fontSize: moderateScale(10) }}>
+              style={styles.categoryText}>
               {mockEventDetails.category}
             </AppText>
           </View>
         </View>
 
-        <View style={{ padding: spacing.mediumLarge }}>
+        <View style={styles.contentContainer}>
           {/* Main Content Card */}
-          <View
-            style={{
-              backgroundColor: colors.white,
-              borderRadius: moderateScale(12),
-              padding: spacing.large,
-              marginBottom: spacing.large,
-              borderWidth: 1,
-              borderColor: colors.borderAlt,
-            }}>
+          <View style={styles.eventInfo}>
             {/* Title and Description */}
-            <View style={{ marginBottom: spacing.large }}>
-              <AppText
-                variant="title"
-                color="text"
-                style={{
-                  marginBottom: spacing.medium,
-                  fontSize: moderateScale(24),
-                }}>
+            <View style={styles.titleSection}>
+              <AppText variant="title" color="text" style={styles.eventTitle}>
                 {mockEventDetails.title}
               </AppText>
               <AppText
                 variant="body"
                 color="secondaryText"
-                style={{
-                  marginBottom: spacing.medium,
-                  lineHeight: moderateScale(20),
-                }}>
+                style={styles.eventDescription}>
                 {mockEventDetails.description}
               </AppText>
               <AppText
                 variant="body"
                 color="secondaryText"
-                style={{ lineHeight: moderateScale(20) }}>
+                style={styles.longDescription}>
                 {mockEventDetails.longDescription}
               </AppText>
             </View>
 
             {/* Event Details */}
-            <View style={{ marginBottom: spacing.large }}>
+            <View style={styles.detailsSection}>
               <EventDetailItem
                 icon="calendar"
                 title={mockEventDetails.date}
@@ -364,14 +267,11 @@ export default function EventDetails({}: ScreenPropsType<
             </View>
 
             {/* Tags */}
-            <View style={{ marginBottom: spacing.large }}>
-              <AppText
-                variant="body"
-                color="text"
-                style={{ marginBottom: spacing.medium }}>
+            <View style={styles.tagsSection}>
+              <AppText variant="body" color="text" style={styles.tagsTitle}>
                 Tags
               </AppText>
-              <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+              <View style={styles.tagsContainer}>
                 {mockEventDetails.tags.map(tag => (
                   <TagBadge key={tag} tag={tag} />
                 ))}
@@ -379,46 +279,29 @@ export default function EventDetails({}: ScreenPropsType<
             </View>
 
             {/* Divider */}
-            <View
-              style={{
-                height: 1,
-                backgroundColor: colors.borderAlt,
-                marginVertical: spacing.large,
-              }}
-            />
+            <View style={styles.divider} />
 
             {/* Host Information */}
-            <View style={{ marginBottom: spacing.large }}>
-              <AppText
-                variant="title"
-                color="text"
-                style={{ marginBottom: spacing.medium }}>
+            <View style={styles.hostSection}>
+              <AppText variant="title" color="text" style={styles.hostTitle}>
                 Hosted by
               </AppText>
-              <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
+              <View style={styles.hostContent}>
                 <Image
                   source={{ uri: mockEventDetails.host.avatar }}
-                  style={{
-                    width: moderateScale(48),
-                    height: moderateScale(48),
-                    borderRadius: moderateScale(24),
-                    marginRight: spacing.medium,
-                  }}
+                  style={styles.hostAvatar}
                 />
-                <View style={{ flex: 1 }}>
-                  <AppText
-                    variant="body"
-                    color="text"
-                    style={{ marginBottom: spacing.small }}>
+                <View style={styles.hostInfo}>
+                  <AppText variant="body" color="text" style={styles.hostName}>
                     {mockEventDetails.host.name}
                   </AppText>
                   <AppText
                     variant="footnote"
                     color="secondaryText"
-                    style={{ marginBottom: spacing.small }}>
+                    style={styles.hostBio}>
                     {mockEventDetails.host.bio}
                   </AppText>
-                  <View style={{ flexDirection: 'row', gap: spacing.medium }}>
+                  <View style={styles.hostStats}>
                     <AppText variant="footnote" color="secondaryText">
                       {mockEventDetails.host.eventsHosted} events hosted
                     </AppText>
@@ -437,23 +320,11 @@ export default function EventDetails({}: ScreenPropsType<
             </View>
 
             {/* Divider */}
-            <View
-              style={{
-                height: 1,
-                backgroundColor: colors.borderAlt,
-                marginVertical: spacing.large,
-              }}
-            />
+            <View style={styles.divider} />
 
             {/* Attendees */}
-            <View style={{ marginBottom: spacing.large }}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  marginBottom: spacing.medium,
-                }}>
+            <View style={styles.attendeesSection}>
+              <View style={styles.attendeesHeader}>
                 <AppText variant="title" color="text">
                   Who&apos;s going ({mockEventDetails.attendees})
                 </AppText>
@@ -464,7 +335,7 @@ export default function EventDetails({}: ScreenPropsType<
                   </AppText>
                 </TouchableOpacity>
               </View>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <View style={styles.attendeesList}>
                 {mockEventDetails.attendeesData
                   .slice(0, showAllAttendees ? undefined : 6)
                   .map((attendee, index) => (
@@ -475,19 +346,11 @@ export default function EventDetails({}: ScreenPropsType<
                     />
                   ))}
                 {mockEventDetails.attendees > 6 && !showAllAttendees && (
-                  <View
-                    style={{
-                      width: moderateScale(40),
-                      height: moderateScale(40),
-                      borderRadius: moderateScale(20),
-                      backgroundColor: colors.background,
-                      borderWidth: 2,
-                      borderColor: colors.white,
-                      marginLeft: -spacing.small,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}>
-                    <AppText variant="footnote" color="secondaryText">
+                  <View style={styles.moreAttendees}>
+                    <AppText
+                      variant="footnote"
+                      color="secondaryText"
+                      style={styles.moreText}>
                       +{mockEventDetails.attendees - 6}
                     </AppText>
                   </View>
@@ -496,40 +359,20 @@ export default function EventDetails({}: ScreenPropsType<
             </View>
 
             {/* Divider */}
-            <View
-              style={{
-                height: 1,
-                backgroundColor: colors.borderAlt,
-                marginVertical: spacing.large,
-              }}
-            />
+            <View style={styles.divider} />
 
             {/* Event Rules */}
-            <View>
-              <AppText
-                variant="title"
-                color="text"
-                style={{ marginBottom: spacing.medium }}>
+            <View style={styles.rulesSection}>
+              <AppText variant="title" color="text" style={styles.rulesTitle}>
                 Event Guidelines
               </AppText>
               {mockEventDetails.rules.map((rule, index) => (
-                <View
-                  key={index}
-                  style={{ flexDirection: 'row', marginBottom: spacing.small }}>
-                  <View
-                    style={{
-                      width: moderateScale(6),
-                      height: moderateScale(6),
-                      backgroundColor: colors.borderAlt,
-                      borderRadius: moderateScale(3),
-                      marginTop: spacing.small,
-                      marginRight: spacing.small,
-                    }}
-                  />
+                <View key={index} style={styles.ruleItem}>
+                  <View style={styles.ruleBullet} />
                   <AppText
                     variant="footnote"
                     color="secondaryText"
-                    style={{ flex: 1 }}>
+                    style={styles.ruleText}>
                     {rule}
                   </AppText>
                 </View>
@@ -538,22 +381,8 @@ export default function EventDetails({}: ScreenPropsType<
           </View>
 
           {/* Location Card */}
-          <View
-            style={{
-              backgroundColor: colors.white,
-              borderRadius: moderateScale(12),
-              padding: spacing.large,
-              marginBottom: spacing.large,
-              borderWidth: 1,
-              borderColor: colors.borderAlt,
-            }}>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                marginBottom: spacing.medium,
-              }}>
+          <View style={styles.locationCard}>
+            <View style={styles.locationHeader}>
               <AppText variant="title" color="text">
                 Location
               </AppText>
@@ -564,15 +393,11 @@ export default function EventDetails({}: ScreenPropsType<
                 onPress={handleDirections}
               />
             </View>
-            <View
-              style={{
-                backgroundColor: colors.background,
-                height: moderateScale(120),
-                borderRadius: moderateScale(8),
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <AppText variant="footnote" color="secondaryText">
+            <View style={styles.mapContainer}>
+              <AppText
+                variant="footnote"
+                color="secondaryText"
+                style={styles.mapText}>
                 Map View (Integration with Maps API)
               </AppText>
             </View>
@@ -581,24 +406,17 @@ export default function EventDetails({}: ScreenPropsType<
       </ScrollView>
 
       {/* Bottom CTA */}
-      <View
-        style={{
-          backgroundColor: colors.white,
-          borderTopWidth: 1,
-          borderTopColor: colors.borderAlt,
-          paddingHorizontal: spacing.mediumLarge,
-          paddingVertical: spacing.medium,
-        }}>
-        <View style={{ flexDirection: 'row', gap: spacing.medium }}>
+      <View style={styles.bottomCTA}>
+        <View style={styles.ctaButtons}>
           <AppButton
             title={isJoined ? 'Cancel RSVP' : 'RSVP for Free'}
             variant="outline"
-            style={{ flex: 1 }}
+            style={styles.ctaButton}
             onPress={handleJoin}
           />
           <AppButton
             title={isJoined ? "You're Going!" : 'Join Event'}
-            style={{ flex: 1 }}
+            style={styles.ctaButton}
             onPress={handleJoin}
           />
         </View>
@@ -606,3 +424,379 @@ export default function EventDetails({}: ScreenPropsType<
     </ScreenWrapper>
   );
 }
+
+const useStyles = () => {
+  const { colors } = useAppTheme();
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.appBackgroundColor,
+    },
+    header: {
+      backgroundColor: colors.backgroundColor,
+      borderBottomWidth: border.normal,
+      borderBottomColor: colors.inputBorder,
+      paddingHorizontal: spacing.mediumLarge,
+      paddingVertical: spacing.medium,
+    },
+    headerContent: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+    headerLeft: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    backButton: {
+      padding: spacing.small,
+      borderRadius: radius.lg,
+      marginRight: spacing.medium,
+    },
+    backIcon: {
+      width: moderateScale(20),
+      height: moderateScale(20),
+      backgroundColor: colors.borderAlt,
+      borderRadius: moderateScale(10),
+    },
+    headerTitle: {
+      flex: 1,
+    },
+    headerActions: {
+      flexDirection: 'row',
+      gap: spacing.small,
+    },
+    headerButton: {
+      padding: spacing.small,
+      borderRadius: radius.lg,
+    },
+    headerIcon: {
+      width: moderateScale(20),
+      height: moderateScale(20),
+      borderRadius: moderateScale(10),
+    },
+    likedIcon: {
+      backgroundColor: colors.error,
+    },
+    unlikedIcon: {
+      backgroundColor: colors.borderAlt,
+    },
+
+    scrollView: {
+      flex: 1,
+    },
+    scrollContent: {
+      padding: spacing.mediumLarge,
+    },
+    contentContainer: {
+      padding: spacing.mediumLarge,
+    },
+    titleSection: {
+      marginBottom: spacing.large,
+    },
+    longDescription: {
+      lineHeight: moderateScale(20),
+    },
+    divider: {
+      height: border.normal,
+      backgroundColor: colors.borderAlt,
+      marginVertical: spacing.large,
+    },
+    imageContainer: {
+      position: 'relative',
+      marginBottom: spacing.large,
+    },
+    eventImage: {
+      width: '100%',
+      height: moderateScale(200),
+      borderRadius: radius.xl,
+    },
+    imageOverlay: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: 'rgba(0, 0, 0, 0.3)',
+      borderRadius: radius.xl,
+    },
+    categoryBadge: {
+      position: 'absolute',
+      top: spacing.small,
+      left: spacing.small,
+      backgroundColor: colors.primary,
+      paddingHorizontal: spacing.small,
+      paddingVertical: spacing.xs,
+      borderRadius: radius.xl,
+    },
+    categoryText: {
+      fontSize: fontSize[12],
+      fontWeight: '600',
+      color: colors.onPrimary,
+    },
+    eventInfo: {
+      backgroundColor: colors.backgroundColor,
+      borderRadius: radius.xl,
+      padding: spacing.large,
+      marginBottom: spacing.large,
+      borderWidth: border.normal,
+      borderColor: colors.inputBorder,
+    },
+    eventTitle: {
+      fontSize: fontSize[24],
+      fontWeight: 'bold',
+      color: colors.text,
+      marginBottom: spacing.small,
+    },
+    eventDescription: {
+      fontSize: fontSize[14],
+      color: colors.secondaryText,
+      lineHeight: moderateScale(20),
+      marginBottom: spacing.medium,
+    },
+    hostSection: {
+      marginBottom: spacing.large,
+    },
+    hostTitle: {
+      marginBottom: spacing.medium,
+    },
+    hostContent: {
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+    },
+    hostName: {
+      marginBottom: spacing.small,
+    },
+    hostBio: {
+      marginBottom: spacing.small,
+    },
+    hostStats: {
+      flexDirection: 'row',
+      gap: spacing.medium,
+    },
+    hostAvatar: {
+      width: moderateScale(48),
+      height: moderateScale(48),
+      borderRadius: moderateScale(24),
+      marginRight: spacing.medium,
+    },
+    hostInfo: {
+      flex: 1,
+    },
+
+    actionButtons: {
+      flexDirection: 'row',
+      gap: spacing.medium,
+      marginBottom: spacing.large,
+    },
+    actionButton: {
+      flex: 1,
+    },
+    detailsSection: {
+      marginBottom: spacing.large,
+    },
+    detailsCard: {
+      backgroundColor: colors.backgroundColor,
+      borderRadius: radius.xl,
+      padding: spacing.large,
+      marginBottom: spacing.large,
+      borderWidth: border.normal,
+      borderColor: colors.inputBorder,
+    },
+    detailsTitle: {
+      fontSize: fontSize[18],
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: spacing.medium,
+    },
+    detailItem: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginBottom: spacing.medium,
+    },
+    detailIconContainer: {
+      marginRight: spacing.medium,
+      marginTop: spacing.small,
+    },
+    detailIcon: {
+      width: moderateScale(20),
+      height: moderateScale(20),
+      backgroundColor: colors.borderAlt,
+      borderRadius: moderateScale(10),
+    },
+    detailContent: {
+      flex: 1,
+    },
+    detailTitle: {
+      fontSize: fontSize[14],
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: spacing.xs,
+    },
+    detailSubtitle: {
+      fontSize: fontSize[12],
+      color: colors.secondaryText,
+    },
+    attendeesSection: {
+      backgroundColor: colors.backgroundColor,
+      borderRadius: radius.xl,
+      padding: spacing.large,
+      marginBottom: spacing.large,
+      borderWidth: border.normal,
+      borderColor: colors.inputBorder,
+    },
+    attendeesHeader: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: spacing.medium,
+    },
+    attendeesTitle: {
+      fontSize: fontSize[18],
+      fontWeight: '600',
+      color: colors.text,
+    },
+    attendeesCount: {
+      fontSize: fontSize[14],
+      color: colors.secondaryText,
+    },
+    attendeesList: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    attendeeAvatar: {
+      width: moderateScale(40),
+      height: moderateScale(40),
+      borderRadius: moderateScale(20),
+      borderWidth: border.thick,
+      borderColor: colors.backgroundColor,
+      overflow: 'hidden',
+    },
+    attendeeImage: {
+      width: '100%',
+      height: '100%',
+    },
+    attendeeOverlap: {
+      marginLeft: -spacing.xs,
+    },
+    moreAttendees: {
+      width: moderateScale(32),
+      height: moderateScale(32),
+      borderRadius: moderateScale(16),
+      backgroundColor: colors.primary,
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginLeft: -spacing.xs,
+    },
+    moreText: {
+      fontSize: fontSize[10],
+      fontWeight: '600',
+      color: colors.onPrimary,
+    },
+    tagsSection: {
+      backgroundColor: colors.backgroundColor,
+      borderRadius: radius.xl,
+      padding: spacing.large,
+      marginBottom: spacing.large,
+      borderWidth: border.normal,
+      borderColor: colors.inputBorder,
+    },
+    tagsTitle: {
+      fontSize: fontSize[18],
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: spacing.medium,
+    },
+    tagsContainer: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      gap: spacing.small,
+    },
+    tagBadge: {
+      backgroundColor: colors.info,
+      paddingHorizontal: spacing.medium,
+      paddingVertical: spacing.xs,
+      borderRadius: radius.xl,
+    },
+    tagText: {
+      fontSize: fontSize[12],
+      color: colors.primary,
+      fontWeight: '500',
+    },
+    rulesSection: {
+      backgroundColor: colors.backgroundColor,
+      borderRadius: radius.xl,
+      padding: spacing.large,
+      marginBottom: spacing.large,
+      borderWidth: border.normal,
+      borderColor: colors.inputBorder,
+    },
+    rulesTitle: {
+      fontSize: fontSize[18],
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: spacing.medium,
+    },
+    ruleItem: {
+      flexDirection: 'row',
+      marginBottom: spacing.small,
+    },
+    ruleBullet: {
+      width: moderateScale(6),
+      height: moderateScale(6),
+      backgroundColor: colors.borderAlt,
+      borderRadius: moderateScale(3),
+      marginTop: spacing.small,
+      marginRight: spacing.small,
+    },
+    ruleText: {
+      flex: 1,
+      fontSize: fontSize[12],
+      color: colors.secondaryText,
+    },
+    locationCard: {
+      backgroundColor: colors.backgroundColor,
+      borderRadius: radius.xl,
+      padding: spacing.large,
+      marginBottom: spacing.large,
+      borderWidth: border.normal,
+      borderColor: colors.inputBorder,
+    },
+    locationHeader: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: spacing.medium,
+    },
+    locationTitle: {
+      fontSize: fontSize[18],
+      fontWeight: '600',
+      color: colors.text,
+    },
+    mapContainer: {
+      backgroundColor: colors.background,
+      height: moderateScale(120),
+      borderRadius: radius.md,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    mapText: {
+      fontSize: fontSize[12],
+      color: colors.secondaryText,
+    },
+    bottomCTA: {
+      backgroundColor: colors.backgroundColor,
+      borderTopWidth: border.normal,
+      borderTopColor: colors.inputBorder,
+      paddingHorizontal: spacing.mediumLarge,
+      paddingVertical: spacing.medium,
+    },
+    ctaButtons: {
+      flexDirection: 'row',
+      gap: spacing.medium,
+    },
+    ctaButton: {
+      flex: 1,
+    },
+  });
+};
