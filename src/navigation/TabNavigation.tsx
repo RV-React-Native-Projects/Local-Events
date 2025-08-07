@@ -281,8 +281,8 @@ function TabButton(props: TabBarButtonProps) {
         {options.tabBarIcon &&
           options.tabBarIcon({
             focused: isFocused,
-            color: isFocused ? colors.primary : colors.paragraph,
-            size: moderateScale(30),
+            color: isFocused ? colors.primary : colors.secondaryText,
+            size: moderateScale(25),
           })}
       </Animated.View>
       {/* <AppText
@@ -326,7 +326,7 @@ const useStyles = () => {
       left: 0,
       right: 0,
       alignItems: 'center',
-      ...shadow.regular,
+      ...shadow.large,
     },
     tabStyle: {
       width: TAB_WIDTH,

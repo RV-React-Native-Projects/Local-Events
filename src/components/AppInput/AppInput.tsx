@@ -13,7 +13,7 @@ const AppInput = React.memo((props: AppTextInputProps) => {
   const { colors } = useAppTheme();
   const { inputStyle } = useInputStyle();
   const {
-    label = "label",
+    label,
     error = false,
     errorMessage = '',
     height = INPUT_HEIGHT,

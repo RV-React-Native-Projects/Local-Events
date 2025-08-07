@@ -1,24 +1,27 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import {
   View,
   ScrollView,
   TouchableOpacity,
   StyleSheet,
-  Image,
+  FlatList,
+  Pressable,
 } from 'react-native';
-import { AppButton } from '@components/AppButton';
+import MaterialIcons from '@react-native-vector-icons/material-icons';
 import AppInput from '@components/AppInput/AppInput';
 import { AppText } from '@components/AppText';
+import { ScreenWrapper } from '@components/Wrapper';
 import {
   HomeNavigationProps,
   HomeRouteProp,
   ScreenPropsType,
 } from '@navigation/types';
 import { useAppTheme } from '@redux/hooks';
-import { radius, border } from '@themes/border';
-import { fontSize } from '@themes/fontSize';
+import { radius } from '@themes/border';
+import { opacity } from '@themes/opacity';
 import { moderateScale } from '@themes/responsive';
-import { spacing } from '@themes/spacing';
+import { gully, spacing } from '@themes/spacing';
+import { EventCard, EventCardProps } from '../cards';
 
 const mockEvents = [
   {
@@ -145,143 +148,55 @@ export default function Home({}: ScreenPropsType<
     console.log('Filter clicked');
   };
 
-  const renderEventCard = (event: any) => {
-    return (
-      <TouchableOpacity
-        key={event.id}
-        style={styles.eventCard}
-        onPress={() => handleEventClick(event.id)}
-        activeOpacity={0.8}>
-        {/* Event Image */}
-        <View style={styles.imageContainer}>
-          <Image source={{ uri: event.image }} style={styles.eventImage} />
-          <View
-            style={[
-              styles.categoryBadge,
-              { backgroundColor: event.categoryColor },
-            ]}>
-            <AppText variant="footnote10" color="white">
-              {event.category}
-            </AppText>
-          </View>
-          <View style={styles.actionButtons}>
-            <TouchableOpacity
-              style={styles.actionButton}
-              onPress={() => handleLike(event.id)}>
-              <AppText
-                style={[styles.actionIcon, event.isLiked && styles.likedIcon]}>
-                ♥
-              </AppText>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.actionButton}
-              onPress={() => handleShare(event.id)}>
-              <AppText style={styles.actionIcon}>↗</AppText>
-            </TouchableOpacity>
-          </View>
-        </View>
+  const renderEventCard = ({ item }: { item: EventCardProps }) => (
+    <EventCard
+      {...item}
+      onPress={handleEventClick}
+      onLike={handleLike}
+      onShare={handleShare}
+      onJoin={() => {}}
+    />
+  );
 
-        {/* Event Content */}
-        <View style={styles.eventContent}>
-          <View style={styles.eventHeader}>
-            <View style={styles.eventTitleContainer}>
-              <AppText variant="title3" color="text">
-                {event.title}
-              </AppText>
-              <AppText
-                variant="footnote"
-                color="secondaryText"
-                numberOfLines={2}>
-                {event.description}
-              </AppText>
-            </View>
-          </View>
-
-          {/* Event Details */}
-          <View style={styles.eventDetails}>
-            <View style={styles.detailRow}>
-              <AppText style={styles.detailIcon}>📅</AppText>
-              <AppText variant="footnote" color="secondaryText">
-                {event.date} • {event.time}
-              </AppText>
-            </View>
-            <View style={styles.detailRow}>
-              <AppText style={styles.detailIcon}>📍</AppText>
-              <AppText variant="footnote" color="secondaryText">
-                {event.location}
-              </AppText>
-              <AppText variant="footnote" color="primary">
-                • {event.distance}
-              </AppText>
-            </View>
-            <View style={styles.detailRow}>
-              <AppText style={styles.detailIcon}>👥</AppText>
-              <AppText variant="footnote" color="secondaryText">
-                {event.attendees}/{event.maxAttendees} attending
-              </AppText>
-              <AppText variant="footnote" color="success">
-                • {event.price}
-              </AppText>
-            </View>
-          </View>
-
-          {/* Host Info */}
-          <View style={styles.hostSection}>
-            <View style={styles.hostInfo}>
-              <Image
-                source={{ uri: event.host.avatar }}
-                style={styles.hostAvatar}
-              />
-              <AppText variant="footnote" color="secondaryText">
-                Hosted by {event.host.name}
-              </AppText>
-            </View>
-            <AppButton
-              title="Join"
-              onPress={() => {}}
-              style={styles.joinButton}
-            />
-          </View>
-        </View>
-      </TouchableOpacity>
-    );
-  };
+  const scrollRef = useRef<ScrollView>(null);
 
   return (
-    <View style={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
-        <View style={styles.headerContent}>
+    <ScreenWrapper scrollEnabled={false} statusBarColor="primary">
+      <ScrollView
+        ref={scrollRef}
+        keyboardShouldPersistTaps="handled"
+        contentContainerStyle={{ paddingBottom: moderateScale(100) }}
+        stickyHeaderIndices={[1]}>
+        <View style={styles.header}>
           <View>
-            <AppText variant="title1" color="text">
+            <AppText variant="header" color="text">
               Events Near You
             </AppText>
-            <AppText variant="subhead" color="secondaryText">
+            <AppText variant="footnote" color="secondaryText">
               Discover local happenings
             </AppText>
           </View>
-          <TouchableOpacity style={styles.filterButton} onPress={handleFilter}>
-            <AppText style={styles.filterIcon}>⚙️</AppText>
-          </TouchableOpacity>
+          <Pressable onPress={handleFilter}>
+            <MaterialIcons name="filter-list" size={24} />
+          </Pressable>
         </View>
-
-        {/* Search Bar */}
-        <View style={styles.searchContainer}>
-          <AppText style={styles.searchIcon}>🔍</AppText>
+        <View style={styles.stickySearchWrapper}>
           <AppInput
+            label={undefined}
             placeholder="Search events, categories, or locations..."
             value={searchQuery}
             onChangeText={setSearchQuery}
             style={styles.searchInput}
           />
+          {/* <MaterialDesignIcons name="search-web" size={30} /> */}
         </View>
-      </View>
-
-      {/* Quick Filters */}
-      <View style={styles.filtersContainer}>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        <ScrollView
+          contentContainerStyle={styles.scrollContentContainer}
+          horizontal
+          showsHorizontalScrollIndicator={false}>
           {filters.map(filter => (
             <TouchableOpacity
+              activeOpacity={opacity.dark}
               key={filter}
               style={[
                 styles.filterChip,
@@ -289,253 +204,68 @@ export default function Home({}: ScreenPropsType<
                   styles.selectedFilterChip,
               ]}
               onPress={() => setSelectedFilter(filter.toLowerCase())}>
-              <AppText
-                variant="label"
-                color={
-                  selectedFilter === filter.toLowerCase()
-                    ? 'primary'
-                    : 'secondaryText'
-                }>
+              <AppText variant="label" color={'onPrimary'}>
                 {filter}
               </AppText>
             </TouchableOpacity>
           ))}
         </ScrollView>
-      </View>
-
-      {/* Events List */}
-      <ScrollView
-        style={styles.eventsContainer}
-        showsVerticalScrollIndicator={false}>
-        <View style={styles.eventsGrid}>
-          {mockEvents.map(event => renderEventCard(event))}
-        </View>
-
-        {/* Load More */}
-        <View style={styles.loadMoreContainer}>
-          <AppButton
-            title="Load More Events"
-            onPress={() => {}}
-            style={styles.loadMoreButton}
-          />
-        </View>
+        <FlatList
+          data={mockEvents}
+          scrollEnabled={false}
+          renderItem={renderEventCard}
+          keyExtractor={item => item.id.toString()}
+          contentContainerStyle={{ paddingHorizontal: gully }}
+        />
       </ScrollView>
-    </View>
+    </ScreenWrapper>
   );
 }
 
 const useStyles = () => {
-  const { colors } = useAppTheme();
+  const { colors, shadow } = useAppTheme();
   return StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: colors.appBackgroundColor,
     },
     header: {
-      backgroundColor: colors.primary,
-      paddingHorizontal: spacing.mediumLarge,
-      paddingVertical: spacing.large,
-    },
-    headerContent: {
-      marginBottom: spacing.large,
-    },
-    headerTitle: {
-      fontSize: fontSize[28],
-      fontWeight: 'bold',
-      color: colors.onPrimary,
-      marginBottom: spacing.base,
-    },
-    headerSubtitle: {
-      fontSize: fontSize[16],
-      color: colors.onPrimary,
-      opacity: 0.9,
-    },
-    searchContainer: {
-      position: 'relative',
-    },
-    searchIcon: {
-      position: 'absolute',
-      left: spacing.smallMedium,
-      top: '50%',
-      transform: [{ translateY: -spacing.base }],
-      fontSize: fontSize[16],
-      color: colors.secondaryText,
-      zIndex: 1,
-    },
-    searchInput: {
-      paddingLeft: moderateScale(44),
       backgroundColor: colors.onPrimary,
-      opacity: 0.9,
-      borderWidth: 0,
-      height: moderateScale(48),
-      borderRadius: radius.lg,
-    },
-    scrollView: {
-      flex: 1,
-      paddingHorizontal: spacing.mediumLarge,
-      paddingVertical: spacing.mediumLarge,
-    },
-    section: {
-      marginBottom: spacing.extraLargePlus,
-    },
-    sectionHeader: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      marginBottom: spacing.mediumLarge,
-    },
-    sectionIcon: {
-      fontSize: fontSize[20],
-      marginRight: spacing.base,
-    },
-    sectionTitle: {
-      fontSize: fontSize[20],
-      fontWeight: '600',
-      color: colors.text,
-      marginBottom: spacing.mediumLarge,
-    },
-    eventCard: {
-      backgroundColor: colors.backgroundColor,
-      borderRadius: radius.xl,
-      borderWidth: border.normal,
-      borderColor: colors.inputBorder,
-      overflow: 'hidden',
-      marginBottom: spacing.mediumLarge,
-      shadowColor: colors.shadow,
-      shadowOffset: { width: 0, height: moderateScale(2) },
-      shadowOpacity: 0.1,
-      shadowRadius: moderateScale(4),
-      elevation: 2,
-    },
-    imageContainer: {
-      position: 'relative',
-    },
-    eventImage: {
-      width: '100%',
-      height: moderateScale(180),
-      resizeMode: 'cover',
-    },
-    categoryBadge: {
-      position: 'absolute',
-      top: spacing.smallMedium,
-      left: spacing.smallMedium,
-      paddingHorizontal: spacing.smallMedium,
-      paddingVertical: spacing.xs,
-      borderRadius: radius.xl,
-    },
-    actionButtons: {
-      position: 'absolute',
-      top: spacing.smallMedium,
-      right: spacing.smallMedium,
-      flexDirection: 'row',
-      gap: spacing.base,
-    },
-    actionButton: {
-      backgroundColor: colors.onPrimary,
-      opacity: 0.9,
-      padding: spacing.base,
-      borderRadius: radius.lg,
-      width: moderateScale(36),
-      height: moderateScale(36),
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    actionIcon: {
-      fontSize: fontSize[16],
-      color: colors.text,
-    },
-    likedIcon: {
-      color: colors.error,
-    },
-    eventContent: {
-      padding: spacing.mediumLarge,
-    },
-    eventHeader: {
-      marginBottom: spacing.smallMedium,
-    },
-    eventTitleContainer: {
-      flex: 1,
-    },
-    eventDetails: {
-      marginBottom: spacing.mediumLarge,
-    },
-    detailRow: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      marginBottom: spacing.base,
-    },
-    detailIcon: {
-      fontSize: fontSize[16],
-      marginRight: spacing.base,
-    },
-    hostSection: {
+      paddingHorizontal: gully,
+      paddingVertical: spacing.baseLarge,
       flexDirection: 'row',
       justifyContent: 'space-between',
-      alignItems: 'center',
+      alignItems: 'flex-start',
+      ...shadow.regular,
     },
-    hostInfo: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      flex: 1,
-    },
-    hostAvatar: {
-      width: moderateScale(36),
-      height: moderateScale(36),
-      borderRadius: moderateScale(18),
-      marginRight: spacing.smallMedium,
-    },
-    joinButton: {
-      backgroundColor: colors.primary,
-      paddingHorizontal: spacing.mediumLarge,
+    stickySearchWrapper: {
+      backgroundColor: colors.appBackgroundColor,
+      paddingHorizontal: gully,
       paddingVertical: spacing.base,
-      borderRadius: radius.lg,
-      minWidth: moderateScale(80),
-    },
-    loadMoreContainer: {
-      alignItems: 'center',
-      marginTop: spacing.large,
-      marginBottom: spacing.mediumLarge,
-    },
-    loadMoreButton: {
-      borderWidth: border.normal,
-      borderColor: colors.inputBorder,
-      backgroundColor: colors.backgroundColor,
-      paddingHorizontal: spacing.extraLargePlus,
-      paddingVertical: spacing.smallMedium,
-      borderRadius: radius.lg,
-    },
-    filterButton: {
-      backgroundColor: colors.onPrimary,
-      opacity: 0.9,
-      padding: spacing.base,
-      borderRadius: radius.lg,
-      width: moderateScale(36),
-      height: moderateScale(36),
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    filterIcon: {
-      fontSize: fontSize[16],
-      color: colors.text,
-    },
-    filtersContainer: {
       flexDirection: 'row',
-      gap: spacing.small,
-      marginTop: spacing.medium,
+      ...shadow.regular,
+    },
+    searchContainer: {
+      padding: 12,
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    searchInput: {
+      backgroundColor: colors.appBackgroundColor,
     },
     filterChip: {
       backgroundColor: colors.inputBorder,
       paddingHorizontal: spacing.medium,
       paddingVertical: spacing.small,
-      borderRadius: radius.xl,
+      borderRadius: radius.round,
     },
     selectedFilterChip: {
       backgroundColor: colors.primary,
     },
-    eventsContainer: {
-      flex: 1,
-    },
-    eventsGrid: {
-      gap: spacing.mediumLarge,
+    scrollContentContainer: {
+      gap: spacing.base,
+      paddingVertical: spacing.base,
+      paddingHorizontal: gully,
     },
   });
 };
