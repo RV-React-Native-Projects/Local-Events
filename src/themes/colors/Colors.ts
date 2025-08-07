@@ -1,7 +1,7 @@
 import { ColorTheme } from './ColorThemeTypes';
 
-const colorPalette = {
-  // Shades of Black and White
+export const colorPalette = {
+  // === BASE COLORS ===
   black: '#000000',
   charcoal: '#171717',
   matteBlack: '#252F40',
@@ -14,7 +14,8 @@ const colorPalette = {
   oxfordBlue: '#13294B',
   lightBrown: '#B29A77',
   lightBrownShade: '#ded0ba',
-  // Shades of Gray
+
+  // === GRAYS ===
   darkestGray: '#212529',
   darkGray: '#404040',
   mediumDarkGray: '#454545',
@@ -32,63 +33,79 @@ const colorPalette = {
   backgroundGray: '#F9FAFB',
   cardGray: '#F3F4F6',
 
-  // Shades of Red and Pink
-  lightRed: '#FCE4E5',
-  red: '#EF3F49',
-  darkRed: '#EA0606',
-  mediumRed: '#FF3D00',
-  paleRed: '#F4BBBB',
-  softRed: '#FFD8D8',
+  // === PRIMARY BRAND COLORS (Eazeebox) ===
+  primaryColor: '#ed344c', // Red
+  secondaryColor: '#224895', // Blue
+  primaryDark: '#16377a', // Dark Blue
+  primaryLight: '#1a77bd', // Light Blue
+
+  // === SECONDARY BRAND SHADES ===
+  brandLight: '#ffd738', // Bright Yellow (used sparingly)
+  brandMedium: '#f68d39', // Orange
+  brandDark: '#a62f60', // Dark Pink/Red
+  brandDeepPurple: '#442f91', // Deep Purple
+  secondaryLight1: '#dde3f3', // Pale Blue
+  secondaryLight2: '#fcdede', // Pale Pink
+
+  // === SUCCESS COLORS ===
+  successLight: '#ECFDF3',
+  success: '#10B981',
+  successMedium: '#00AF62',
+  successDark: '#007639',
+  successDeep: '#07C060',
+  limeSuccess: '#BFF205',
+  vividSuccess: '#0F9A00',
+  paleSuccess: '#D2E0CB',
+
+  // === ERROR COLORS ===
+  errorLight: '#FCE4E5',
+  error: '#EF3F49',
+  errorMedium: '#FF3D00',
+  errorDark: '#EA0606',
+  errorSoft: '#FFD8D8',
+  errorPale: '#F4BBBB',
+
+  // === WARNING COLORS ===
+  warning: '#EB8600',
+  warningDark: '#AB7B00',
+  warningSoft: '#E8AE4C',
+  warningLight: '#F4DEBB',
+  warningPale: '#FFF065',
+  warningWhite: '#fffbf7',
+
+  // === INFO COLORS ===
+  info: '#3B5998',
+  infoDark: '#13294B',
+  infoLight: '#8893A4',
+  infoSoft: '#DBEAFE',
+
+  // === BLUE SHADES ===
+  primaryBlue: '#3B82F6',
+  royalBlue: '#2745F2',
+  navyBlue: '#2B4978',
+  darkBlueAccent: '#1D4ED8',
+  darkBlue: '#2094E9',
+  darkBlueGray: '#344054',
+
+  // === PINK & PURPLE SHADES ===
   darkPink: '#CB0C9F',
   lightPink: '#E293D3',
   softPink: '#EA4C89',
-
-  // Shades of Yellow and Orange
-  peach: '#FDF2EC',
-  orange: '#EB8600',
-  darkOrange: '#AB7B00',
-  goldenYellow: '#CC9C4A',
-  softYellow: '#E8AE4C',
-  lightYellow: '#F4DEBB',
-  paleYellow: '#FFF065',
-  whiteYellow: '#fffbf7',
-
-  // Shades of Green
-  mintGreen: '#ECFDF3',
-  forestGreen: '#55AF5E',
-  darkGreen: '#007639',
-  deepGreen: '#07C060',
-  mediumGreen: '#00AF62',
-  lightGreen: '#82d616',
-  lime: '#BFF205',
-  vividGreen: '#0F9A00',
-  paleGreen: '#D2E0CB',
-  successGreen: '#10B981',
-  // Shades of Blue
-  darkBlue: '#2094E9',
-  mediumBlue: '#3B5998',
-  midnightBlue: '#13294B',
-  lightGrayBlue: '#8893A4',
-  navyBlue: '#2B4978',
-  darkBlueGray: '#344054',
-  royalBlue: '#2745F2',
-  primaryBlue: '#3B82F6',
-  lightBlue: '#DBEAFE',
-  darkBlueAccent: '#1D4ED8',
-  // Miscellaneous
   darkPurple: '#303AB6',
+
+  // === GRADIENTS ===
   primaryGradient: ['#3B82F6', '#8B5CF6'],
   secondaryGradient: ['#F97316', '#DB2777'],
   territoryGradient: ['#A855F7', '#4F46E5'],
 };
 
 export const lightTheme: ColorTheme = {
-  primary: colorPalette.oxfordBlue,
-  primaryDisable: colorPalette.lightBrownShade,
-  primaryVariant: colorPalette.whiteYellow,
-  onPrimary: colorPalette.white,
+  primary: colorPalette.primaryColor, // #ed344c (brand red)
+  primaryDisable: colorPalette.brandLight, // #ffd738 (yellow)
+  primaryVariant: colorPalette.primaryLight, // #1a77bd (light blue)
+  onPrimary: colorPalette.white, // White text on red
 
-  background: colorPalette.warmGray,
+  background: colorPalette.white, // #ffffff
   onBackground: colorPalette.black,
   text: colorPalette.black,
   darkText: colorPalette.darkestGray,
@@ -109,27 +126,28 @@ export const lightTheme: ColorTheme = {
   surface: colorPalette.lightWhite,
   onSurface: colorPalette.matteBlack,
 
-  secondary: colorPalette.royalBlue,
-  secondaryDisable: colorPalette.lightGrayBlue,
-  onSecondary: colorPalette.offWhite,
-  secondaryVariant: colorPalette.navyBlue,
-  secondaryLabel: colorPalette.philippineGray,
+  secondary: colorPalette.secondaryColor, // #224895 (brand blue)
+  secondaryDisable: colorPalette.secondaryLight1, // #dde3f3
+  onSecondary: colorPalette.white, // white on blue
+  secondaryVariant: colorPalette.primaryDark, // #16377a
+  secondaryLabel: colorPalette.secondaryLight2, // #fcdede (pale pink)
 
-  successBackground: colorPalette.mintGreen,
-  success: colorPalette.vividGreen,
-  onSuccess: colorPalette.lime,
+  successBackground: colorPalette.successLight, // #ECFDF3
+  success: colorPalette.success, // #10B981
+  onSuccess: colorPalette.white,
 
-  errorBackground: colorPalette.lightRed,
-  error: colorPalette.red,
+  errorBackground: colorPalette.errorSoft, // #FFD8D8
+  error: colorPalette.error, // #EF3F49
   onError: colorPalette.white,
 
-  warningBackground: colorPalette.peach,
-  warning: colorPalette.orange,
+  warningBackground: colorPalette.warningLight, // #F4DEBB
+  warning: colorPalette.warning, // #EB8600
   onWarning: colorPalette.mediumBlack,
 
   overlay: colorPalette.mediumBlack,
   placeholder: colorPalette.mediumDarkGray,
   shadow: colorPalette.black,
+
   transparent: 'transparent',
 
   backgroundColor: colorPalette.white,
@@ -146,18 +164,18 @@ export const lightTheme: ColorTheme = {
   black: colorPalette.black,
   primaryIconBG: colorPalette.lightGold,
 
-  info: colorPalette.darkBlue,
+  info: colorPalette.primaryLight, // #1a77bd (light blue for info)
 };
 
 export const darkTheme: ColorTheme = {
-  primary: colorPalette.oxfordBlue,
-  primaryDisable: colorPalette.lightBrownShade,
-  onPrimary: colorPalette.white,
-  primaryVariant: colorPalette.whiteYellow, // dark variant to be added
+  primary: colorPalette.primaryColor, // #ed344c (brand red)
+  primaryDisable: colorPalette.brandDark, // #a62f60 (duller red)
+  primaryVariant: colorPalette.primaryDark, // #16377a
+  onPrimary: colorPalette.white, // white text on red
 
   text: colorPalette.white,
-  darkText: colorPalette.darkestGray,
-  secondaryText: colorPalette.darkBlueGray,
+  darkText: colorPalette.midGray,
+  secondaryText: colorPalette.gray,
   background: colorPalette.mediumBlack,
   onBackground: colorPalette.white,
 
@@ -167,45 +185,46 @@ export const darkTheme: ColorTheme = {
   btnBgDisabled: colorPalette.paleGray,
   btnTextDisabled: colorPalette.mediumDarkGray,
 
-  inputBG: colorPalette.white,
-  inputBorder: colorPalette.lightGray,
-  inputBorderAlt: colorPalette.lightestGray,
-  inputLabel: colorPalette.black,
-  inputText: colorPalette.black,
+  inputBG: colorPalette.darkGray,
+  inputBorder: colorPalette.gray,
+  inputBorderAlt: colorPalette.lightGray,
+  inputLabel: colorPalette.lightestGray,
+  inputText: colorPalette.white,
 
-  secondary: colorPalette.royalBlue,
-  secondaryDisable: colorPalette.lightGrayBlue,
-  onSecondary: colorPalette.mediumDarkGray,
-  secondaryVariant: colorPalette.navyBlue,
-  secondaryLabel: colorPalette.philippineGray,
+  secondary: colorPalette.secondaryColor, // #224895
+  secondaryDisable: colorPalette.secondaryLight2, // #fcdede
+  onSecondary: colorPalette.white,
+  secondaryVariant: colorPalette.primaryDark,
+  secondaryLabel: colorPalette.secondaryLight1, // #dde3f3
 
   surface: colorPalette.matteBlack,
   onSurface: colorPalette.lightWhite,
 
-  successBackground: colorPalette.mintGreen,
-  success: colorPalette.vividGreen,
-  onSuccess: colorPalette.lime,
+  successBackground: colorPalette.successMedium,
+  success: colorPalette.success,
+  onSuccess: colorPalette.white,
 
-  errorBackground: colorPalette.lightRed,
-  error: colorPalette.red,
+  errorBackground: colorPalette.errorPale,
+  error: colorPalette.error,
   onError: colorPalette.white,
 
-  warningBackground: colorPalette.peach,
-  warning: colorPalette.orange,
-  onWarning: colorPalette.mediumBlack,
+  warningBackground: colorPalette.warning,
+  warning: colorPalette.warningDark,
+  onWarning: colorPalette.white,
 
-  overlay: colorPalette.mediumBlack,
-  placeholder: colorPalette.mediumDarkGray,
-  shadow: colorPalette.midGray,
+  overlay: colorPalette.black,
+  placeholder: colorPalette.midGray,
+  shadow: colorPalette.gray,
+
   transparent: 'transparent',
 
   backgroundColor: colorPalette.charcoal,
   appBackgroundColor: colorPalette.mediumBlack,
   cardBackgroundColor: colorPalette.black,
-  title: colorPalette.softGray,
-  header: colorPalette.softGray,
-  subHeader: colorPalette.warmGray,
-  paragraph: colorPalette.softGray,
+  title: colorPalette.white,
+  header: colorPalette.white,
+  subHeader: colorPalette.softGray,
+  paragraph: colorPalette.lightGray,
   iconColor: colorPalette.gray,
   stepperDeselected: colorPalette.lightSteelBlue,
 
@@ -213,7 +232,7 @@ export const darkTheme: ColorTheme = {
   black: colorPalette.black,
   primaryIconBG: colorPalette.lightGold,
 
-  info: colorPalette.darkBlue,
+  info: colorPalette.primaryLight, // #1a77bd
 };
 
 export type ColorThemeTypes = keyof typeof lightTheme;

@@ -18,11 +18,9 @@ import {
   TabNavigationState,
   useNavigationState,
 } from '@react-navigation/native';
-import { AppText } from '@components/AppText';
 import { translate } from '@context/I18n';
 import { useAppTheme } from '@redux/hooks';
 import { radius } from '@themes/border';
-import { fontSize } from '@themes/fontSize';
 import { moderateScale } from '@themes/responsive';
 import { spacing } from '@themes/spacing';
 import { TAB_HEIGHT, TAB_WIDTH } from '@utils/constants';
@@ -65,9 +63,16 @@ export default function TabNavigation() {
         component={HomeStack}
         options={{
           title: 'Home',
-          tabBarIcon: ({ color, size }) => (
-            <MaterialDesignIcons name="home" color={color} size={size} />
-          ),
+          tabBarIcon: ({ color, size, focused }) =>
+            focused ? (
+              <MaterialIcons name={'home-filled'} color={color} size={size} />
+            ) : (
+              <MaterialDesignIcons
+                name="home-variant-outline"
+                color={color}
+                size={size}
+              />
+            ),
         }}
       />
       <Tab.Screen
@@ -75,8 +80,12 @@ export default function TabNavigation() {
         component={SearchStack}
         options={{
           title: 'Search',
-          tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="search" color={color} size={size} />
+          tabBarIcon: ({ color, size, focused }) => (
+            <MaterialDesignIcons
+              name={focused ? 'map-search' : 'map-search-outline'}
+              color={color}
+              size={size}
+            />
           ),
         }}
       />
@@ -85,8 +94,12 @@ export default function TabNavigation() {
         component={EventStack}
         options={{
           title: 'Event',
-          tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="add" color={color} size={size} />
+          tabBarIcon: ({ color, size, focused }) => (
+            <MaterialDesignIcons
+              name={focused ? 'plus-box' : 'plus-box-outline'}
+              color={color}
+              size={size}
+            />
           ),
         }}
       />
@@ -95,8 +108,12 @@ export default function TabNavigation() {
         component={ChatStack}
         options={{
           title: 'Chats',
-          tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="chat" color={color} size={size} />
+          tabBarIcon: ({ color, size, focused }) => (
+            <MaterialDesignIcons
+              name={focused ? 'message-text' : 'message-text-outline'}
+              color={color}
+              size={size}
+            />
           ),
         }}
       />
@@ -105,9 +122,9 @@ export default function TabNavigation() {
         component={ProfileStack}
         options={{
           title: 'Profile',
-          tabBarIcon: ({ color, size }) => (
-            <MaterialDesignIcons
-              name="face-man-profile"
+          tabBarIcon: ({ color, size, focused }) => (
+            <MaterialIcons
+              name={focused ? 'person' : 'person-outline'}
               color={color}
               size={size}
             />
@@ -184,9 +201,7 @@ function MyTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
           />
           {state.routes.map((route, index) => {
             const { options } = descriptors[route.key];
-
             const isFocused = state.index === index;
-
             const onPress = () => {
               const event = navigation.emit({
                 type: 'tabPress',
@@ -256,7 +271,7 @@ function TabButton(props: TabBarButtonProps) {
 
   return (
     <Pressable
-      key={state.routes[index].key + index}
+      key={state.routes[index].key + index + label}
       style={styles.buttonContainer}
       accessibilityState={isFocused ? { selected: true } : {}}
       accessibilityLabel={options.tabBarAccessibilityLabel}
@@ -266,11 +281,11 @@ function TabButton(props: TabBarButtonProps) {
         {options.tabBarIcon &&
           options.tabBarIcon({
             focused: isFocused,
-            color: isFocused ? colors.onPrimary : colors.primary,
-            size: 35,
+            color: isFocused ? colors.primary : colors.paragraph,
+            size: moderateScale(30),
           })}
       </Animated.View>
-      <AppText
+      {/* <AppText
         numberOfLines={1}
         adjustsFontSizeToFit
         fontFamily="Medium"
@@ -278,7 +293,7 @@ function TabButton(props: TabBarButtonProps) {
         color={isFocused ? 'primary' : 'iconColor'}
         style={styles.tabTitle}>
         {label}
-      </AppText>
+      </AppText> */}
     </Pressable>
   );
 }
@@ -323,9 +338,9 @@ const useStyles = () => {
     backgroundBox: {
       position: 'absolute',
       zIndex: -1,
-      bottom: moderateScale(35),
+      bottom: moderateScale(20),
       left: 0,
-      height: moderateScale(55),
+      height: moderateScale(5),
       backgroundColor: colors.primary,
       borderRadius: radius.future,
     },
