@@ -127,7 +127,7 @@ const styles = (colors: ColorTheme) =>
   StyleSheet.create({
     flex: {
       flex: 1,
-      backgroundColor: colors.backgroundColor,
+      backgroundColor: colors.appBackgroundColor,
     },
     flexGrow: {
       flexGrow: 1,

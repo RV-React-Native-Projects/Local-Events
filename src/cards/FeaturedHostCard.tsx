@@ -4,8 +4,9 @@ import FastImage from 'react-native-fast-image';
 import { AppButton } from '@components/AppButton';
 import { AppText } from '@components/AppText';
 import { useAppTheme } from '@redux/hooks';
-import { radius, border } from '@themes/border';
+import { radius } from '@themes/border';
 import { fontSize } from '@themes/fontSize';
+import { opacity } from '@themes/opacity';
 import { moderateScale } from '@themes/responsive';
 import { spacing } from '@themes/spacing';
 
@@ -46,9 +47,10 @@ const FeaturedHostCard: React.FC<FeaturedHostCardProps> = ({
 
   return (
     <TouchableOpacity
+      key={id}
       style={[styles.hostCard, style]}
       onPress={handlePress}
-      activeOpacity={0.8}
+      activeOpacity={opacity.dark}
       testID={testID}>
       <View style={styles.hostContent}>
         <FastImage
@@ -60,10 +62,10 @@ const FeaturedHostCard: React.FC<FeaturedHostCardProps> = ({
           <AppText variant="label">{name}</AppText>
           <AppText variant="footnote">{bio}</AppText>
           <View style={styles.hostStats}>
-            <AppText style={styles.hostEventCount}>{events} events</AppText>
+            <AppText variant="label">{events} events</AppText>
             <View style={styles.hostRating}>
-              <AppText style={styles.ratingIcon}>⭐</AppText>
-              <AppText style={styles.ratingText}>{rating}</AppText>
+              <AppText>⭐</AppText>
+              <AppText>{rating}</AppText>
             </View>
           </View>
         </View>
@@ -81,19 +83,12 @@ const FeaturedHostCard: React.FC<FeaturedHostCardProps> = ({
 };
 
 const useStyles = () => {
-  const { colors } = useAppTheme();
+  const { colors, shadow } = useAppTheme();
   return StyleSheet.create({
     hostCard: {
       backgroundColor: colors.backgroundColor,
       borderRadius: radius.xl,
-      borderWidth: border.normal,
-      borderColor: colors.inputBorder,
-      marginBottom: spacing.mediumLarge,
-      shadowColor: colors.shadow,
-      shadowOffset: { width: 0, height: moderateScale(2) },
-      shadowOpacity: 0.1,
-      shadowRadius: moderateScale(4),
-      elevation: 2,
+      ...shadow.small,
     },
     hostContent: {
       padding: spacing.mediumLarge,

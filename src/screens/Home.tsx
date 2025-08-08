@@ -156,7 +156,7 @@ export default function Home({}: ScreenPropsType<
   const scrollRef = useRef<ScrollView>(null);
 
   return (
-    <ScreenWrapper scrollEnabled={false} statusBarColor="primary">
+    <ScreenWrapper scrollEnabled={false}>
       <ScrollView
         ref={scrollRef}
         keyboardShouldPersistTaps="handled"
@@ -218,27 +218,25 @@ export default function Home({}: ScreenPropsType<
 }
 
 const useStyles = () => {
-  const { colors, shadow } = useAppTheme();
+  const { colors } = useAppTheme();
   return StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: colors.appBackgroundColor,
     },
     header: {
-      backgroundColor: colors.onPrimary,
+      backgroundColor: colors.backgroundColor,
       paddingHorizontal: gully,
       paddingVertical: spacing.baseLarge,
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'flex-start',
-      ...shadow.regular,
     },
     stickySearchWrapper: {
-      backgroundColor: colors.appBackgroundColor,
+      backgroundColor: colors.backgroundColor,
       paddingHorizontal: gully,
       paddingVertical: spacing.base,
       flexDirection: 'row',
-      ...shadow.regular,
     },
     searchContainer: {
       padding: 12,

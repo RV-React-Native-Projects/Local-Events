@@ -1,4 +1,4 @@
-import { ColorTheme } from './ColorThemeTypes';
+import { ColorTheme, IGradientColors } from './ColorThemeTypes';
 
 export const colorPalette = {
   // === BASE COLORS ===
@@ -30,7 +30,7 @@ export const colorPalette = {
   lightSteelBlue: '#CED1DB',
   philippineGray: '#8c8c8c',
   borderGray: '#E5E7EB',
-  backgroundGray: '#F9FAFB',
+  backgroundGray: '#F2F2F2',
   cardGray: '#F3F4F6',
 
   // === PRIMARY BRAND COLORS (Eazeebox) ===
@@ -92,8 +92,9 @@ export const colorPalette = {
   lightPink: '#E293D3',
   softPink: '#EA4C89',
   darkPurple: '#303AB6',
+};
 
-  // === GRADIENTS ===
+export const gradient: IGradientColors = {
   primaryGradient: ['#3B82F6', '#8B5CF6'],
   secondaryGradient: ['#F97316', '#DB2777'],
   territoryGradient: ['#A855F7', '#4F46E5'],
@@ -232,7 +233,7 @@ export const darkTheme: ColorTheme = {
   black: colorPalette.black,
   primaryIconBG: colorPalette.lightGold,
 
-  info: colorPalette.primaryLight, // #1a77bd
+  info: colorPalette.primaryLight,
 };
 
 export type ColorThemeTypes = keyof typeof lightTheme;

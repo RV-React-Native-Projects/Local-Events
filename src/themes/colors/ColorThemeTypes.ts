@@ -60,3 +60,9 @@ export interface ColorTheme {
   primaryIconBG: string;
   info: string;
 }
+
+export interface IGradientColors {
+  primaryGradient: string[];
+  secondaryGradient: string[];
+  territoryGradient: string[];
+}

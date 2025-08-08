@@ -3,7 +3,7 @@ import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import { AppText } from '@components/AppText';
 import { useAppTheme } from '@redux/hooks';
-import { radius, border } from '@themes/border';
+import { radius } from '@themes/border';
 import { opacity } from '@themes/opacity';
 import { moderateScale } from '@themes/responsive';
 import { spacing } from '@themes/spacing';
@@ -84,16 +84,14 @@ const useStyles = () => {
   const { colors, shadow } = useAppTheme();
   return StyleSheet.create({
     trendingCard: {
-      backgroundColor: colors.appBackgroundColor,
+      backgroundColor: colors.backgroundColor,
       borderRadius: radius.sm,
-      borderWidth: border.normal,
-      borderColor: colors.inputBorder,
-      overflow: 'hidden',
-      marginBottom: spacing.mediumLarge,
-      ...shadow.regular,
+      ...shadow.small,
     },
     trendingImageContainer: {
       position: 'relative',
+      overflow: 'hidden',
+      borderRadius: radius.sm,
     },
     trendingImage: {
       width: '100%',

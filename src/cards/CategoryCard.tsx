@@ -1,12 +1,8 @@
 import React from 'react';
-import {
-  View,
-  TouchableOpacity,
-  StyleSheet,
-} from 'react-native';
+import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { AppText } from '@components/AppText';
 import { useAppTheme } from '@redux/hooks';
-import { radius, border } from '@themes/border';
+import { radius } from '@themes/border';
 import { fontSize } from '@themes/fontSize';
 import { moderateScale } from '@themes/responsive';
 import { spacing } from '@themes/spacing';
@@ -39,12 +35,11 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
       activeOpacity={0.8}
       testID={testID}>
       <View style={styles.categoryContent}>
-        <View
-          style={[styles.categoryIcon, { backgroundColor: color }]}>
-          <AppText style={styles.categoryIconText}>{icon}</AppText>
+        <View style={[styles.categoryIcon, { backgroundColor: color }]}>
+          <AppText>{icon}</AppText>
         </View>
-        <AppText style={styles.categoryName}>{name}</AppText>
-        <AppText style={styles.categoryCount}>
+        <AppText variant="title">{name}</AppText>
+        <AppText variant="footnote" color="secondary">
           {count} events
         </AppText>
       </View>
@@ -53,20 +48,14 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
 };
 
 const useStyles = () => {
-  const { colors } = useAppTheme();
+  const { colors, shadow } = useAppTheme();
   return StyleSheet.create({
     categoryCard: {
       width: '48%',
       backgroundColor: colors.backgroundColor,
-      borderRadius: radius.xl,
-      borderWidth: border.normal,
-      borderColor: colors.inputBorder,
+      borderRadius: radius.sm,
       marginBottom: spacing.smallMedium,
-      shadowColor: colors.shadow,
-      shadowOffset: { width: 0, height: moderateScale(1) },
-      shadowOpacity: 0.1,
-      shadowRadius: moderateScale(2),
-      elevation: 1,
+      ...shadow.small,
     },
     categoryContent: {
       padding: spacing.mediumLarge,
@@ -79,15 +68,6 @@ const useStyles = () => {
       alignItems: 'center',
       justifyContent: 'center',
       marginBottom: spacing.smallMedium,
-    },
-    categoryIconText: {
-      fontSize: fontSize[24],
-    },
-    categoryName: {
-      fontSize: fontSize[14],
-      fontWeight: '600',
-      color: colors.text,
-      marginBottom: spacing.xs,
     },
     categoryCount: {
       fontSize: fontSize[12],

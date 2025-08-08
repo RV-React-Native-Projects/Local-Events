@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { View, ScrollView, StyleSheet } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import AppInput from '@components/AppInput/AppInput';
 import { AppText } from '@components/AppText';
 import { ScreenWrapper } from '@components/Wrapper';
@@ -10,6 +11,7 @@ import {
 } from '@navigation/types';
 import { useAppTheme } from '@redux/hooks';
 import { radius } from '@themes/border';
+import { gradient } from '@themes/colors';
 import { fontSize } from '@themes/fontSize';
 import { moderateScale } from '@themes/responsive';
 import { gully, spacing } from '@themes/spacing';
@@ -127,8 +129,7 @@ export default function Search({}: ScreenPropsType<
 
         {/* Categories */}
         <View style={styles.section}>
-          <AppText style={styles.sectionTitle}>Browse Categories</AppText>
-
+          <AppText variant="header">Browse Categories</AppText>
           <View style={styles.categoriesGrid}>
             {categories.map(category => (
               <CategoryCard
@@ -139,10 +140,9 @@ export default function Search({}: ScreenPropsType<
             ))}
           </View>
         </View>
-
         {/* Featured Hosts */}
         <View style={styles.section}>
-          <AppText style={styles.sectionTitle}>Featured Hosts</AppText>
+          <AppText variant="header">Featured Hosts</AppText>
           <View style={styles.hostsGrid}>
             {featuredHosts.map(host => (
               <FeaturedHostCard
@@ -154,9 +154,9 @@ export default function Search({}: ScreenPropsType<
             ))}
           </View>
         </View>
-
-        {/* Quick Stats */}
-        <View style={styles.section}>
+        <LinearGradient
+          colors={gradient.territoryGradient}
+          style={styles.LgContainer}>
           <View style={styles.statsCard}>
             <AppText variant="body" color="onPrimary">
               Community Stats
@@ -191,7 +191,7 @@ export default function Search({}: ScreenPropsType<
               </View>
             </View>
           </View>
-        </View>
+        </LinearGradient>
       </ScrollView>
     </ScreenWrapper>
   );
@@ -214,12 +214,6 @@ const useStyles = () => {
       gap: spacing.baseLarge,
       paddingHorizontal: gully,
     },
-    sectionTitle: {
-      fontSize: fontSize[20],
-      fontWeight: '600',
-      color: colors.text,
-      marginBottom: spacing.medium,
-    },
     categoriesGrid: {
       flexDirection: 'row',
       flexWrap: 'wrap',
@@ -228,21 +222,23 @@ const useStyles = () => {
     hostsGrid: {
       gap: spacing.mediumLarge,
     },
-    statsCard: {
-      backgroundColor: colors.secondary,
-      borderRadius: radius.xl,
-      padding: spacing.mediumLarge,
+    LgContainer: {
       ...shadow.large,
+      borderRadius: radius.xl,
+      paddingHorizontal: gully,
+    },
+    statsCard: {
+      paddingVertical: spacing.mediumLarge,
     },
     statsGrid: {
       flexDirection: 'row',
-      justifyContent: 'space-between',
+      justifyContent: 'space-evenly',
     },
     statCard: {
       alignItems: 'center',
-      flex: 1,
       gap: spacing.base,
       marginTop: spacing.baseLarge,
+      paddingHorizontal: spacing.baseLarge,
     },
   });
 };
