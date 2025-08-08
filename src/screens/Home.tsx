@@ -21,7 +21,7 @@ import { radius } from '@themes/border';
 import { opacity } from '@themes/opacity';
 import { moderateScale } from '@themes/responsive';
 import { gully, spacing } from '@themes/spacing';
-import { EventCard, EventCardProps } from '../cards';
+import EventCard, { EventCardProps } from '@cards/EventCard';
 
 const mockEvents = [
   {
@@ -132,10 +132,6 @@ export default function Home({}: ScreenPropsType<
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedFilter, setSelectedFilter] = useState('all');
 
-  const handleLike = (eventId: number) => {
-    console.log('Liked event:', eventId);
-  };
-
   const handleShare = (eventId: number) => {
     console.log('Shared event:', eventId);
   };
@@ -152,7 +148,6 @@ export default function Home({}: ScreenPropsType<
     <EventCard
       {...item}
       onPress={handleEventClick}
-      onLike={handleLike}
       onShare={handleShare}
       onJoin={() => {}}
     />
