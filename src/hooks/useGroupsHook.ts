@@ -10,7 +10,7 @@ import {
   clearError,
   clearCurrentGroup,
   clearSearchResults,
-  reset,
+  resetGroups,
 } from '@slice/groupsSlice';
 import {
   fetchGroups,
@@ -78,8 +78,8 @@ export const useGroupsHook = () => {
     dispatch(clearSearchResults());
   };
 
-  const resetGroups = () => {
-    dispatch(reset());
+  const resetGroupsSlice = () => {
+    dispatch(resetGroups());
   };
 
   return {
@@ -95,6 +95,6 @@ export const useGroupsHook = () => {
     clearGroupsError,
     clearCurrentGroupData,
     clearSearchResultsData,
-    resetGroups,
+    resetGroupsSlice,
   };
 };

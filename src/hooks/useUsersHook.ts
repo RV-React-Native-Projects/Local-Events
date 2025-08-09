@@ -1,10 +1,13 @@
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { UpdateUserRequest, PaginationParams } from '@interfaces/index';
-import { useAppDispatch } from '@redux/hooks';
-import { RootState } from '@redux/store';
-import { clearError, clearCurrentUser, reset } from '@slice/usersSlice';
+import { RootState, AppDispatch } from '@redux/store';
 import {
-  fetchUsers,
+  clearError,
+  clearCurrentUser,
+  clearSearchResults,
+} from '@slice/usersSlice';
+import {
+  fetchUserProfile,
   fetchUserById,
   updateUserProfile,
   searchUsers,
@@ -13,13 +16,19 @@ import {
 } from '@thunk/usersThunks';
 
 export const useUsersHook = () => {
-  const dispatch = useAppDispatch();
-  const usersState = useSelector((state: RootState) => state.users);
+  const dispatch = useDispatch<AppDispatch>();
+  const {
+    users,
+    currentUser,
+    searchResults,
+    isLoading,
+    isUpdating,
+    error,
+    pagination,
+  } = useSelector((state: RootState) => state.users);
 
-  const getUsers = async (
-    params: PaginationParams = { page: 1, limit: 10 },
-  ) => {
-    return await dispatch(fetchUsers(params));
+  const getUserProfile = async () => {
+    return await dispatch(fetchUserProfile());
   };
 
   const getUserById = async (userId: string) => {
@@ -30,7 +39,7 @@ export const useUsersHook = () => {
     return await dispatch(updateUserProfile(userData));
   };
 
-  const searchUsersData = async (
+  const searchUsersAction = async (
     params: { query: string } & PaginationParams,
   ) => {
     return await dispatch(searchUsers(params));
@@ -52,20 +61,26 @@ export const useUsersHook = () => {
     dispatch(clearCurrentUser());
   };
 
-  const resetUsers = () => {
-    dispatch(reset());
+  const clearSearchResultsData = () => {
+    dispatch(clearSearchResults());
   };
 
   return {
-    ...usersState,
-    getUsers,
+    users,
+    currentUser,
+    searchResults,
+    isLoading,
+    isUpdating,
+    error,
+    pagination,
+    getUserProfile,
     getUserById,
     updateProfile,
-    searchUsersData,
+    searchUsersAction,
     followUserAction,
     unfollowUserAction,
     clearUsersError,
     clearCurrentUserData,
-    resetUsers,
+    clearSearchResultsData,
   };
 };

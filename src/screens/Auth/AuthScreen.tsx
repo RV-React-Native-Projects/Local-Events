@@ -191,7 +191,10 @@ export default function AuthScreen({}: ScreenPropsType<
   const styles = useStyles();
 
   return (
-    <ScreenWrapper scrollEnabled hideStatusbar>
+    <ScreenWrapper
+      scrollEnabled
+      hideStatusbar
+      scrollViewContainerStyle={styles.screenWrapper}>
       <View style={styles.headerContainer}>
         <View style={styles.logoContainer}>
           <VibeSyncLogo size={isTablet ? 'xl' : 'lg'} animated={true} />
@@ -203,10 +206,7 @@ export default function AuthScreen({}: ScreenPropsType<
           Join your local community
         </AppText>
       </View>
-
-      {/* Auth Card */}
       <View style={[styles.card, isTablet && styles.cardTablet]}>
-        {/* Segment Buttons */}
         <SegmentButton
           items={[
             { key: 'login', value: 'Login' },
@@ -214,15 +214,11 @@ export default function AuthScreen({}: ScreenPropsType<
           ]}
           onPress={key => setActiveTab(key as IActiveTab)}
         />
-
-        {/* Form Content */}
         <View
           style={[styles.formContent, isTablet && styles.formContentTablet]}>
           {activeTab === 'login' ? <LoginComponent /> : <SignupComponent />}
         </View>
       </View>
-
-      {/* Terms */}
       <View style={styles.termsContainer}>
         <AppText style={[styles.termsText, isTablet && styles.termsTextTablet]}>
           By continuing, you agree to our{' '}
@@ -235,8 +231,12 @@ export default function AuthScreen({}: ScreenPropsType<
 }
 
 const useStyles = () => {
-  const { colors } = useAppTheme();
+  const { colors, shadow } = useAppTheme();
   return StyleSheet.create({
+    screenWrapper: {
+      backgroundColor: colors.backgroundColor,
+      paddingBottom: moderateScale(100),
+    },
     container: {
       flex: 1,
     },
@@ -273,12 +273,10 @@ const useStyles = () => {
     card: {
       backgroundColor: colors.backgroundColor,
       borderRadius: radius.xl,
-      shadowColor: colors.shadow,
-      shadowOffset: { width: 0, height: moderateScale(4) },
-      shadowOpacity: opacity.veryLight,
-      shadowRadius: moderateScale(12),
-      elevation: 8,
       marginBottom: spacing.large,
+      paddingTop: spacing.baseLarge,
+      marginHorizontal: spacing.base,
+      ...shadow.regular,
     },
     cardTablet: {
       maxWidth: 500,
@@ -391,7 +389,7 @@ const useStyles = () => {
     },
     input: {
       height: moderateScale(48),
-      backgroundColor: colors.appBackgroundColor,
+      backgroundColor: colors.backgroundColor,
       borderColor: colors.inputBorder,
     },
     inputTablet: {

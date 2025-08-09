@@ -10,7 +10,7 @@ import {
   clearError,
   clearCurrentEvent,
   clearSearchResults,
-  reset,
+  resetEvents,
 } from '@slice/eventsSlice';
 import {
   fetchEvents,
@@ -27,13 +27,11 @@ export const useEventsHook = () => {
   const dispatch = useAppDispatch();
   const eventsState = useSelector((state: RootState) => state.events);
 
-  const getEvents = async (
-    params: PaginationParams = { page: 1, limit: 10 },
-  ) => {
+  const getEvents = async (params: PaginationParams) => {
     return await dispatch(fetchEvents(params));
   };
 
-  const searchEventsData = async (
+  const searchEventsList = async (
     params: { query: string } & PaginationParams,
   ) => {
     return await dispatch(searchEvents(params));
@@ -47,11 +45,8 @@ export const useEventsHook = () => {
     return await dispatch(createEvent(eventData));
   };
 
-  const updateExistingEvent = async (
-    eventId: string,
-    eventData: UpdateEventRequest,
-  ) => {
-    return await dispatch(updateEvent({ eventId, eventData }));
+  const updateExistingEvent = async (id: string, data: UpdateEventRequest) => {
+    return await dispatch(updateEvent({ id, data }));
   };
 
   const removeEvent = async (eventId: string) => {
@@ -78,14 +73,14 @@ export const useEventsHook = () => {
     dispatch(clearSearchResults());
   };
 
-  const resetEvents = () => {
-    dispatch(reset());
+  const resetEventSlice = () => {
+    dispatch(resetEvents());
   };
 
   return {
     ...eventsState,
     getEvents,
-    searchEventsData,
+    searchEventsList,
     getEventById,
     createNewEvent,
     updateExistingEvent,
@@ -95,6 +90,6 @@ export const useEventsHook = () => {
     clearEventsError,
     clearCurrentEventData,
     clearSearchResultsData,
-    resetEvents,
+    resetEventSlice,
   };
 };

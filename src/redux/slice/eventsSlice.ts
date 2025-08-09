@@ -41,7 +41,7 @@ const eventsSlice = createSlice({
     clearSearchResults: state => {
       state.searchResults = [];
     },
-    reset: () => initialState,
+    resetEvents: () => initialState,
   },
   extraReducers: builder => {
     builder
@@ -59,11 +59,33 @@ const eventsSlice = createSlice({
         state.error =
           (action.payload as any)?.message || 'Failed to fetch events';
       })
+      .addCase(searchEvents.pending, state => {
+        state.isLoading = true;
+        state.error = null;
+      })
       .addCase(searchEvents.fulfilled, (state, action) => {
+        state.isLoading = false;
         state.searchResults = action.payload;
+        state.error = null;
+      })
+      .addCase(searchEvents.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error =
+          (action.payload as any)?.message || 'Failed to search events';
+      })
+      .addCase(fetchEventById.pending, state => {
+        state.isLoading = true;
+        state.error = null;
       })
       .addCase(fetchEventById.fulfilled, (state, action) => {
+        state.isLoading = false;
         state.currentEvent = action.payload;
+        state.error = null;
+      })
+      .addCase(fetchEventById.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error =
+          (action.payload as any)?.message || 'Failed to fetch event';
       })
       .addCase(createEvent.pending, state => {
         state.isCreating = true;
@@ -120,15 +142,39 @@ const eventsSlice = createSlice({
         state.error =
           (action.payload as any)?.message || 'Failed to delete event';
       })
+      .addCase(joinEvent.pending, state => {
+        state.isLoading = true;
+        state.error = null;
+      })
       .addCase(joinEvent.fulfilled, state => {
+        state.isLoading = false;
+        state.error = null;
+      })
+      .addCase(joinEvent.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error =
+          (action.payload as any)?.message || 'Failed to join event';
+      })
+      .addCase(leaveEvent.pending, state => {
+        state.isLoading = true;
         state.error = null;
       })
       .addCase(leaveEvent.fulfilled, state => {
+        state.isLoading = false;
         state.error = null;
+      })
+      .addCase(leaveEvent.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error =
+          (action.payload as any)?.message || 'Failed to leave event';
       });
   },
 });
 
-export const { clearError, clearCurrentEvent, clearSearchResults, reset } =
-  eventsSlice.actions;
+export const {
+  clearError,
+  clearCurrentEvent,
+  clearSearchResults,
+  resetEvents,
+} = eventsSlice.actions;
 export default eventsSlice.reducer;

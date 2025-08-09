@@ -214,7 +214,7 @@ export default function OnBoarding({
   };
 
   return (
-    <ScreenWrapper hideStatusbar>
+    <ScreenWrapper hideStatusbar contentContainerStyle={styles.screenWrapper}>
       <Animated.View style={[styles.container, containerStyle]}>
         {/* Header */}
         <View style={[styles.header, isTablet && styles.headerTablet]}>
@@ -310,6 +310,7 @@ export default function OnBoarding({
 const useStyles = () => {
   const { colors } = useAppTheme();
   return StyleSheet.create({
+    screenWrapper: { backgroundColor: colors.backgroundColor },
     container: {
       flex: 1,
     },

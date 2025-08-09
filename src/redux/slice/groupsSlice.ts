@@ -41,7 +41,7 @@ const groupsSlice = createSlice({
     clearSearchResults: state => {
       state.searchResults = [];
     },
-    reset: () => initialState,
+    resetGroups: () => initialState,
   },
   extraReducers: builder => {
     builder
@@ -128,6 +128,10 @@ const groupsSlice = createSlice({
   },
 });
 
-export const { clearError, clearCurrentGroup, clearSearchResults, reset } =
-  groupsSlice.actions;
+export const {
+  clearError,
+  clearCurrentGroup,
+  clearSearchResults,
+  resetGroups,
+} = groupsSlice.actions;
 export default groupsSlice.reducer;

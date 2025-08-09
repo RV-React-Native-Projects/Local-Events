@@ -1,32 +1,22 @@
-import { useSelector } from 'react-redux';
-import {
-  LoginRequest,
-  RegisterRequest,
-  OAuthRequest,
-  User,
-} from '@interfaces/index';
-import { useAppDispatch } from '@redux/hooks';
-import { RootState } from '@redux/store';
-import {
-  logout,
-  clearError,
-  setUser,
-  setTokens,
-  reset,
-} from '@slice/authSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { LoginRequest, RegisterRequest, OAuthRequest } from '@interfaces/index';
+import { RootState, AppDispatch } from '@redux/store';
+import { clearError } from '@slice/authSlice';
 import {
   loginUser,
   registerUser,
-  oauthLogin,
   getCurrentUser,
   refreshToken,
   logoutUser,
   logoutAllDevices,
+  oauthLogin,
 } from '@thunk/authThunks';
 
 export const useAuthHook = () => {
-  const dispatch = useAppDispatch();
-  const authState = useSelector((state: RootState) => state.auth);
+  const dispatch = useDispatch<AppDispatch>();
+  const { user, isAuthenticated, isLoading, error, tokens } = useSelector(
+    (state: RootState) => state.auth,
+  );
 
   const login = async (credentials: LoginRequest) => {
     return await dispatch(loginUser(credentials));
@@ -36,7 +26,7 @@ export const useAuthHook = () => {
     return await dispatch(registerUser(userData));
   };
 
-  const oauth = async (oauthData: OAuthRequest) => {
+  const oAuthLogin = async (oauthData: OAuthRequest) => {
     return await dispatch(oauthLogin(oauthData));
   };
 
@@ -60,38 +50,19 @@ export const useAuthHook = () => {
     dispatch(clearError());
   };
 
-  const setUserData = (user: User) => {
-    dispatch(setUser(user));
-  };
-
-  const setUserTokens = (tokens: {
-    accessToken: string;
-    refreshToken: string;
-  }) => {
-    dispatch(setTokens(tokens));
-  };
-
-  const logoutLocal = () => {
-    dispatch(logout());
-  };
-
-  const resetAuth = () => {
-    dispatch(reset());
-  };
-
   return {
-    ...authState,
+    user,
+    isAuthenticated,
+    isLoading,
+    error,
+    tokens,
     login,
     register,
-    oauth,
+    oAuthLogin,
     getCurrentUserData,
     refresh,
     logoutUser: logoutUserAction,
     logoutAllDevicesUser,
     clearAuthError,
-    setUserData,
-    setUserTokens,
-    logoutLocal,
-    resetAuth,
   };
 };

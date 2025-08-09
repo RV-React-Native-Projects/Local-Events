@@ -17,7 +17,9 @@ export interface UpdateUserRequest {
 export interface UsersState {
   users: UserProfile[];
   currentUser: UserProfile | null;
+  searchResults: UserProfile[];
   isLoading: boolean;
+  isUpdating: boolean;
   error: string | null;
   pagination: PaginationResponse;
 }

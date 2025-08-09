@@ -44,7 +44,7 @@ const authSlice = createSlice({
     ) => {
       state.tokens = action.payload;
     },
-    reset: () => initialState,
+    resetAuth: () => initialState,
   },
   extraReducers: builder => {
     builder
@@ -64,7 +64,7 @@ const authSlice = createSlice({
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = (action.payload as string) || 'Login failed';
+        state.error = (action.payload as any)?.message || 'Login failed';
         state.isAuthenticated = false;
         state.user = null;
         state.tokens = { accessToken: null, refreshToken: null };
@@ -85,7 +85,7 @@ const authSlice = createSlice({
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = (action.payload as string) || 'Registration failed';
+        state.error = (action.payload as any)?.message || 'Registration failed';
         state.isAuthenticated = false;
         state.user = null;
         state.tokens = { accessToken: null, refreshToken: null };
@@ -106,7 +106,7 @@ const authSlice = createSlice({
       })
       .addCase(oauthLogin.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = (action.payload as string) || 'OAuth login failed';
+        state.error = (action.payload as any)?.message || 'OAuth login failed';
         state.isAuthenticated = false;
         state.user = null;
         state.tokens = { accessToken: null, refreshToken: null };
@@ -123,7 +123,7 @@ const authSlice = createSlice({
       })
       .addCase(getCurrentUser.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = (action.payload as string) || 'Failed to get user';
+        state.error = (action.payload as any)?.message || 'Failed to get user';
       })
       .addCase(refreshToken.fulfilled, (state, action) => {
         state.tokens = {
@@ -155,6 +155,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { clearError, logout, setUser, setTokens, reset } =
+export const { clearError, logout, setUser, setTokens, resetAuth } =
   authSlice.actions;
 export default authSlice.reducer;
