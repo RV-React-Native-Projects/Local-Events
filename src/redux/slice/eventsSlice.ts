@@ -41,6 +41,7 @@ const eventsSlice = createSlice({
     clearSearchResults: state => {
       state.searchResults = [];
     },
+    reset: () => initialState,
   },
   extraReducers: builder => {
     builder
@@ -128,6 +129,6 @@ const eventsSlice = createSlice({
   },
 });
 
-export const { clearError, clearCurrentEvent, clearSearchResults } =
+export const { clearError, clearCurrentEvent, clearSearchResults, reset } =
   eventsSlice.actions;
 export default eventsSlice.reducer;

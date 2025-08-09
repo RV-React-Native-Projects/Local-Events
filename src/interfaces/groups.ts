@@ -14,11 +14,19 @@ export interface CreateGroupRequest {
   description?: string;
 }
 
+export interface UpdateGroupRequest {
+  name?: string;
+  description?: string;
+}
+
 export interface GroupsState {
   groups: Group[];
   currentGroup: Group | null;
+  searchResults: Group[];
   isLoading: boolean;
   isCreating: boolean;
+  isUpdating: boolean;
+  isDeleting: boolean;
   error: string | null;
   pagination: PaginationResponse;
 }

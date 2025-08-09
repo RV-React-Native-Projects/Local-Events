@@ -40,3 +40,15 @@ export const userPaths = {
   follow: (id: string) => `/users/${id}/follow`,
   unfollow: (id: string) => `/users/${id}/unfollow`,
 } as const;
+
+export const groupPaths = {
+  groups: '/groups',
+  create: '/groups',
+  byId: (id: string) => `/groups/${id}`,
+  update: (id: string) => `/groups/${id}`,
+  delete: (id: string) => `/groups/${id}`,
+  join: (id: string) => `/groups/${id}/join`,
+  leave: (id: string) => `/groups/${id}/leave`,
+  members: (id: string) => `/groups/${id}/members`,
+  search: '/groups/search',
+} as const;
