@@ -52,3 +52,33 @@ export const groupPaths = {
   members: (id: string) => `/groups/${id}/members`,
   search: '/groups/search',
 } as const;
+
+export const notificationPaths = {
+  userNotifications: (userId: string) => `/notifications/user/${userId}`,
+  unreadNotifications: (userId: string) =>
+    `/notifications/user/${userId}/unread`,
+  notificationCount: (userId: string) => `/notifications/user/${userId}/count`,
+  create: '/notifications',
+  markRead: (id: string) => `/notifications/${id}/read`,
+  markAllRead: (userId: string) =>
+    `/notifications/user/${userId}/mark-all-read`,
+  delete: (id: string) => `/notifications/${id}`,
+} as const;
+
+export const socialPaths = {
+  follow: (userId: string) => `/social/follow/${userId}`,
+  unfollow: (userId: string) => `/social/unfollow/${userId}`,
+  followers: (userId: string) => `/social/followers/${userId}`,
+  following: (userId: string) => `/social/following/${userId}`,
+  checkFollowStatus: (userId: string) => `/social/status/${userId}`,
+} as const;
+
+export const verificationPaths = {
+  getAll: '/verification',
+  getPending: '/verification/pending',
+  getByUserId: (userId: string) => `/verification/user/${userId}`,
+  submit: '/verification',
+  approve: (id: string) => `/verification/${id}/approve`,
+  reject: (id: string) => `/verification/${id}/reject`,
+  delete: (id: string) => `/verification/${id}`,
+} as const;

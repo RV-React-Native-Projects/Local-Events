@@ -1,4 +1,5 @@
 import { PaginationResponse } from './api';
+import { User } from './auth';
 
 export interface Group {
   id: string;
@@ -7,6 +8,15 @@ export interface Group {
   createdBy: string;
   membersCount?: number;
   createdAt: string;
+}
+
+export interface GroupMember {
+  id: string;
+  userId: string;
+  groupId: string;
+  role: 'admin' | 'member';
+  joinedAt: string;
+  user: User;
 }
 
 export interface CreateGroupRequest {
