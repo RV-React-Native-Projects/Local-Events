@@ -41,6 +41,7 @@
       "@screenComponents/*": ["./src/screenComponents/*"],
       "@yup/*": ["./src/yup/*"],
       "@toast/*": ["./src/toast/*"],
+      "@interfaces": ["./src/interfaces"],
       "@interfaces/*": ["./src/interfaces/*"],
       "@skeletonLoader/*": ["./src/skeletonLoader/*"]
     },
