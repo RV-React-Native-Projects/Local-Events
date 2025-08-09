@@ -1,17 +1,20 @@
-/* eslint-disable react/no-unstable-nested-components */
 import { useState } from 'react';
 import {
   View,
   ScrollView,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   Image,
-  Switch,
   Alert,
   StyleSheet,
+  Keyboard,
+  Platform,
 } from 'react-native';
-import AppButton from '@components/AppButton/AppButton';
+import MaterialIcons from '@react-native-vector-icons/material-icons';
+import { AppButton } from '@components/AppButton';
 import AppInput from '@components/AppInput/AppInput';
-import AppText from '@components/AppText/AppText';
+import AppSwitch from '@components/AppSwitch/AppSwitch';
+import { AppText } from '@components/AppText';
 import { ScreenWrapper } from '@components/Wrapper';
 import {
   ProfileNavigationProps,
@@ -20,8 +23,8 @@ import {
 } from '@navigation/types';
 import { useAppTheme } from '@redux/hooks';
 import { radius, border } from '@themes/border';
-import { fontSize } from '@themes/fontSize';
 import { moderateScale } from '@themes/responsive';
+import size from '@themes/size';
 import { spacing } from '@themes/spacing';
 
 // Mock data
@@ -66,7 +69,6 @@ export default function Profile({}: ScreenPropsType<
   ProfileRouteProp
 >) {
   const styles = useStyles();
-  const { colors } = useAppTheme();
   const [isEditing, setIsEditing] = useState(false);
   const [userInfo, setUserInfo] = useState({
     name: 'Alex Johnson',
@@ -98,115 +100,16 @@ export default function Profile({}: ScreenPropsType<
     ]);
   };
 
-  const StatCard = ({
-    title,
-    value,
-    icon,
-  }: {
-    title: string;
-    value: string | number;
-    icon?: string;
-  }) => (
-    <View style={styles.statCard}>
-      <View style={styles.statContent}>
-        {/* {icon && <AppIcon icon={icon as any} iconSize="sm" color="primary" />} */}
-        <AppText variant="title" color="text" style={styles.statValue}>
-          {value}
-        </AppText>
-      </View>
-      <AppText
-        variant="footnote"
-        color="secondaryText"
-        style={styles.statLabel}>
-        {title} {icon}
-      </AppText>
-    </View>
-  );
-
-  const InterestBadge = ({ interest }: { interest: string }) => (
-    <View style={styles.interestBadge}>
-      <AppText variant="footnote" color="primary" style={styles.interestText}>
-        {interest}
-      </AppText>
-    </View>
-  );
-
-  const NotificationItem = ({
-    title,
-    description,
-    key,
-    value,
-  }: {
-    title: string;
-    description: string;
-    key: string;
-    value: boolean;
-  }) => (
-    <View style={styles.notificationItem}>
-      <View style={styles.notificationInfo}>
-        <AppText variant="body" color="text" style={styles.notificationTitle}>
-          {title}
-        </AppText>
-        <AppText
-          variant="footnote"
-          color="secondaryText"
-          style={styles.notificationDescription}>
-          {description}
-        </AppText>
-      </View>
-      <Switch
-        value={value}
-        onValueChange={newValue => handleNotificationChange(key, newValue)}
-        trackColor={{ false: colors.borderAlt, true: colors.primary }}
-        thumbColor={value ? colors.onPrimary : colors.white}
-      />
-    </View>
-  );
-
-  const SettingsItem = ({
-    icon,
-    title,
-    description,
-    onPress,
-    isDestructive = false,
-  }: {
-    icon: string;
-    title: string;
-    description: string;
-    onPress: () => void;
-    isDestructive?: boolean;
-  }) => (
-    <TouchableOpacity style={styles.settingsItem} onPress={onPress}>
-      {/* <AppIcon
-        icon={icon}
-        iconSize="md"
-        color={isDestructive ? 'error' : 'text'}
-        style={styles.settingsIcon}
-      /> */}
-      <View style={styles.settingsInfo}>
-        <AppText
-          variant="body"
-          color={isDestructive ? 'error' : 'text'}
-          style={styles.settingsItemTitle}>
-          {title}
-        </AppText>
-        <AppText
-          variant="footnote"
-          color={isDestructive ? 'error' : 'secondaryText'}
-          style={styles.settingsDescription}>
-          {description} {icon}
-        </AppText>
-      </View>
-    </TouchableOpacity>
-  );
+  const dismissKeyboard = () => {
+    Keyboard.dismiss();
+  };
 
   return (
-    <ScreenWrapper scrollEnabled>
-      {/* Header */}
+    <ScreenWrapper>
       <View style={styles.header}>
         <View style={styles.headerContent}>
           <View>
-            <AppText variant="title" color="text" style={styles.headerText}>
+            <AppText variant="title" style={styles.headerText}>
               Profile
             </AppText>
             <AppText variant="body" color="secondaryText">
@@ -216,273 +119,300 @@ export default function Profile({}: ScreenPropsType<
           <TouchableOpacity
             onPress={() => setIsEditing(!isEditing)}
             style={styles.editButton}>
-            {/* <AppIcon icon="edit" iconSize="md" color="text" /> */}
+            <AppText variant="label" color="primary">
+              {isEditing ? 'Cancel' : 'Edit'}
+            </AppText>
           </TouchableOpacity>
         </View>
       </View>
-
       <ScrollView
         style={styles.scrollView}
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}>
-        {/* Profile Info Card */}
-        <View style={styles.profileCard}>
-          <View style={styles.profileContent}>
-            <View style={styles.avatarContainer}>
-              <Image
-                source={{
-                  uri: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop',
-                }}
-                style={styles.avatar}
-              />
-              {isEditing && (
-                <TouchableOpacity style={styles.cameraButton}>
-                  {/* <AppIcon icon="camera-alt" iconSize="sm" color="onPrimary" /> */}
-                </TouchableOpacity>
-              )}
+        contentContainerStyle={styles.contentContainer}
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="always"
+        keyboardDismissMode="on-drag"
+        scrollEventThrottle={16}
+        automaticallyAdjustKeyboardInsets={Platform.OS === 'ios'}>
+        <TouchableWithoutFeedback onPress={dismissKeyboard}>
+          <View style={styles.scrollContent}>
+            <View style={styles.profileCard}>
+              <View style={styles.profileContent}>
+                <View style={styles.avatarContainer}>
+                  <Image
+                    source={{
+                      uri: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop',
+                    }}
+                    style={styles.avatar}
+                  />
+                  {isEditing && (
+                    <TouchableOpacity style={styles.cameraButton}>
+                      <AppText variant="footnote" color="onPrimary">
+                        📷
+                      </AppText>
+                    </TouchableOpacity>
+                  )}
+                </View>
+                <View style={styles.profileInfo}>
+                  {isEditing ? (
+                    <View style={styles.inputContainer}>
+                      <AppInput
+                        label="Name"
+                        value={userInfo.name}
+                        onChangeText={text =>
+                          setUserInfo(prev => ({ ...prev, name: text }))
+                        }
+                      />
+                      <AppInput
+                        label="Bio"
+                        value={userInfo.bio}
+                        onChangeText={text =>
+                          setUserInfo(prev => ({ ...prev, bio: text }))
+                        }
+                        multiline
+                        numberOfLines={3}
+                      />
+                      <AppInput
+                        label="Location"
+                        value={userInfo.location}
+                        onChangeText={text =>
+                          setUserInfo(prev => ({ ...prev, location: text }))
+                        }
+                      />
+                      <AppButton
+                        title="Save Changes"
+                        onPress={handleSaveProfile}
+                      />
+                    </View>
+                  ) : (
+                    <View>
+                      <AppText variant="title1">{userInfo.name}</AppText>
+                      <AppText
+                        variant="body"
+                        color="paragraph"
+                        style={styles.userBio}>
+                        {userInfo.bio}
+                      </AppText>
+                      <View style={styles.userDetails}>
+                        <View style={styles.userDetailItem}>
+                          <AppText variant="footnote" color="secondary">
+                            📍 {userInfo.location}
+                          </AppText>
+                        </View>
+                        <View style={styles.userDetailItem}>
+                          <AppText variant="footnote" color="secondary">
+                            📅 Joined {userInfo.joinDate}
+                          </AppText>
+                        </View>
+                        <View style={styles.userDetailItem}>
+                          <AppText variant="footnote" color="secondary">
+                            ⭐ {userStats.rating} rating
+                          </AppText>
+                        </View>
+                      </View>
+                    </View>
+                  )}
+                </View>
+              </View>
             </View>
 
-            <View style={styles.profileInfo}>
-              {isEditing ? (
-                <View style={styles.inputContainer}>
-                  <AppInput
-                    value={userInfo.name}
-                    onChangeText={text =>
-                      setUserInfo(prev => ({ ...prev, name: text }))
-                    }
-                    placeholder="Name"
-                  />
-                  <AppInput
-                    value={userInfo.bio}
-                    onChangeText={text =>
-                      setUserInfo(prev => ({ ...prev, bio: text }))
-                    }
-                    placeholder="Tell us about yourself..."
-                    multiline
-                  />
-                  <AppInput
-                    value={userInfo.location}
-                    onChangeText={text =>
-                      setUserInfo(prev => ({ ...prev, location: text }))
-                    }
-                    placeholder="Location"
-                  />
-                  <View style={styles.buttonRow}>
-                    <AppButton
-                      title="Save Changes"
-                      onPress={handleSaveProfile}
-                      style={styles.buttonHalf}
-                    />
-                    <AppButton
-                      title="Cancel"
-                      variant="outline"
-                      onPress={() => setIsEditing(false)}
-                      style={styles.buttonHalf}
-                    />
-                  </View>
-                </View>
-              ) : (
-                <View>
-                  <AppText variant="title" color="text" style={styles.userName}>
-                    {userInfo.name}
+            <View style={styles.statsCard}>
+              <AppText variant="title2">Activity</AppText>
+              <View style={styles.statsGrid}>
+                <View style={styles.statCard}>
+                  <AppText variant="title1" color="primary">
+                    {userStats.eventsAttended}
                   </AppText>
-                  <AppText
-                    variant="body"
-                    color="secondaryText"
-                    style={styles.userBio}>
-                    {userInfo.bio}
-                  </AppText>
-                  <View style={styles.userDetails}>
-                    <View style={styles.userDetailItem}>
-                      {/* <AppIcon
-                        icon="location-on"
-                        iconSize="sm"
-                        color="secondaryText"
-                        style={styles.detailIcon}
-                      /> */}
-                      <AppText variant="footnote" color="secondaryText">
-                        {userInfo.location}
-                      </AppText>
-                    </View>
-                    <View style={styles.userDetailItem}>
-                      {/* <AppIcon
-                        icon="event"
-                        iconSize="sm"
-                        color="secondaryText"
-                        style={styles.detailIcon}
-                      /> */}
-                      <AppText variant="body" color="secondaryText">
-                        Joined {userInfo.joinDate}
-                      </AppText>
-                    </View>
-                    <View style={styles.userDetailItem}>
-                      {/* <AppIcon
-                        icon="star"
-                        iconSize="sm"
-                        color="primary"
-                        style={styles.detailIcon}
-                      /> */}
-                      <AppText variant="body" color="secondaryText">
-                        {userStats.rating}
-                      </AppText>
-                    </View>
-                  </View>
-                </View>
-              )}
-            </View>
-          </View>
-        </View>
-
-        {/* Stats Card */}
-        <View style={styles.statsCard}>
-          <AppText variant="title" color="text" style={styles.statsTitle}>
-            Activity
-          </AppText>
-          <View style={styles.statsGrid}>
-            <StatCard
-              title="Events Attended"
-              value={userStats.eventsAttended}
-            />
-            <StatCard title="Events Hosted" value={userStats.eventsHosted} />
-            <StatCard title="Connections" value={userStats.friendsMade} />
-            <StatCard title="Rating" value={userStats.rating} icon="star" />
-          </View>
-        </View>
-
-        {/* Interests Card */}
-        <View style={styles.interestsCard}>
-          <View style={styles.interestsHeader}>
-            <AppText variant="title" color="text">
-              Interests
-            </AppText>
-            <AppButton title="Edit" variant="outline" size="compact" />
-          </View>
-          <View style={styles.interestsContainer}>
-            {userInterests.map(interest => (
-              <InterestBadge key={interest} interest={interest} />
-            ))}
-          </View>
-        </View>
-
-        {/* Recent Events Card */}
-        <View style={styles.eventsCard}>
-          <View style={styles.eventsHeader}>
-            <AppText variant="title" color="text">
-              Recent Events
-            </AppText>
-            <AppButton title="View All" variant="ghost" size="compact" />
-          </View>
-          <View style={styles.eventsList}>
-            {recentEvents.map(event => (
-              <View key={event.id} style={styles.eventItem}>
-                <Image
-                  source={{ uri: event.image }}
-                  style={styles.eventImage}
-                />
-                <View style={styles.eventInfo}>
-                  <AppText
-                    variant="body"
-                    color="text"
-                    style={styles.eventTitle}>
-                    {event.title}
-                  </AppText>
-                  <AppText variant="body" color="secondaryText">
-                    {event.date} • {event.role}
+                  <AppText variant="footnote" color="secondary">
+                    Events Attended
                   </AppText>
                 </View>
-                <View
-                  style={[
-                    styles.eventRole,
-                    event.role === 'hosted'
-                      ? styles.roleHosted
-                      : styles.roleAttended,
-                  ]}>
-                  <AppText variant="body" style={styles.roleText}>
-                    {event.role}
+                <View style={styles.statCard}>
+                  <AppText variant="title1" color="primary">
+                    {userStats.eventsHosted}
+                  </AppText>
+                  <AppText variant="footnote" color="secondary">
+                    Events Hosted
+                  </AppText>
+                </View>
+                <View style={styles.statCard}>
+                  <AppText variant="title1" color="primary">
+                    {userStats.friendsMade}
+                  </AppText>
+                  <AppText variant="footnote" color="secondary">
+                    Connections
+                  </AppText>
+                </View>
+                <View style={styles.statCard}>
+                  <AppText variant="title1" color="primary">
+                    {userStats.rating}
+                  </AppText>
+                  <AppText variant="footnote" color="secondary">
+                    Rating
                   </AppText>
                 </View>
               </View>
-            ))}
-          </View>
-        </View>
+            </View>
 
-        {/* Notifications Card */}
-        <View style={styles.notificationsCard}>
-          <View style={styles.notificationsHeader}>
-            {/* <AppIcon
-              icon="notifications"
-              iconSize="md"
-              color="text"
-              style={styles.cardIcon}
-            /> */}
-            <AppText variant="title" color="text">
-              Notifications
-            </AppText>
-          </View>
-          <View>
-            <NotificationItem
-              title="Event Reminders"
-              description="Get notified before events you're attending"
-              key="eventReminders"
-              value={notifications.eventReminders}
-            />
-            <NotificationItem
-              title="New Events"
-              description="Discover events matching your interests"
-              key="newEvents"
-              value={notifications.newEvents}
-            />
-            <NotificationItem
-              title="Messages"
-              description="New messages and replies"
-              key="messages"
-              value={notifications.messages}
-            />
-            <NotificationItem
-              title="Marketing"
-              description="Tips and community highlights"
-              key="marketing"
-              value={notifications.marketing}
-            />
-          </View>
-        </View>
+            <View style={styles.interestsCard}>
+              <View style={styles.interestsHeader}>
+                <AppText variant="title2">Interests</AppText>
+                <AppButton title="Edit" variant="outline" />
+              </View>
+              <View style={styles.interestsContainer}>
+                {userInterests.map(interest => (
+                  <View key={interest} style={styles.interestBadge}>
+                    <AppText variant="footnote" color="primary">
+                      {interest}
+                    </AppText>
+                  </View>
+                ))}
+              </View>
+            </View>
 
-        {/* Settings Card */}
-        <View style={styles.settingsCard}>
-          <View style={styles.settingsHeader}>
-            {/* <AppIcon
-              icon="settings"
-              iconSize="md"
-              color="text"
-              style={styles.cardIcon}
-            /> */}
-            <AppText variant="title" color="text">
-              Settings
-            </AppText>
+            <View style={styles.eventsCard}>
+              <View style={styles.eventsHeader}>
+                <AppText variant="title2">Recent Events</AppText>
+                <AppButton title="View All" variant="ghost" />
+              </View>
+              <View style={styles.eventsList}>
+                {recentEvents.map(event => (
+                  <View key={event.id} style={styles.eventItem}>
+                    <Image
+                      source={{ uri: event.image }}
+                      style={styles.eventImage}
+                    />
+                    <View style={styles.eventInfo}>
+                      <AppText variant="body">{event.title}</AppText>
+                      <AppText variant="footnote" color="secondary">
+                        {event.date} • {event.role}
+                      </AppText>
+                    </View>
+                    <View
+                      style={[
+                        styles.eventRole,
+                        event.role === 'hosted'
+                          ? styles.roleHosted
+                          : styles.roleAttended,
+                      ]}>
+                      <AppText variant="footnote" color="onPrimary">
+                        {event.role}
+                      </AppText>
+                    </View>
+                  </View>
+                ))}
+              </View>
+            </View>
+            <View style={styles.notificationsCard}>
+              <View style={styles.notificationsHeader}>
+                <AppText variant="body">🔔</AppText>
+                <AppText variant="title2">Notifications</AppText>
+              </View>
+              <View>
+                <View style={styles.notificationItem}>
+                  <View style={styles.notificationInfo}>
+                    <AppText variant="body">Event Reminders</AppText>
+                    <AppText variant="footnote" color="secondary">
+                      Get notified before events you&apos;re attending
+                    </AppText>
+                  </View>
+                  <AppSwitch
+                    value={notifications.eventReminders}
+                    onValueChange={value =>
+                      handleNotificationChange('eventReminders', value)
+                    }
+                  />
+                </View>
+                <View style={styles.notificationItem}>
+                  <View style={styles.notificationInfo}>
+                    <AppText variant="body">New Events</AppText>
+                    <AppText variant="footnote" color="secondary">
+                      Discover events matching your interests
+                    </AppText>
+                  </View>
+                  <AppSwitch
+                    value={notifications.newEvents}
+                    onValueChange={value =>
+                      handleNotificationChange('newEvents', value)
+                    }
+                  />
+                </View>
+                <View style={styles.notificationItem}>
+                  <View style={styles.notificationInfo}>
+                    <AppText variant="body">Messages</AppText>
+                    <AppText variant="footnote" color="secondary">
+                      New messages and replies
+                    </AppText>
+                  </View>
+                  <AppSwitch
+                    value={notifications.messages}
+                    onValueChange={value =>
+                      handleNotificationChange('messages', value)
+                    }
+                  />
+                </View>
+                <View style={styles.notificationItem}>
+                  <View style={styles.notificationInfo}>
+                    <AppText variant="body">Marketing</AppText>
+                    <AppText variant="footnote" color="secondary">
+                      Tips and community highlights
+                    </AppText>
+                  </View>
+                  <AppSwitch
+                    value={notifications.marketing}
+                    onValueChange={value =>
+                      handleNotificationChange('marketing', value)
+                    }
+                  />
+                </View>
+              </View>
+            </View>
+
+            <View style={styles.settingsCard}>
+              <View style={styles.settingsHeader}>
+                <MaterialIcons name="settings" size={size.xs} />
+                <AppText variant="title2">Settings</AppText>
+              </View>
+              <View>
+                <TouchableOpacity
+                  style={styles.settingsItem}
+                  onPress={() => {}}>
+                  <View style={styles.settingsInfo}>
+                    <AppText variant="body">Privacy & Safety</AppText>
+                    <AppText variant="footnote" color="secondary">
+                      Manage your privacy settings
+                    </AppText>
+                  </View>
+                  <MaterialIcons name="privacy-tip" size={size.sm} />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.settingsItem}
+                  onPress={() => {}}>
+                  <View style={styles.settingsInfo}>
+                    <AppText variant="body">Help & Support</AppText>
+                    <AppText variant="footnote" color="secondary">
+                      Get help or contact us
+                    </AppText>
+                  </View>
+                  <MaterialIcons name="help-outline" size={size.sm} />
+                </TouchableOpacity>
+                <View style={styles.divider} />
+                <TouchableOpacity
+                  style={styles.settingsItem}
+                  onPress={handleSignOut}>
+                  <View style={styles.settingsInfo}>
+                    <AppText variant="body" color="error">
+                      Sign Out
+                    </AppText>
+                    <AppText variant="footnote" color="error">
+                      Log out of your account
+                    </AppText>
+                  </View>
+                  <MaterialIcons name="logout" size={size.sm} color="#F00" />
+                </TouchableOpacity>
+              </View>
+            </View>
           </View>
-          <View>
-            <SettingsItem
-              icon="security"
-              title="Privacy & Safety"
-              description="Manage your privacy settings"
-              onPress={() => {}}
-            />
-            <SettingsItem
-              icon="help"
-              title="Help & Support"
-              description="Get help or contact us"
-              onPress={() => {}}
-            />
-            <View style={styles.divider} />
-            <SettingsItem
-              icon="logout"
-              title="Sign Out"
-              description="Log out of your account"
-              onPress={handleSignOut}
-              isDestructive
-            />
-          </View>
-        </View>
+        </TouchableWithoutFeedback>
       </ScrollView>
     </ScreenWrapper>
   );
@@ -491,10 +421,6 @@ export default function Profile({}: ScreenPropsType<
 const useStyles = () => {
   const { colors } = useAppTheme();
   return StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: colors.backgroundColor,
-    },
     header: {
       backgroundColor: colors.backgroundColor,
       borderBottomWidth: border.normal,
@@ -518,7 +444,12 @@ const useStyles = () => {
       flex: 1,
       backgroundColor: colors.appBackgroundColor,
     },
+    contentContainer: {
+      flexGrow: 1,
+      paddingBottom: moderateScale(100),
+    },
     scrollContent: {
+      minHeight: '100%',
       padding: spacing.mediumLarge,
     },
     profileCard: {
@@ -559,6 +490,17 @@ const useStyles = () => {
     inputContainer: {
       gap: spacing.medium,
     },
+    userBio: {
+      marginBottom: spacing.medium,
+      lineHeight: moderateScale(20),
+    },
+    userDetails: {
+      gap: spacing.medium,
+    },
+    userDetailItem: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
     statsCard: {
       backgroundColor: colors.backgroundColor,
       borderRadius: radius.xl,
@@ -567,34 +509,14 @@ const useStyles = () => {
       borderWidth: border.normal,
       borderColor: colors.inputBorder,
     },
-    statsTitle: {
-      marginBottom: spacing.medium,
-    },
     statsGrid: {
       flexDirection: 'row',
       justifyContent: 'space-between',
+      marginTop: spacing.medium,
     },
     statCard: {
       flex: 1,
       alignItems: 'center',
-      paddingVertical: spacing.medium,
-    },
-    statContent: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      marginBottom: spacing.small,
-    },
-    statValue: {
-      fontSize: moderateScale(18),
-    },
-    statLabel: {
-      textAlign: 'center',
-    },
-    statNumber: {
-      fontSize: fontSize[20],
-      fontWeight: 'bold',
-      color: colors.primary,
-      marginBottom: spacing.xs,
     },
     interestsCard: {
       backgroundColor: colors.backgroundColor,
@@ -603,9 +525,6 @@ const useStyles = () => {
       marginBottom: spacing.large,
       borderWidth: border.normal,
       borderColor: colors.inputBorder,
-    },
-    interestsTitle: {
-      marginBottom: spacing.medium,
     },
     interestsHeader: {
       flexDirection: 'row',
@@ -624,11 +543,6 @@ const useStyles = () => {
       paddingVertical: spacing.xs,
       borderRadius: radius.xl,
     },
-    interestText: {
-      fontSize: fontSize[12],
-      color: colors.primary,
-      fontWeight: '500',
-    },
     eventsCard: {
       backgroundColor: colors.backgroundColor,
       borderRadius: radius.xl,
@@ -636,9 +550,6 @@ const useStyles = () => {
       marginBottom: spacing.large,
       borderWidth: border.normal,
       borderColor: colors.inputBorder,
-    },
-    eventsTitle: {
-      marginBottom: spacing.medium,
     },
     eventsHeader: {
       flexDirection: 'row',
@@ -652,7 +563,6 @@ const useStyles = () => {
     eventItem: {
       flexDirection: 'row',
       alignItems: 'center',
-      marginBottom: spacing.medium,
     },
     eventImage: {
       width: moderateScale(48),
@@ -663,22 +573,10 @@ const useStyles = () => {
     eventInfo: {
       flex: 1,
     },
-    eventTitle: {
-      fontSize: fontSize[14],
-      fontWeight: '600',
-      color: colors.text,
-      marginBottom: spacing.xs,
-    },
-    eventDetails: {
-      fontSize: fontSize[12],
-      color: colors.secondaryText,
-    },
     eventRole: {
-      fontSize: fontSize[10],
-      paddingHorizontal: spacing.xs,
+      paddingHorizontal: spacing.small,
       paddingVertical: spacing.xs,
       borderRadius: radius.sm,
-      overflow: 'hidden',
     },
     roleAttended: {
       backgroundColor: colors.success,
@@ -698,28 +596,16 @@ const useStyles = () => {
       flexDirection: 'row',
       alignItems: 'center',
       marginBottom: spacing.medium,
-    },
-    notificationsTitle: {
-      marginBottom: spacing.medium,
+      gap: spacing.small,
     },
     notificationItem: {
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
-      paddingVertical: spacing.small,
+      paddingVertical: spacing.medium,
     },
     notificationInfo: {
       flex: 1,
-    },
-    notificationTitle: {
-      fontSize: fontSize[14],
-      fontWeight: '600',
-      color: colors.text,
-      marginBottom: spacing.xs,
-    },
-    notificationDescription: {
-      fontSize: fontSize[12],
-      color: colors.secondaryText,
     },
     settingsCard: {
       backgroundColor: colors.backgroundColor,
@@ -733,61 +619,16 @@ const useStyles = () => {
       flexDirection: 'row',
       alignItems: 'center',
       marginBottom: spacing.medium,
-    },
-    settingsTitle: {
-      marginBottom: spacing.medium,
+      gap: spacing.small,
     },
     settingsItem: {
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
-      paddingVertical: spacing.small,
+      paddingVertical: spacing.medium,
     },
     settingsInfo: {
       flex: 1,
-    },
-    settingsItemTitle: {
-      fontSize: fontSize[14],
-      fontWeight: '600',
-      color: colors.text,
-      marginBottom: spacing.xs,
-    },
-    settingsDescription: {
-      fontSize: fontSize[12],
-      color: colors.secondaryText,
-    },
-    buttonRow: {
-      flexDirection: 'row',
-      gap: spacing.medium,
-    },
-    buttonHalf: {
-      flex: 1,
-    },
-    userName: {
-      marginBottom: spacing.small,
-    },
-    userBio: {
-      marginBottom: spacing.medium,
-      lineHeight: moderateScale(20),
-    },
-    userDetails: {
-      gap: spacing.medium,
-    },
-    userDetailItem: {
-      flexDirection: 'row',
-      alignItems: 'center',
-    },
-    detailIcon: {
-      marginRight: spacing.small,
-    },
-    cardIcon: {
-      marginRight: spacing.small,
-    },
-    settingsIcon: {
-      marginRight: spacing.medium,
-    },
-    roleText: {
-      textTransform: 'capitalize',
     },
     divider: {
       height: border.normal,
