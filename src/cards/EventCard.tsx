@@ -5,7 +5,7 @@ import MaterialIcons from '@react-native-vector-icons/material-icons';
 import { AppButton } from '@components/AppButton';
 import { AppText } from '@components/AppText';
 import { useAppTheme } from '@redux/hooks';
-import { border, radius } from '@themes/border';
+import { radius } from '@themes/border';
 import { fontSize } from '@themes/fontSize';
 import { opacity } from '@themes/opacity';
 import { moderateScale } from '@themes/responsive';
@@ -170,12 +170,10 @@ const useStyles = () => {
   const { colors, shadow } = useAppTheme();
   return StyleSheet.create({
     eventCard: {
-      backgroundColor: colors.appBackgroundColor,
+      backgroundColor: colors.backgroundColor,
       borderRadius: radius.sm,
       overflow: 'hidden',
-      marginVertical: spacing.base,
-      borderWidth: border.veryThin,
-      borderColor: colors.inputBorder,
+      // marginVertical: spacing.base,
       ...shadow.regular,
     },
     imageContainer: {

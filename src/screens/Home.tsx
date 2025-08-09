@@ -8,8 +8,8 @@ import {
   Pressable,
 } from 'react-native';
 import MaterialIcons from '@react-native-vector-icons/material-icons';
-import AppInput from '@components/AppInput/AppInput';
 import { AppText } from '@components/AppText';
+import { SearchInput } from '@components/Search';
 import { ScreenWrapper } from '@components/Wrapper';
 import {
   HomeNavigationProps,
@@ -17,7 +17,7 @@ import {
   ScreenPropsType,
 } from '@navigation/types';
 import { useAppTheme } from '@redux/hooks';
-import { radius } from '@themes/border';
+import { border, radius } from '@themes/border';
 import { opacity } from '@themes/opacity';
 import { moderateScale } from '@themes/responsive';
 import { gully, spacing } from '@themes/spacing';
@@ -130,7 +130,7 @@ export default function Home({}: ScreenPropsType<
 >) {
   const styles = useStyles();
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedFilter, setSelectedFilter] = useState('all');
+  const [selectedFilter, setSelectedFilter] = useState('All');
 
   const handleShare = (eventId: number) => {
     console.log('Shared event:', eventId);
@@ -154,6 +154,7 @@ export default function Home({}: ScreenPropsType<
   );
 
   const scrollRef = useRef<ScrollView>(null);
+  console.log(searchQuery);
 
   return (
     <ScreenWrapper scrollEnabled={false}>
@@ -161,7 +162,8 @@ export default function Home({}: ScreenPropsType<
         ref={scrollRef}
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={{ paddingBottom: moderateScale(100) }}
-        stickyHeaderIndices={[1]}>
+        stickyHeaderIndices={[1]}
+        showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
           <View>
             <AppText variant="header" color="text">
@@ -175,42 +177,41 @@ export default function Home({}: ScreenPropsType<
             <MaterialIcons name="filter-list" size={24} />
           </Pressable>
         </View>
-        <View style={styles.stickySearchWrapper}>
-          <AppInput
-            label={undefined}
-            placeholder="Search events, categories, or locations..."
-            value={searchQuery}
-            onChangeText={setSearchQuery}
-            style={styles.searchInput}
-          />
-          {/* <MaterialDesignIcons name="search-web" size={30} /> */}
-        </View>
+        <SearchInput getSearchText={setSearchQuery} />
         <ScrollView
           contentContainerStyle={styles.scrollContentContainer}
           horizontal
           showsHorizontalScrollIndicator={false}>
-          {filters.map(filter => (
-            <TouchableOpacity
-              activeOpacity={opacity.dark}
-              key={filter}
-              style={[
-                styles.filterChip,
-                selectedFilter === filter.toLowerCase() &&
-                  styles.selectedFilterChip,
-              ]}
-              onPress={() => setSelectedFilter(filter.toLowerCase())}>
-              <AppText variant="label" color={'onPrimary'}>
-                {filter}
-              </AppText>
-            </TouchableOpacity>
-          ))}
+          {filters.map(filter => {
+            const isSelected = selectedFilter === filter;
+            return (
+              <TouchableOpacity
+                activeOpacity={opacity.dark}
+                key={filter}
+                style={[
+                  styles.filterChip,
+                  isSelected && styles.selectedFilterChip,
+                ]}
+                onPress={() => setSelectedFilter(filter)}>
+                <AppText
+                  variant="label"
+                  fontFamily={isSelected ? 'Medium' : 'Light'}
+                  color={isSelected ? 'onPrimary' : 'text'}>
+                  {filter}
+                </AppText>
+              </TouchableOpacity>
+            );
+          })}
         </ScrollView>
         <FlatList
           data={mockEvents}
           scrollEnabled={false}
           renderItem={renderEventCard}
           keyExtractor={item => item.id.toString()}
-          contentContainerStyle={{ paddingHorizontal: gully }}
+          contentContainerStyle={{
+            paddingHorizontal: gully,
+            gap: spacing.medium,
+          }}
         />
       </ScrollView>
     </ScreenWrapper>
@@ -247,17 +248,20 @@ const useStyles = () => {
       backgroundColor: colors.appBackgroundColor,
     },
     filterChip: {
-      backgroundColor: colors.inputBorder,
+      backgroundColor: colors.backgroundColor,
       paddingHorizontal: spacing.medium,
       paddingVertical: spacing.small,
       borderRadius: radius.round,
+      borderWidth: border.veryThin,
+      borderStyle: 'dotted',
     },
     selectedFilterChip: {
       backgroundColor: colors.primary,
+      borderWidth: border.none,
     },
     scrollContentContainer: {
-      gap: spacing.base,
-      paddingVertical: spacing.base,
+      gap: spacing.small,
+      paddingVertical: spacing.mediumLarge,
       paddingHorizontal: gully,
     },
   });

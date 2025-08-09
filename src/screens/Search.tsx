@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { View, ScrollView, StyleSheet } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import AppInput from '@components/AppInput/AppInput';
 import { AppText } from '@components/AppText';
+import { SearchInput } from '@components/Search';
 import { ScreenWrapper } from '@components/Wrapper';
 import {
   ScreenPropsType,
@@ -109,13 +109,11 @@ export default function Search({}: ScreenPropsType<
           </AppText>
         </View>
         {/* Search Bar */}
-        <View style={styles.searchContainer}>
-          <AppInput
-            placeholder="Search events, people, or places..."
-            value={searchQuery}
-            onChangeText={setSearchQuery}
-          />
-        </View>
+        <SearchInput
+          value={searchQuery}
+          getSearchText={setSearchQuery}
+          viewStyle={styles.searchContainer}
+        />
         <View style={styles.section}>
           <AppText variant="header">🔥 Trending Now</AppText>
           {trendingEvents.map(event => (
@@ -205,8 +203,6 @@ const useStyles = () => {
       paddingHorizontal: gully,
     },
     searchContainer: {
-      position: 'relative',
-      padding: gully,
       backgroundColor: colors.primary,
     },
     section: {
@@ -220,7 +216,7 @@ const useStyles = () => {
       justifyContent: 'space-between',
     },
     hostsGrid: {
-      gap: spacing.mediumLarge,
+      gap: spacing.baseLarge,
     },
     LgContainer: {
       ...shadow.large,
