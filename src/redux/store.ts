@@ -3,6 +3,7 @@ import authReducer from '@slice/authSlice';
 import eventsReducer from '@slice/eventsSlice';
 import themeReducer from '@slice/themeSlice';
 import userReducer from '@slice/userSlice';
+import usersReducer from '@slice/usersSlice';
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     theme: themeReducer,
     auth: authReducer,
     events: eventsReducer,
+    users: usersReducer,
   },
   devTools: __DEV__,
   middleware: getDefaultMiddleware => getDefaultMiddleware().concat(),

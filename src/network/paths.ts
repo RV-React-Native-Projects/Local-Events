@@ -30,3 +30,13 @@ export const eventPaths = {
   reviews: (id: string) => `/events/${id}/reviews`,
   addReview: (id: string) => `/events/${id}/reviews`,
 } as const;
+
+export const userPaths = {
+  profile: '/users/profile',
+  byId: (id: string) => `/users/${id}`,
+  update: '/users/update',
+  updateProfile: '/users/profile',
+  search: '/users/search',
+  follow: (id: string) => `/users/${id}/follow`,
+  unfollow: (id: string) => `/users/${id}/unfollow`,
+} as const;
